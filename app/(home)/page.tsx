@@ -1,3 +1,4 @@
+import BrandIconsGrid from "@/components/companies";
 import { Hero } from "@/components/hero";
 import { HeroScrollDemo } from "@/components/herohighlit";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
@@ -57,9 +58,10 @@ const content = [
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="felx w-full h-full flex-col">
      
      <Hero/>
+     <BrandIconsGrid/>
     <HeroScrollDemo/>
      <StickyScroll content={content} /> 
      
