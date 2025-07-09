@@ -1,6 +1,7 @@
 import BrandIconsGrid from "@/components/companies";
 import { Hero } from "@/components/hero";
 import { HeroScrollDemo } from "@/components/herohighlit";
+import  { Marquee } from "@/components/Marquee";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 import Image from "next/image";
@@ -61,7 +62,11 @@ export default function Home() {
     <div className="felx w-full h-full flex-col">
      
      <Hero/>
-     <BrandIconsGrid/>
+   
+       <BrandIconsGrid/>
+    
+   
+    
     <HeroScrollDemo/>
      <StickyScroll content={content} /> 
      

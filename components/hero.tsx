@@ -2,10 +2,13 @@
 import { motion } from "motion/react";
 import { HeroHighlight, Highlight } from "./ui/hero-highlight";
 import TypingAnimatedText from "./ui/TypingText";
+import { BackgroundLines } from "./ui/background-lines";
 
 
 export function Hero() {
   return (
+
+    
     <HeroHighlight>
       <motion.h1
         initial={{
@@ -30,5 +33,6 @@ export function Hero() {
         <TypingAnimatedText/>
       </motion.h1>
     </HeroHighlight>
+    
   );
 }
