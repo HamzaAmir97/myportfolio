@@ -2,7 +2,7 @@ import { motion, useAnimationControls } from "framer-motion";
 import { useEffect, useState } from "react";
 
 function TypingText({
-  words = ["Software Engineer", "Full Stack Javascript devoloper", "MERN & NEXT JS", "React Naitve devoloper"],
+  words = ["Software Engineer", "Full Stack","Javascript", "MERN & NEXT JS", "React Naitve"," Ai devoloper"],
   typingSpeed = 50,
   deleteSpeed = 50,
   delayBetweenWords = 1000,

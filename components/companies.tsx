@@ -1,4 +1,5 @@
 import React from "react";
+import { Marquee } from "./Marquee";
 
 const BrandIconsGrid = () => {
   return (
@@ -11,8 +12,16 @@ const BrandIconsGrid = () => {
         Lorem ipsum dolor sit amet consectetur adipisicing elit nam maxime quas
         fugiat tempore blanditiis, eveniet quia accusantium.
       </p>
-      <div className="mx-auto w-full max-w-4xl bg-white dark:bg-transparent">
-        <div className="text-center justify-center items-center grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6">
+
+
+
+    
+      <div className="mx-auto w-full max-w-4xl bg-white dark:bg-transparent ">
+
+      <Marquee>
+        <div className="text-center flex  gap-30  justify-center items-center w-screen ml-0  mr-0   ">
+
+      
           <a target="_blank" href="">
             <img
               alt=""
@@ -55,8 +64,14 @@ const BrandIconsGrid = () => {
               src="https://www.svgrepo.com/show/519278/slack.svg"
             />
           </a>
+          
         </div>
+        </Marquee>
       </div>
+
+      
+
+
     </div>
   );
 };
