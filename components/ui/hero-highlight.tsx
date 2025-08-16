@@ -2,7 +2,15 @@
 import { cn } from "@/lib/utils";
 import { useMotionValue, motion, useMotionTemplate } from "motion/react";
 import React from "react";
-
+import { FloatingDock } from "./floating-dock";
+import {
+  IconBrandGithub,
+  IconBrandX,
+  IconExchange,
+  IconHome,
+  IconNewSection,
+  IconTerminal2,
+} from "@tabler/icons-react";
 export const HeroHighlight = ({
   children,
   className,
@@ -38,6 +46,9 @@ export const HeroHighlight = ({
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
   }
+
+
+
   return (
     <div
       className={cn(
@@ -46,6 +57,11 @@ export const HeroHighlight = ({
       )}
       onMouseMove={handleMouseMove}
     >
+
+
+    
+   
+
       <div
         className="pointer-events-none absolute inset-0 dark:hidden -z-2"
         style={{
