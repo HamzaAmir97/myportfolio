@@ -1,4 +1,5 @@
 "use client";
+import Aboutme from "@/components/Aboutme";
 import BrandIconsGrid from "@/components/companies";
 import { Hero } from "@/components/hero";
 import { HeroScrollDemo } from "@/components/herohighlit";
@@ -211,9 +212,9 @@ export default function Home() {
      <main className="overflow-x-hidden">
        <Hero/>
        <BrandIconsGrid/>
-  
+       <Aboutme/>
     
-    <HeroScrollDemo/>
+   
      <StickyScroll content={content} />
 
 

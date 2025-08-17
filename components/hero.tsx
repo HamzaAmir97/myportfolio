@@ -13,6 +13,7 @@ import {
   IconNewSection,
   IconTerminal2,
 } from "@tabler/icons-react";
+import Image from "next/image";
 
 
 export function Hero() {
@@ -80,14 +81,28 @@ export function Hero() {
   
 
     <section>
-          <div className=" z-100 fixed right-0">
+
+
+          {/* <div className=" z-100 fixed right-0">
+     
+     
           <FloatingDock
             mobileClassName="  translate-y-20"
              // only for demo, remove for production
             items={links}
           />
-        </div>
+        </div> */}
+
+
     <HeroHighlight>
+
+      <div className=" w-screen h-auto grid grid-cols-1 gap-4 md:grid-cols-2
+      md:place-items-center
+      ">
+
+
+       {/* left side */}
+      <div>
       <motion.h1
         initial={{
           opacity: 0,
@@ -110,6 +125,25 @@ export function Hero() {
         </Highlight>
         <TypingAnimatedText/>
       </motion.h1>
+        </div>
+
+
+
+        {/* right side */}
+
+            <div className="flex justify-center items-center">
+             <Image src="/images/Myphoto2.jpg" width={400} height={400} alt="My photo"/>
+            </div>
+
+
+
+
+      </div>
+  
+    
+
+
+
     </HeroHighlight>
     </section>
     

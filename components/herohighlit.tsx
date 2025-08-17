@@ -7,6 +7,7 @@ import { ContainerTextFlip } from "./ui/container-text-flip";
 export function HeroScrollDemo() {
   return (
     <div className="flex flex-col overflow-hidden   ">
+    
       <ContainerScroll
         titleComponent={
           <>
@@ -44,6 +45,7 @@ export function HeroScrollDemo() {
        </Compare>
        </div>
       </ContainerScroll>
+   
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { Marquee } from "./Marquee";
 const BrandIconsGrid = () => {
   return (
     <div
-      className="bg-white dark:bg-neutral-900 w-full px-4 pt-16 pb-16"
+      className="bg-white dark:bg-neutral-900 w-screen  pt-16 pb-16"
       id="faq"
     >
       <h2 className="text-4xl font-bold text-center">I learned and trained by</h2>
@@ -16,7 +16,7 @@ const BrandIconsGrid = () => {
 
 
     
-      <div className="mx-auto w-full max-w-4xl bg-white dark:bg-transparent ">
+      <div className="mx-auto w-screen  bg-white dark:bg-transparent ">
 
       <Marquee>
         <div className="text-center flex  gap-30  justify-center items-center w-screen ml-0  mr-0   ">
@@ -67,6 +67,8 @@ const BrandIconsGrid = () => {
           
         </div>
         </Marquee>
+
+
       </div>
 
       
