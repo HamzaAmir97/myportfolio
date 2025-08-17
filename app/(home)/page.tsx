@@ -215,16 +215,13 @@ export default function Home() {
        <Aboutme/>
     
    
-     <StickyScroll content={content} />
-
-
+     <HorizontalScroll/>
+     <PinnedSplitter/>
      
      <HeroParallax products={products}  />
 
-     <HorizontalScroll/>
     
      <Timeline data={data}/>
-     <PinnedSplitter/>
     <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
      
    

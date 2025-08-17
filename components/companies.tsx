@@ -7,10 +7,10 @@ const BrandIconsGrid = () => {
       className="bg-white dark:bg-neutral-900 w-screen  pt-16 pb-16"
       id="faq"
     >
-      <h2 className="text-4xl font-bold text-center">I learned and trained by</h2>
+      <h2 className="text-4xl font-bold text-center">Trained & Certified by Leading Institutions</h2>
       <p className="pt-6 pb-8 text-base max-w-2xl text-center m-auto dark:text-neutral-400">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit nam maxime quas
-        fugiat tempore blanditiis, eveniet quia accusantium.
+        
+I have gained hands-on experience and certifications from top global platforms and organizations, ensuring both practical expertise and professional excellence.
       </p>
 
 
