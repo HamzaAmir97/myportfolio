@@ -5,6 +5,7 @@ import { Hero } from "@/components/hero";
 import { HeroScrollDemo } from "@/components/herohighlit";
 import HorizontalScroll from "@/components/HorizontalScroll";
 import PinnedSplitter from "@/components/PinnedSplitter";
+import Services from "@/components/Services";
 import { HeroParallax } from "@/components/ui/hero-parallax";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
@@ -211,13 +212,13 @@ export default function Home() {
   return (
      <main className="overflow-x-hidden">
        <Hero/>
-       <BrandIconsGrid/>
+      <Services/>
        <Aboutme/>
     
    
      <HorizontalScroll/>
      <PinnedSplitter/>
-     
+     <BrandIconsGrid/>
      <HeroParallax products={products}  />
 
     

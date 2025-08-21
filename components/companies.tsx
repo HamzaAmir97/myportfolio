@@ -4,7 +4,7 @@ import { Marquee } from "./Marquee";
 const BrandIconsGrid = () => {
   return (
     <div
-      className="bg-white dark:bg-neutral-900 w-screen  pt-16 pb-16"
+      className="bg-white dark:bg-neutral-900 w-screen  p-20 mt-20"
       id="faq"
     >
       <h2 className="text-4xl font-bold text-center">Trained & Certified by Leading Institutions</h2>

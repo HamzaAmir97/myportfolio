@@ -37,7 +37,7 @@ export const Marquee = ({
       <div
         className={`flex min-w-screen gap-4`}
         style={{
-          transform: `translateX(${direction === "left" ? "-" : ""}${isPaused ? contentWidth / 4 : 0}px)`,
+          transform: `translateX(${direction === "left" ? "-" : ""}${isPaused ? contentWidth / 10 : 0}px)`,
           animation: `scroll-${direction} ${contentWidth / speed}s linear infinite`,
           animationPlayState: isPaused ? "paused" : "running",
         }}

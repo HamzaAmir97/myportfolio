@@ -6,7 +6,9 @@ import { BackgroundLines } from "./ui/background-lines";
 import { FloatingDock } from "@/components/ui/floating-dock";
 
 import {
+  IconBrandFacebook,
   IconBrandGithub,
+  IconBrandLinkedin,
   IconBrandX,
   IconExchange,
   IconHome,
@@ -14,6 +16,12 @@ import {
   IconTerminal2,
 } from "@tabler/icons-react";
 import Image from "next/image";
+import BrandIconsGrid from "./companies";
+import ServicesMarquee from "./ServicesMarquee";
+import { Button } from "./ui/button";
+import { Check, CheckCircle, DownloadIcon, MailIcon, Sparkle, Sparkles } from "lucide-react";
+import { div } from "motion/react-client";
+import Navbar from "./shared/Navbar";
 
 
 export function Hero() {
@@ -80,7 +88,9 @@ export function Hero() {
 
   
 
-    <section>
+    <section className="pb-12 w-screen h-full">
+
+
 
 
           {/* <div className=" z-100 fixed right-0">
@@ -93,16 +103,19 @@ export function Hero() {
           />
         </div> */}
 
-
+     
     <HeroHighlight>
-
-      <div className=" w-screen h-auto grid grid-cols-1 gap-4 md:grid-cols-2
-      md:place-items-center
+    <Navbar/>
+      <div className=" w-screen h-auto grid grid-cols-1 gap-2 md:grid-cols-2
+      md:place-items-center pt-10
       ">
-
-
+      
+   
        {/* left side */}
-      <div>
+      <div className="flex flex-col   w-full items-center gap-7">
+ 
+    
+    
       <motion.h1
         initial={{
           opacity: 0,
@@ -118,23 +131,119 @@ export function Hero() {
         }}
         className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
       >
-        Hi There ,I am{" "}<br/>
+        Hello!
       
-        <Highlight className="text-black dark:text-white">
-          Hamzah Amir
+        <Highlight className="text-black dark:text-white  h-screen">
+        I'm{" "}Hamzah
         </Highlight>
-        <TypingAnimatedText/>
+
+
+       
+
+
       </motion.h1>
-        </div>
+      
+      <div className="flex items-center  justify-center gap-4">
+
+      <span className="w-30 h-0.5 bg-black dark:bg-white rounded-full" />
+
+      <TypingAnimatedText/>
+      <Sparkles strokeWidth={1} className=" w-12 h-12 font-bold fill-black dark:fill-white  animate-bounce "/>
+     </div>      
+   
+
+   <p className="text-black dark:text-white  max-w-lg ">
+   Full-Stack JavaScript Developer <b>specializing in web, mobile, and AI solutions. </b> I build smart, scalable, and innovative applications that drive business growth and turn ideas into impactful products.
+
+Let’s build the future together.
+   
+   
+   
+   </p>
+
+
+  {/* features */}
+  <div className="flex  flex-col  justify-center gap-4 pt-10">
+  
+  <span className="flex items-center gap-2">
+    <Check className=" w-5   h-5  font-bold dark:fill-white"/>
+    <p className="text-black font-bold dark:text-white" >
+    Clean, maintainable, and scalable code for long-term growth and efficiency.
+    </p>
+  </span>
+
+
+    <span className="flex items-center gap-2">
+    <Check className=" w-5   h-5  font-boldk dark:fill-white"/>
+    <p className="text-black font-bold dark:text-white" >
+    Modern, visually appealing interfaces that deliver a smooth user experience.
+    </p>
+    </span>
+      <span className="flex items-center gap-2">
+    <Check className=" w-5   h-5  font-bold  dark:fill-white"/>
+    <p className="text-black font-bold dark:text-white" >
+    Fast delivery without compromising on quality or professionalism.
+    </p>
+    </span>
+   
+
+    </div>
+    
+
+{/* CTA buttons*/}
+      <div className="flex gap-4 pb-10">
+      <Button variant="default" 
+      className="buttonPrimary"
+      >
+        Let's talk
+      </Button>
+      <Button variant="ghost" className="buttonSecondary rounded-none">
+        <span>Download CV</span>
+         <DownloadIcon/>
+      </Button>
+      
+      </div>
+
+      
+
+
+      </div>
 
 
 
         {/* right side */}
 
-            <div className="flex justify-center items-center">
-             <Image src="/images/Myphoto2.jpg" width={400} height={400} alt="My photo"/>
+            <div className=" relative flex justify-end items-center">
+             
+             <span className="absolute flex justify-center items-center top-1/2 left-10 -z-10 w-[7rem] h-[7rem] rounded-full bg-black " >
+                <p className="text-white font-bold text-2xl text-center">
+          Hire me
+                </p>
+             </span>
+                
+  
+
+                {/* decoration */}
+             <div className="absolute  top-70 left-19 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
+       <span className=" w-0.5 h-40   bg-black shadow-2xl shadow-white "/>
+      
+             </div>
+             <div className="absolute  top-70 left-20 -z-9 w-5 h-30 flex  gap-2 -rotate-45">
+       <span className=" w-0.5 h-40   bg-white shadow-2xl shadow-black "/>
+      
+             </div>
+               
+         
+
+
+                   
+
+             <Image src="/images/photo.png" width={700} height={700} alt="My photo"
+             className="object-cover"
+             />
             </div>
 
+           
 
 
 
@@ -142,9 +251,44 @@ export function Hero() {
   
     
 
+      <ServicesMarquee />
 
+        <div className="h-20 flex items-center justify-start gap-10 py-15 px-10">
+            <span  className="w-[20%] h-0.5 bg-black dark:bg-white rounded-full"/>
+          
 
+             {/* social */}
+            <div className="flex items-center gap-5">
+                <span  className="flex gap-2 cursor-pointer " >
+                  <IconBrandFacebook />
+                  <p className="font-semibold cursor-pointer hover:text-amber-600">Facbook</p>
+                </span>
+                <span  className="flex gap-2 cursor-pointer" >
+                  <IconBrandGithub/>
+                  <p className="font-semibold cursor-pointer hover:text-amber-600">GitHub</p>
+                </span>
+                <span  className="flex gap-2 cursor-pointer" >
+                  <IconBrandLinkedin/>
+                  <p className="font-semibold cursor-pointer hover:text-amber-600">LinkedIn</p>
+                </span>
+            </div>
+
+  
+            <span  className="w-[40%] h-0.5 bg-black dark:bg-white rounded-full"/>
+           
+           {/* email */}
+            <div className="flex items-center gap-5">
+                <span  className="flex gap-2 cursor-pointer" >
+                  <MailIcon/>
+                  <p className="font-semibold cursor-pointer hover:text-amber-600">alhamza@gmail.com</p>
+                </span>
+              
+            </div>
+
+        </div>
+ 
     </HeroHighlight>
+
     </section>
     
   );
