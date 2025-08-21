@@ -115,8 +115,9 @@ export function Hero() {
       <div className="flex flex-col   w-full items-center gap-7">
  
     
-    
-      <motion.h1
+      <div className="flex items-center gap-2">
+      <p className="text-black text-5xl dark:text-white font-light">Hello!</p>
+      <motion.span
         initial={{
           opacity: 0,
           y: 20,
@@ -129,19 +130,19 @@ export function Hero() {
           duration: 0.5,
           ease: [0.4, 0.0, 0.2, 1],
         }}
-        className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
+        className="  px-4 font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
       >
-        Hello!
+       
       
-        <Highlight className="text-black dark:text-white  h-screen">
+        <Highlight className="text-black dark:text-white  text-4xl  h-screen">
         I'm{" "}Hamzah
         </Highlight>
-
 
        
 
 
-      </motion.h1>
+      </motion.span>
+            </div>
       
       <div className="flex items-center  justify-center gap-4">
 

@@ -54,15 +54,30 @@ const sections: StackSection[] = [
 const Aboutme = () => {
   return (
     <section
-      className="w-screen h-auto
+      className=" relative w-screen h-auto
    grid grid-cols-1 md:grid-cols-2
    place-items-center
     "
     >
 
 
+
+    {/* Morning Haze */}
+    <div
+      className="absolute inset-0 z-0"
+      style={{
+        backgroundImage: `
+          radial-gradient(circle at 50% 100%, rgba(253, 224, 71, 0.4) 0%, transparent 60%),
+          radial-gradient(circle at 50% 100%, rgba(251, 191, 36, 0.4) 0%, transparent 70%),
+          radial-gradient(circle at 50% 100%, rgba(244, 114, 182, 0.5) 0%, transparent 80%)
+        `,
+      }}
+    />
+
+
+
         {/* about me */}
-      <div className="bg-red-500 h-[40rem]  flex flex-col items-start justify-start p-10">
+      <div className=" h-[40rem]  flex flex-col items-start justify-start p-10">
         <h1 className="text-3xl font-semibold text-black dark:text-white mb-10">
           About me <br />{" "}
         </h1>
@@ -80,7 +95,7 @@ Always learning, always building — let’s create innovation together..{" "}
 
      {/*technologies used */}
 
-      <div className=" bg-red-500 h-[40rem]  w-full flex flex-col items-center p-10">
+      <div className=" h-[40rem]  w-full flex flex-col items-center p-10">
 
           <h1 className="text-3xl font-semibold text-black dark:text-white ">
           Behind me work <br />{" "}
@@ -92,6 +107,8 @@ Always learning, always building — let’s create innovation together..{" "}
         
         
         </div>
+
+
     </section>
   );
 };

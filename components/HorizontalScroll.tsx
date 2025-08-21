@@ -59,13 +59,13 @@ export default function HorizontalScroll() {
       className="relative h-svh overflow-visible z-0"
     >
       <div ref={trackRef} className="h-svh flex will-change-transform">
-        <article data-panel className="w-screen h-svh grid place-items-center text-4xl font-bold bg-emerald-500">
+        <article data-panel className="w-screen h-svh grid place-items-center text-4xl font-bold ">
           صفحة 1
         </article>
-        <article data-panel className="w-screen h-svh grid place-items-center text-4xl font-bold bg-sky-500">
+        <article data-panel className="w-screen h-svh grid place-items-center text-4xl font-bold">
           صفحة 2
         </article>
-        <article data-panel className="w-screen h-svh grid place-items-center text-4xl font-bold bg-violet-600">
+        <article data-panel className="w-screen h-svh grid place-items-center text-4xl font-bold">
           صفحة 3
         </article>
       </div>
