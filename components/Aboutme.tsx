@@ -62,19 +62,17 @@ const Aboutme = () => {
 
 
 
-    {/* Morning Haze */}
-    <div
-      className="absolute inset-0 z-0"
-      style={{
-        backgroundImage: `
-          radial-gradient(circle at 50% 100%, rgba(253, 224, 71, 0.4) 0%, transparent 60%),
-          radial-gradient(circle at 50% 100%, rgba(251, 191, 36, 0.4) 0%, transparent 70%),
-          radial-gradient(circle at 50% 100%, rgba(244, 114, 182, 0.5) 0%, transparent 80%)
-        `,
-      }}
-    />
+   
 
-
+  {/* Noise Texture (Darker Dots) Background */}
+  <div
+    className="absolute inset-0 -z-2"
+    style={{
+      background: "#ffffff",
+      backgroundImage: "radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0)",
+      backgroundSize: "20px 20px",
+    }}
+  />
 
         {/* about me */}
       <div className=" h-[40rem]  flex flex-col items-start justify-start p-10">

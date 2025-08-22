@@ -1,6 +1,7 @@
 "use client";
 import Aboutme from "@/components/Aboutme";
 import BrandIconsGrid from "@/components/companies";
+import ContactsUs from "@/components/ContactsUs";
 import { Hero } from "@/components/hero";
 import { HeroScrollDemo } from "@/components/herohighlit";
 import HorizontalScroll from "@/components/HorizontalScroll";
@@ -223,7 +224,9 @@ export default function Home() {
 
     
      <Timeline data={data}/>
-    <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
+
+     <ContactsUs/>
+    {/* <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
      
    
      
@@ -233,7 +236,7 @@ export default function Home() {
      speed="normal"
     />
   </div> 
-     
+      */}
         </main>
   );
 }
