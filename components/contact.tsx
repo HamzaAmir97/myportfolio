@@ -4,12 +4,11 @@ import { ArrowRight } from "lucide-react";
 
 const topics = [
   "Mobile App",
-  "Website Design",
-  "Branding",
-  "Webflow development",
-  "App design",
-  "Graphic design",
-  "Wordpress",
+  "Website development",
+  "Ai Development",
+  "UI/UX Design",
+  
+
 ];
 
 export function ContactSection() {
@@ -81,7 +80,9 @@ export function ContactSection() {
                   type="button"
                   key={topic}
                   onClick={() => toggle(topic)}
-                  className={`rounded-full border px-4 py-2 text-sm transition-colors ${selected.includes(topic) ? "bg-black text-white dark:bg-white dark:text-black" : "text-neutral-600 dark:text-neutral-300"}`}
+                  className={`rounded-full border px-4 py-2 text-sm transition-colors
+                    hover:bg-white hover:text-black cursor-pointer
+                    ${selected.includes(topic) ? "bg-amber-700 text-white dark:bg-white dark:text-black" : "text-neutral-600 dark:text-neutral-300"}`}
                 >
                   {topic}
                 </button>
@@ -95,7 +96,12 @@ export function ContactSection() {
             </p>
             <button
               type="submit"
-              className="flex items-center gap-2 rounded-full bg-black px-6 py-3 text-white dark:bg-white dark:text-black"
+              className="flex items-center gap-2 rounded-full bg-black px-6 py-3
+              hover:shadow-xl hover:shadow-amber-700
+              hover:bg-white hover:text-black
+              text-white dark:bg-white dark:text-black
+              cursor-pointer
+              "
             >
               Send Me
               <ArrowRight className="h-4 w-4" />

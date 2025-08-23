@@ -5,7 +5,6 @@ import ContactsUs from "@/components/ContactsUs";
 import { Hero } from "@/components/hero";
 import { HeroScrollDemo } from "@/components/herohighlit";
 
-import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 import ContactSection from "@/components/contact";
 
 import HorizontalScroll from "@/components/HorizontalScroll";
@@ -227,15 +226,13 @@ export default function Home() {
      <HeroParallax products={products}  />
 
 
-    <HeroScrollDemo/>
-     <StickyScroll content={content} />
-     <ContactSection/>
+ 
+  
 
-        </div>
 
      <Timeline data={data}/>
 
-     <ContactsUs/>
+     <ContactSection/>
     {/* <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
      
    
