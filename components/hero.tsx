@@ -240,7 +240,7 @@ Let’s build the future together.
                    
 
              <Image src="/images/photo.png" width={700} height={700} alt="My photo"
-             className="object-cover"
+             className="object-cover "
              />
             </div>
 
