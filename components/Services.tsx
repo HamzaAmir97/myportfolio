@@ -17,13 +17,13 @@ const Services = () => {
 
             <div className="flex  justify-start items-center gap-2">
            <span className="w-5 h-0.5 bg-black dark:bg-white"/>
-           <p className="text-xl font-semibold text-black dark:text-white ">
+           <p className="text-xs  uppercase font-semibold text-black dark:text-white ">
              My Services ?
              </p>
              </div>
 
 
-               <h1 className='text-4xl font-bold text-black dark:text-white'>What I offer</h1>
+               <h1 className='text-4xl uppercase font-bold text-black dark:text-white'>What I offer</h1>
                
          
         </div>

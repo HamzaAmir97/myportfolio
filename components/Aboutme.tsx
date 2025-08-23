@@ -76,7 +76,7 @@ const Aboutme = () => {
 
         {/* about me */}
       <div className=" h-[40rem]  flex flex-col items-start justify-start p-10">
-        <h1 className="text-3xl font-semibold text-black dark:text-white mb-10">
+        <h1 className="text-3xl  uppercase font-bold text-black dark:text-white mb-10">
           About me <br />{" "}
         </h1>
         <p className="text-lg text-black dark:text-white mb-10">
@@ -95,7 +95,7 @@ Always learning, always building — let’s create innovation together..{" "}
 
       <div className=" h-[40rem]  w-full flex flex-col items-center p-10">
 
-          <h1 className="text-3xl font-semibold text-black dark:text-white ">
+          <h1 className="text-3xl uppercase font-bold text-black dark:text-white ">
           Behind me work <br />{" "}
         </h1>
         <StackRotator sections={sections}

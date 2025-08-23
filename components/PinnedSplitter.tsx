@@ -16,6 +16,7 @@ type Project = {
   liveUrl?: string;
   repoUrl?: string;
   techs: Tech[];
+  features: string[];
 };
 
 /** Demo data */
@@ -34,6 +35,12 @@ const STEPS: Project[] = [
       { name: "Tailwind", iconClass: "devicon-tailwindcss-plain" },
       { name: "PostgreSQL", iconClass: "devicon-postgresql-plain" },
     ],
+    features: [
+      "Live KPIs & drill-down charts",
+      "Role-based dashboards & sharing",
+      "Query caching for sub-100ms responses",
+      "Export to CSV/XLSX & scheduled reports",
+    ],
   },
   {
     name: "Relay Commerce",
@@ -48,6 +55,12 @@ const STEPS: Project[] = [
       { name: "Node.js", iconClass: "devicon-nodejs-plain" },
       { name: "MongoDB", iconClass: "devicon-mongodb-plain" },
       { name: "GSAP", iconClass: "devicon-javascript-plain" },
+    ],
+    features: [
+      "1-click checkout & wallet support",
+      "AI product search & facets",
+      "Personalized recommendations",
+      "Order tracking & returns portal",
     ],
   },
   {
@@ -64,6 +77,12 @@ const STEPS: Project[] = [
       { name: "PostgreSQL", iconClass: "devicon-postgresql-plain" },
       { name: "Redis" },
     ],
+    features: [
+      "Kanban pipeline with drag & drop",
+      "Email sync & activity timeline",
+      "Tasks, reminders, and SLAs",
+      "Advanced filters & saved views",
+    ],
   },
   {
     name: "Pulse Mobile",
@@ -79,6 +98,12 @@ const STEPS: Project[] = [
       { name: "Expo" },
       { name: "SQLite" },
     ],
+    features: [
+      "Offline-first data sync",
+      "Push notifications & deep links",
+      "Native gestures and transitions",
+      "Theming & accessibility support",
+    ],
   },
   {
     name: "Echo AI",
@@ -93,6 +118,12 @@ const STEPS: Project[] = [
       { name: "OpenAI" },
       { name: "LangChain" },
       { name: "FastAPI" },
+    ],
+    features: [
+      "Chat with tools & memory",
+      "Embeddings search over docs",
+      "Guardrails, evals, and telemetry",
+      "Multi-tenant API with rate limits",
     ],
   },
 ];
@@ -123,24 +154,23 @@ function TechBadge({ tech }: { tech: Tech }) {
 
 /**
  * PinnedDualStack
- * - العنوان فوق منفصل وغير مُثبت.
- * - كتلة الـpin تبدأ من أول الشاشة (بدون قص).
- * - في العمود الأيسر: عنوان → صورة بنِسَب ثابتة → وصف → أزرار (تحت الصورة مباشرة).
+ * - الهيدر منفصل.
+ * - التثبيت يبدأ مع إزاحة 8px لتجنّب قصّ الحواف/الشادو.
+ * - الميزات في الكارد الأيمن.
  */
 export default function PinnedDualStack() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const pinWrapRef = useRef<HTMLDivElement | null>(null);
 
-  /** يثبّت كتلة الـpin ويحرّك الشرائح مع التمرير */
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const pinWrap = pinWrapRef.current!;
       const leftSlides = gsap.utils.toArray<HTMLElement>("[data-left-slide]");
       const rightSlides = gsap.utils.toArray<HTMLElement>("[data-right-slide]");
 
-      gsap.set(leftSlides,  { autoAlpha: 0, yPercent: 0 });
-      gsap.set(rightSlides, { autoAlpha: 0, yPercent: 0 });
-      if (leftSlides[0])  gsap.set(leftSlides[0],  { autoAlpha: 1 });
+      gsap.set(leftSlides, { autoAlpha: 0 });
+      gsap.set(rightSlides, { autoAlpha: 0 });
+      if (leftSlides[0]) gsap.set(leftSlides[0], { autoAlpha: 1 });
       if (rightSlides[0]) gsap.set(rightSlides[0], { autoAlpha: 1 });
 
       const total = leftSlides.length;
@@ -150,28 +180,27 @@ export default function PinnedDualStack() {
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: pinWrap,
-          start: "top top",
+          // ✅ ابدأ التثبيت مع إزاحة بسيطة لتظهر الحواف كاملة
+          start: "top top+=10",
           end: () => `+=${endDistance()}`,
           pin: true,
-          pinSpacing: true,
-          pinReparent: true,
           scrub: 1,
           anticipatePin: 1,
           snap: total > 1 ? 1 / (total - 1) : 0,
           invalidateOnRefresh: true,
-          // markers: true,
         },
       });
 
       for (let i = 0; i < total - 1; i++) {
-        tl.to(leftSlides[i],   { autoAlpha: 0, duration: 0.28 }, "+=0.25");
-        tl.to(leftSlides[i+1], { autoAlpha: 1, duration: 0.28 }, "<");
+        tl.to(leftSlides[i], { autoAlpha: 0, duration: 0.25 }, "+=0.25");
+        tl.to(leftSlides[i + 1], { autoAlpha: 1, duration: 0.25 }, "<");
 
-        tl.to(rightSlides[i],   { autoAlpha: 0, duration: 0.26 }, "<");
-        tl.to(rightSlides[i+1], { autoAlpha: 1, duration: 0.26 }, "<0.05");
+        tl.to(rightSlides[i], { autoAlpha: 0, duration: 0.25 }, "<");
+        tl.to(rightSlides[i + 1], { autoAlpha: 1, duration: 0.25 }, "<0.05");
 
+        // Animate features on the right
         tl.fromTo(
-          (rightSlides[i + 1] as HTMLElement).querySelectorAll("[data-tech-icon]"),
+          (rightSlides[i + 1] as HTMLElement).querySelectorAll("[data-feature-item]"),
           { y: 6, autoAlpha: 0 },
           { y: 0, autoAlpha: 1, stagger: 0.05, duration: 0.2 },
           "<"
@@ -189,7 +218,7 @@ export default function PinnedDualStack() {
 
   return (
     <section ref={sectionRef} className="relative bg-neutral-950 text-white">
-      {/* ===== Heading (غير مثبت) ===== */}
+      {/* Heading */}
       <div className="w-screen px-6 py-8 md:px-10 md:py-10">
         <p className="text-amber-300/80 text-xs uppercase tracking-[0.2em]">
           Selected Work
@@ -197,101 +226,87 @@ export default function PinnedDualStack() {
         <h2 className="mt-2 text-3xl md:text-5xl font-extrabold tracking-tight">
           Projects that ship business impact
         </h2>
-        <p className="mt-3 max-w-2xl text-neutral-300">
-          Scroll to explore. Left shows the active project; right mirrors its title and tech stack.
-        </p>
       </div>
 
-      {/* ===== Pinned block ===== */}
+      {/* Pinned block */}
       <div ref={pinWrapRef} className="w-screen">
-        <div className="grid grid-cols-1 md:grid-cols-2 w-screen h-screen min-h-[100svh] md:gap-x-6 lg:gap-x-10 px-3 md:px-6">
-          {/* LEFT — عنوان → صورة → وصف → CTA */}
-          <div className="relative h-screen min-h-[100svh] overflow-hidden">
+        {/* ✅ gutter علوي بسيط لمنع أي إحساس بالقص */}
+        <div className="grid grid-cols-1 md:grid-cols-2 w-screen h-screen px-3 md:px-6 pt-3 md:pt-4 gap-x-6">
+          {/* LEFT */}
+          <div className="relative h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1rem)] overflow-hidden">
             {STEPS.map((p, i) => (
               <article
                 key={p.name + i}
                 data-left-slide
-                className="absolute inset-0 p-3 sm:p-5 box-border bg-neutral-900/10"
+                className="absolute inset-0 flex flex-col gap-4 p-4"
               >
-                <div className="flex h-full flex-col gap-3 sm:gap-4 min-h-0">
-                  {/* عنوان المشروع */}
-                  <h3 className="text-2xl md:text-3xl font-bold tracking-tight">
-                    {p.name}
-                  </h3>
-
-                  {/* الصورة بنسبة ثابتة + حد أقصى للارتفاع */}
-                  <figure className="relative w-full shrink-0 rounded-xl border border-white/10 bg-neutral-900/40 overflow-hidden">
-                    <div className="w-full aspect-[16/10] md:aspect-[4/3] lg:max-h-[62vh]">
-                      <img
-                        src={p.imageSrc}
-                        alt={p.imageAlt ?? p.name}
-                        className="w-full h-full object-cover object-center"
-                        onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).style.opacity = "0";
-                        }}
-                      />
-                    </div>
-                  </figure>
-
-                  {/* الوصف تحت الصورة مباشرة */}
-                  <p className="text-neutral-300/95 leading-relaxed max-w-3xl">
-                    {p.description}
-                  </p>
-
-                  {/* CTA buttons تحت الوصف */}
-                  <div className="flex flex-wrap gap-2 sm:gap-3">
-                    <a
-                      href={p.liveUrl ?? "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full px-4 py-2
-                                 bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950
-                                 font-semibold shadow hover:opacity-95 transition"
-                    >
-                      Visit Project
-                    </a>
-                    <a
-                      href={p.repoUrl ?? "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full px-4 py-2
-                                 border border-white/15 bg-white/5 hover:bg-white/10
-                                 text-white font-medium transition"
-                    >
-                      GitHub Repo
-                    </a>
+                <h3 className="text-2xl md:text-3xl font-bold">{p.name}</h3>
+                <figure className="relative w-full rounded-xl border border-white/10 bg-neutral-900/40 overflow-hidden">
+                  <div className="w-full aspect-[16/10] md:aspect-[4/3]">
+                    <img
+                      src={p.imageSrc}
+                      alt={p.imageAlt ?? p.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
+                </figure>
+                <p className="text-neutral-300">{p.description}</p>
+                <div className="flex gap-3">
+                  <a
+                    href={p.liveUrl}
+                    className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 font-semibold"
+                  >
+                    Visit Project
+                  </a>
+                  <a
+                    href={p.repoUrl}
+                    className="px-4 py-2 rounded-full border border-white/15 bg-white/5 text-white"
+                  >
+                    GitHub Repo
+                  </a>
                 </div>
               </article>
             ))}
           </div>
 
-          {/* RIGHT — البطاقة المعلوماتية */}
-          <div className="relative h-screen min-h-[100svh] overflow-visible">
+          {/* RIGHT (Tech + Features) */}
+          <div className="relative h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1rem)] overflow-visible">
             {STEPS.map((p, i) => (
               <aside
                 key={p.name + i}
                 data-right-slide
-                className="absolute inset-0 flex items-start justify-start p-3 sm:p-5"
+                className="absolute inset-0 flex items-start justify-start p-4"
               >
-                <div
-                  className="
-                    w-full max-w-xl rounded-2xl border border-white/10
-                    bg-white/[0.03] backdrop-blur-sm shadow-xl overflow-hidden
-                  "
-                >
+                <div className="w-full max-w-xl rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl overflow-hidden">
                   <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
-                  <div className="p-6 md:p-8">
-                    <h4 className="text-xs uppercase tracking-widest text-neutral-400">
+                  <div className="p-6">
+                    <h4 className="text-xs uppercase text-neutral-400">
                       {i + 1} / {STEPS.length}
                     </h4>
-                    <h3 className="mt-2 text-2xl md:text-4xl font-extrabold tracking-tight">
-                      {p.name}
-                    </h3>
+                    <h3 className="mt-2 text-2xl md:text-4xl font-bold">{p.name}</h3>
                     <div className="mt-5 flex flex-wrap gap-3">
                       {p.techs.map((t) => (
                         <TechBadge key={`${p.name}-${t.name}`} tech={t} />
                       ))}
+                    </div>
+
+                    {/* Features */}
+                    <div className="mt-6">
+                      <h5 className="text-sm uppercase text-amber-300 mb-2">
+                        Key Features
+                      </h5>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {p.features.map((feat, idx) => (
+                          <li
+                            key={`${p.name}-feat-${idx}`}
+                            data-feature-item
+                            className="flex items-start gap-2 text-sm text-neutral-200"
+                          >
+                            <span className="mt-1 h-2 w-2 rounded-full bg-gradient-to-r from-amber-700 to-amber-200" />
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 </div>
