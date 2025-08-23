@@ -239,7 +239,7 @@ Let’s build the future together.
 
                    
 
-             <Image src="/images/photo.png" width={700} height={700} alt="My photo"
+             <Image src="/images/photo.png" width={620} height={620} alt="My photo"
              className="object-cover "
              />
             </div>

@@ -4,6 +4,8 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { Globe2 } from "lucide-react";
+import { IconBrandGithub } from "@tabler/icons-react";
 gsap.registerPlugin(ScrollTrigger);
 
 /** Types */
@@ -254,14 +256,17 @@ export default function PinnedDualStack() {
                 <div className="flex gap-3">
                   <a
                     href={p.liveUrl}
-                    className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 font-semibold"
+                    className=" flex gap-1  px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 font-semibold"
                   >
-                    Visit Project
+                     <Globe2/>
+                    <p>Visit Project</p>  
+
                   </a>
                   <a
                     href={p.repoUrl}
-                    className="px-4 py-2 rounded-full border border-white/15 bg-white/5 text-white"
+                    className=" flex gap-1 px-4 py-2 rounded-full border border-white/15 bg-white/5 text-white"
                   >
+                    <IconBrandGithub/>
                     GitHub Repo
                   </a>
                 </div>
