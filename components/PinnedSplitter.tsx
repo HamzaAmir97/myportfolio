@@ -275,7 +275,7 @@ export default function PinnedDualStack() {
           </div>
 
           {/* RIGHT (Tech + Features) */}
-          <div className="relative h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1rem)] overflow-visible">
+          <div className="relative hidden md:block h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1rem)] overflow-visible">
             {STEPS.map((p, i) => (
               <aside
                 key={p.name + i}
