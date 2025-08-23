@@ -5,7 +5,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <footer className=" flex  flex-col gap-2 px-10 py-10">
-     <XIcon className='h-10 w-10'/>
+     <XIcon className='h-10 w-10 rotate-10'/>
      <span className='h-0.5 w-full bg-gray-500 dark:bg-gray-800 my-2'/>
 
         <div className=" flex items-center justify-between">

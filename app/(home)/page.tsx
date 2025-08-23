@@ -15,6 +15,11 @@ import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 import { Timeline } from "@/components/ui/timeline";
 import { products,testimonials} from "@/lib/constants";
+import ExperienceTimeline from "@/components/shared/ExperienceTimeline";
+import { ExperienceItem, StatItem } from "@/types";
+import { ClipboardList, Globe2, Settings, Users } from "lucide-react";
+import StatsStrip from "@/components/StatsStrip";
+import ClientFeedbackCarousel from "@/components/ClientFeedbackCarousel";
 
 
 
@@ -212,12 +217,73 @@ const data = [
   },
 ];
 
+
+  const items:ExperienceItem[] = [
+    {
+      role: "Micros‑interactions Awwwards Team",
+      org: "Focus Lab Agency",
+      location: "United States",
+      durationLabel: "سنتان",
+      featured: true,
+    },
+    {
+      role: "Senior UI Designer",
+      org: "User‑Hub",
+      location: "Bangladesh",
+      durationLabel: "سنة واحدة",
+    },
+    {
+      role: "Product Designer",
+      org: "Zomato Digital Agency",
+      location: "India",
+      durationLabel: "سنتان",
+    },
+    {
+      role: "Webflow Team Manager",
+      org: "Google Team",
+      location: "UK",
+      durationLabel: "سنتان",
+    },
+  ];
+
+  
+  const stats: StatItem[] = [
+    {
+      Icon: ClipboardList,
+      value: 2450,
+      label: "Project Completed Done",
+      minDigits: 1,
+    },
+    {
+      Icon: Users,
+      value: 1085,
+      label: "Satisfied Clients",
+      minDigits: 1,
+    },
+    {
+      Icon: Settings,
+      value: 7,
+      label: "My Team Members",
+      minDigits: 2, // يعطي 07 مثل التصميم
+    },
+    {
+      Icon: Globe2,
+      value: 2790,
+      label: "World Wide Customer",
+      minDigits: 1,
+    },
+  ];
+
+
+
+
 export default function Home() {
   return (
      <main className="overflow-x-hidden">
        <Hero/>
       <Services/>
        <Aboutme/>
+       <ExperienceTimeline items={items} />
     
    
      <HorizontalScroll/>
@@ -231,7 +297,8 @@ export default function Home() {
 
 
      <Timeline data={data}/>
-
+     <ClientFeedbackCarousel/>
+    <StatsStrip items={stats} />
      <ContactSection/>
      
     {/* <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">

@@ -88,7 +88,7 @@ export default function HorizontalScroll() {
   }, []);
 
   return (
-    <div className="relative z-0">
+    <div className="relative z-0 ">
       {/* ===== Intro Heading (appears before the horizontal scroller) ===== */}
       <header className="max-w-6xl mx-auto px-6 md:px-8 py-12 md:py-16 flex flex-col gap-2 items-center justify-center">
         <p className="text-sm md:text-base tracking-wider uppercase text-gray-500">
