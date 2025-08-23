@@ -4,6 +4,10 @@ import BrandIconsGrid from "@/components/companies";
 import ContactsUs from "@/components/ContactsUs";
 import { Hero } from "@/components/hero";
 import { HeroScrollDemo } from "@/components/herohighlit";
+
+import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
+import ContactSection from "@/components/contact";
+
 import HorizontalScroll from "@/components/HorizontalScroll";
 import PinnedSplitter from "@/components/PinnedSplitter";
 import Services from "@/components/Services";
@@ -222,7 +226,13 @@ export default function Home() {
      <BrandIconsGrid/>
      <HeroParallax products={products}  />
 
-    
+
+    <HeroScrollDemo/>
+     <StickyScroll content={content} />
+     <ContactSection/>
+
+        </div>
+
      <Timeline data={data}/>
 
      <ContactsUs/>
@@ -238,5 +248,6 @@ export default function Home() {
   </div> 
       */}
         </main>
+
   );
 }
