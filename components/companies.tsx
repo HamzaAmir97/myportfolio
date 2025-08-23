@@ -4,19 +4,19 @@ import { Marquee } from "./Marquee";
 const BrandIconsGrid = () => {
   return (
     <div
-      className="bg-white dark:bg-neutral-900 w-full px-4 pt-16 pb-16"
+      className="bg-white dark:bg-neutral-900 w-screen  p-20 mt-20"
       id="faq"
     >
-      <h2 className="text-4xl font-bold text-center">I learned and trained by</h2>
+      <h2 className="text-4xl font-bold text-center">Trained & Certified by Leading Institutions</h2>
       <p className="pt-6 pb-8 text-base max-w-2xl text-center m-auto dark:text-neutral-400">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit nam maxime quas
-        fugiat tempore blanditiis, eveniet quia accusantium.
+        
+I have gained hands-on experience and certifications from top global platforms and organizations, ensuring both practical expertise and professional excellence.
       </p>
 
 
 
     
-      <div className="mx-auto w-full max-w-4xl bg-white dark:bg-transparent ">
+      <div className="mx-auto w-screen  bg-white dark:bg-transparent ">
 
       <Marquee>
         <div className="text-center flex  gap-30  justify-center items-center w-screen ml-0  mr-0   ">
@@ -67,6 +67,8 @@ const BrandIconsGrid = () => {
           
         </div>
         </Marquee>
+
+
       </div>
 
       

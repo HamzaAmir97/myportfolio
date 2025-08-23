@@ -2,7 +2,15 @@
 import { cn } from "@/lib/utils";
 import { useMotionValue, motion, useMotionTemplate } from "motion/react";
 import React from "react";
-
+import { FloatingDock } from "./floating-dock";
+import {
+  IconBrandGithub,
+  IconBrandX,
+  IconExchange,
+  IconHome,
+  IconNewSection,
+  IconTerminal2,
+} from "@tabler/icons-react";
 export const HeroHighlight = ({
   children,
   className,
@@ -38,14 +46,46 @@ export const HeroHighlight = ({
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
   }
+
+
+
   return (
     <div
       className={cn(
-        "group relative flex h-[40rem] w-full items-center  justify-center bg-white dark:bg-black",
+        "group relative flex h-screen w-screen  py-10  justify-center bg-white dark:bg-black",
         containerClassName,
       )}
       onMouseMove={handleMouseMove}
     >
+       
+        
+        {/* decoration */}
+       <div className="absolute top-0 left-1/3 w-5 h-30 flex  gap-2 -rotate-45">
+       <span className=" w-0.5 h-15   bg-black "/>
+       <span className=" w-0.5 h-20   bg-black "/>
+             </div>
+
+         {/* gradient */}
+
+        
+    <div
+      className="absolute inset-0 z-0"
+      style={{
+        backgroundImage: `
+          radial-gradient(circle at 50% 100%, rgba(253, 224, 71, 0.4) 0%, transparent 60%),
+          radial-gradient(circle at 50% 100%, rgba(251, 191, 36, 0.4) 0%, transparent 70%),
+          radial-gradient(circle at 50% 100%, rgba(244, 114, 182, 0.5) 0%, transparent 80%)
+        `,
+      }}
+    />
+   
+    
+       
+ 
+
+
+   
+
       <div
         className="pointer-events-none absolute inset-0 dark:hidden -z-2"
         style={{
@@ -130,7 +170,7 @@ export const Highlight = ({
         display: "inline",
       }}
       className={cn(
-        `relative inline-block rounded-lg bg-gradient-to-r from-indigo-300 to-purple-300 px-1 pb-1 dark:from-indigo-500 dark:to-purple-500`,
+        `relative inline-block rounded-lg bg-gradient-to-r from-amber-700 to-orange-400 px-1 pb-1 dark:from-amber-800 dark:to-or`,
         className,
       )}
     >

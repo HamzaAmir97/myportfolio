@@ -7,22 +7,23 @@ import { ContainerTextFlip } from "./ui/container-text-flip";
 export function HeroScrollDemo() {
   return (
     <div className="flex flex-col overflow-hidden   ">
+    
       <ContainerScroll
         titleComponent={
           <>
           
-            <h1 className="text-4xl font-semibold text-black dark:text-white mb-10">
+            <h1 className="text-3xl font-semibold text-black dark:text-white mb-10">
               let's Make your Idea to Reality <br /> </h1>
             
               <div className="flex justify-center items-center gap-10  m-10 ">
-              <span className="text-3xl md:text-[6rem] font-bold mt-1 leading-none">
+              <span className="text-3xl md:text-[4rem] font-bold mt-1 leading-none">
                 with
               </span>
             <ContainerTextFlip
       words={["better", "modern", "clean" ,"code"]}
      
     /> 
-    <span className="text-3xl md:text-[6rem] font-bold mt-1 leading-none">
+    <span className="text-3xl md:text-[4rem] font-bold mt-1 leading-none">
     solutions
               </span>  
 
@@ -44,6 +45,7 @@ export function HeroScrollDemo() {
        </Compare>
        </div>
       </ContainerScroll>
+   
     </div>
   );
 }
