@@ -1,10 +1,8 @@
 import BrandIconsGrid from "@/components/companies";
 import { Hero } from "@/components/hero";
 import { HeroScrollDemo } from "@/components/herohighlit";
-import  { Marquee } from "@/components/Marquee";
-import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
-import Image from "next/image";
+import ContactSection from "@/components/contact";
 
 
 
@@ -68,8 +66,9 @@ export default function Home() {
    
     
     <HeroScrollDemo/>
-     <StickyScroll content={content} /> 
-     
+     <StickyScroll content={content} />
+     <ContactSection/>
+
         </div>
   );
 }
