@@ -1,0 +1,43 @@
+import { IconBrandFacebook, IconBrandGithub, IconBrandLinkedin } from '@tabler/icons-react'
+import { XCircleIcon, XIcon } from 'lucide-react'
+import React from 'react'
+
+const Footer = () => {
+  return (
+    <footer className=" flex  flex-col gap-2 px-10 py-10">
+     <XIcon className='h-10 w-10'/>
+     <span className='h-0.5 w-full bg-gray-500 dark:bg-gray-800 my-2'/>
+
+        <div className=" flex items-center justify-between">
+             
+             <div className="flex items-center justify-between gap-10 cursor-pointer">
+                 <span className='flex items-center gap-2 group'>
+                   <IconBrandFacebook className='group-hover:scale-110 transition-all'/>
+                   <p className='group-hover:text-amber-500'>Facebook</p>
+
+                 </span>
+                 <span className='flex items-center gap-2 group'>
+                   <IconBrandGithub className='group-hover:scale-110 transition-all'/>
+                   <p className='group-hover:text-amber-500'>github</p>
+
+                 </span>
+                 <span className='flex items-center gap-2 group'>
+                   <IconBrandLinkedin className='group-hover:scale-110 transition-all'/>
+                   <p className='group-hover:text-amber-500'>linkedin</p>
+
+                 </span>
+             </div>
+         
+
+         <div className="">
+              <p>© 2025 Hamzah Amir. All rights reserved.</p>
+         </div>
+
+
+
+        </div>
+    </footer>
+  )
+}
+
+export default Footer
