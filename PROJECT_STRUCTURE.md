@@ -1,0 +1,47 @@
+# Project Structure
+
+```
+.gitignore
+README.md
+app
+  (home)
+    page.tsx
+  favicon.ico
+  globals.css
+  layout.tsx
+components
+components.json
+  Marquee.tsx
+  companies.tsx
+  contact.tsx
+  hero.tsx
+  herohighlit.tsx
+  navbar.tsx
+  ui
+    TypingText.tsx
+    background-lines.tsx
+    button.tsx
+    compare.tsx
+    container-scroll-animation.tsx
+    container-text-flip.tsx
+    dropdown-menu.tsx
+    hero-highlight.tsx
+    resizable-navbar.tsx
+    sparkles.tsx
+    sticky-scroll-reveal.tsx
+    togglemode.tsx
+eslint.config.mjs
+lib
+  utils.ts
+next.config.ts
+package-lock.json
+package.json
+postcss.config.mjs
+public
+  file.svg
+  globe.svg
+  next.svg
+  vercel.svg
+  window.svg
+tsconfig.json
+```
