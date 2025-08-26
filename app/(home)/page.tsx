@@ -21,6 +21,7 @@ import { ClipboardList, Globe2, Settings, Users } from "lucide-react";
 import StatsStrip from "@/components/StatsStrip";
 import ClientFeedbackCarousel from "@/components/ClientFeedbackCarousel";
 import SkillsWall from "@/components/SkillsViteGrid";
+import { WorldMapSection } from "@/components/worldMapSection";
 
 
 
@@ -315,6 +316,7 @@ export default function Home() {
 
      <Timeline data={data}/>
      <ClientFeedbackCarousel/>
+     <WorldMapSection/>
     <StatsStrip items={stats} />
      <ContactSection/>
      

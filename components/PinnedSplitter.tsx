@@ -11,6 +11,7 @@ import { TECH, TechItem } from "@/constants/tech-icons";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { STEPS } from "@/constants/projects";
 import { Lens } from "./ui/lens";
+import { AnimatedTooltip } from "./ui/animated-tooltip";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -326,30 +327,22 @@ export default function PinnedDualStack() {
                       {p.techs.map((t) => {
                         const item = getTechItemByName(t.name);
                         return item ? (
-                          <Tooltip key={`${p.name}-${item.key}`}>
-                            <TooltipTrigger>
-                              <TechCircle
-                                src={item.src}
-                                alt={item.alt}
-                                name={item.label}
-                              />
-                            </TooltipTrigger>
-                            <TooltipContent>{item.label}</TooltipContent>
-                          </Tooltip>
+                        
+                        
+                        <AnimatedTooltip  src={item.src} alt={item.alt} name={item.label} />
+                            
+                              
+                            
+                            
+
                         ) : (
-                          <span
-                            key={`${p.name}-${t.name}`}
-                            title={t.name}
-                            className="
-                              inline-flex items-center justify-center
-                              h-11 w-11 md:h-20 md:w-20 rounded-full
-                              border border-white/20 bg-white/5
-                              text-[10px] font-medium text-white/80
-                              select-none
-                            "
-                          >
-                            {t.name}
-                          </span>
+                          <AnimatedTooltip
+                         
+                          src={"https://via.placeholder.com/150"}
+                          alt={t.name}
+                          name={t.name}
+                        />
+                        
                         );
                       })}
                     </div>
@@ -503,21 +496,15 @@ export default function PinnedDualStack() {
                     {p.techs.map((t) => {
                       const item = getTechItemByName(t.name);
                       return item ? (
-                        <span key={`${p.name}-${item.key}`}>
-                          <TechCircle
-                            src={item.src}
-                            alt={item.alt}
-                            name={item.label}
-                          />
-                        </span>
+                        
+                        <AnimatedTooltip src={item.src} alt={item.alt} name={item.label} />
                       ) : (
-                        <span
-                          key={`${p.name}-${t.name}`}
-                          className="inline-flex items-center justify-center h-11 w-11 rounded-full border border-white/20 bg-white/5 text-[10px] font-medium text-white/80 select-none"
-                          title={t.name}
-                        >
-                          {t.name}
-                        </span>
+                        <AnimatedTooltip
+                         
+                          src={"https://via.placeholder.com/150"}
+                          alt={t.name}
+                          name={t.name}
+                        />
                       );
                     })}
                   </div>
