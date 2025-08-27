@@ -106,17 +106,18 @@ export function Hero() {
      
     <HeroHighlight>
     <Navbar/>
-      <div className=" w-screen h-[90vh] grid grid-cols-1 gap-2 md:grid-cols-2
+
+      <div className=" w-screen h-[90vh] grid grid-cols-1 place-items-center gap-2 md:grid-cols-2
       md:place-items-center pt-10
       ">
       
    
        {/* left side */}
-      <div className="flex flex-col   w-full items-center gap-7">
+      <div className="flex flex-col justify-center  w-full items-center gap-7">
  
     
       <div className="flex items-center gap-2">
-      <p className="text-black text-5xl dark:text-white font-light">Hello!</p>
+      <p className="text-black text-4xl md:text-5xl dark:text-white font-light">Hello!</p>
       <motion.span
         initial={{
           opacity: 0,
@@ -130,11 +131,11 @@ export function Hero() {
           duration: 0.5,
           ease: [0.4, 0.0, 0.2, 1],
         }}
-        className="  px-4 font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
+        className="  px-4 font-bold text-neutral-700 dark:text-white max-w-4xl md:max-w-5xl leading-relaxed lg:leading-snug text-center mx-auto "
       >
        
       
-        <Highlight className="text-black dark:text-white  text-4xl  h-screen">
+        <Highlight className="text-black dark:text-white  text-4xl md:text-5xl  h-screen">
         I'm{" "}Hamzah
         </Highlight>
 
@@ -146,7 +147,7 @@ export function Hero() {
       
       <div className="flex items-center  justify-center gap-4">
 
-      <span className="w-30 h-0.5 bg-black dark:bg-white rounded-full" />
+      <span className="w-10 md:w-20 h-0.5 bg-black dark:bg-white rounded-full" />
 
       <TypingAnimatedText/>
       <Sparkles strokeWidth={1} className=" w-12 h-12 font-bold fill-black dark:fill-white  animate-bounce "/>
@@ -164,7 +165,7 @@ Let’s build the future together.
 
 
   {/* features */}
-  <div className="flex  flex-col  justify-center gap-4 pt-10">
+  <div className="hidden md:flex  flex-col   justify-center gap-4 pt-10">
   
   <span className="flex items-center gap-2">
     <Check className=" w-5   h-5  font-bold dark:fill-white"/>
@@ -192,7 +193,7 @@ Let’s build the future together.
     
 
 {/* CTA buttons*/}
-      <div className="flex gap-4 pb-10">
+      <div className="hidden md:flex gap-4 pb-10">
       <Button variant="default" 
       className="buttonPrimary"
       >
@@ -216,8 +217,10 @@ Let’s build the future together.
 
             <div className=" relative flex justify-end items-center">
              
-             <span className="absolute flex justify-center items-center top-15 -left-9 -z-10 w-[7rem] h-[7rem] rounded-full bg-black " >
-                <p className="text-white font-bold text-2xl text-center">
+             <span className="absolute flex justify-center items-center 
+             md:top-15 top-17 -left-2 md:-left-9 -z-10 
+             w-[5rem] h-[5rem]  md:w-[7rem] md:h-[7rem] rounded-full bg-black " >
+                <p className="text-white font-bold text-lg   text-center md:text-2xl">
           Hire me
                 </p>
              </span>
@@ -225,12 +228,12 @@ Let’s build the future together.
   
 
                 {/* decoration */}
-             <div className="absolute  top-11 -left-5 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
-       <span className=" w-0.5 h-40   bg-black shadow-2xl shadow-white "/>
+             <div className="absolute  md:top-11 top-12 md:-left-5 left-5 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
+       <span className=" w-0.5 md:h-40 h-30   bg-black shadow-2xl shadow-white "/>
       
              </div>
-             <div className="absolute  top-11 -left-4 -z-9 w-5 h-30 flex  gap-2 -rotate-45">
-       <span className=" w-0.5 h-40   bg-white shadow-2xl shadow-black "/>
+             <div className="absolute  md:top-11 top-12   md:-left-5 left-4 -z-9 w-5 h-30 flex  gap-2 -rotate-45">
+       <span className=" w-0.5 md:h-40 h-30   bg-white shadow-2xl shadow-black "/>
       
              </div>
                
@@ -246,15 +249,43 @@ Let’s build the future together.
 
            
 
+   {/* CTA buttons*/}
+   <div className="flex md:hidden gap-4 pb-10">
+      <Button variant="default" 
+      className="buttonPrimary"
+      >
+        Let's talk
+      </Button>
+      <Button variant="ghost" className="buttonSecondary rounded-none">
+        <span>Download CV</span>
+         <DownloadIcon/>
+      </Button>
+      
+      </div>
+
+       
+
+       {/* services marquee mobile*/}
+       <div className="md:hidden">
+      <ServicesMarquee />
 
 
+      </div>
       </div>
   
     
 
+           {/* services marquee desktop*/}
+       <div className="md:block hidden">
       <ServicesMarquee />
 
-        <div className="h-20 flex items-center justify-start gap-10 py-15 px-10">
+     
+      </div>
+ 
+    </HeroHighlight>
+
+    {/* social and email */}
+    <div className="h-20 hidden md:flex items-center justify-start gap-10 my-15 px-5">
             <span  className="w-[20%] h-0.5 bg-black dark:bg-white rounded-full"/>
           
 
@@ -287,9 +318,6 @@ Let’s build the future together.
             </div>
 
         </div>
- 
-    </HeroHighlight>
-
     </section>
     
   );
