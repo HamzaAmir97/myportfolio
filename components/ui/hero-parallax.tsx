@@ -106,58 +106,75 @@ export const HeroParallax = ({
 
 export const Header = () => {
   return (
-    <div className="relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
-      <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
-        The Ultimate <br /> development studio
+    <div className="relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
+      <h1 className="text-2xl md:text-7xl font-extrabold tracking-tight leading-tight dark:text-white">
+        Industry-Recognized Certificates
+        <br /> from Leading Institutions
       </h1>
-      <p className="text-base md:text-xl mt-8 dark:text-neutral-200">
-        We build beautiful products with the latest technologies and frameworks.
-        We are a team of passionate developers and designers that love to build
-        amazing products.
+      <p className="text-base md:text-xl mt-6 max-w-3xl dark:text-neutral-200">
+        Hands-on credentials and specializations from Google, Meta, IBM, and top universities. 
+        Each card is a real certificate—click to open the original credential or verification page.
       </p>
     </div>
   );
 };
 
+
 export const ProductCard = ({
   product,
   translate,
 }: {
-  product: {
-    title: string;
-    link: string;
-    thumbnail: string;
-  };
+  product: { title: string; link: string; thumbnail: string };
   translate: MotionValue<number>;
 }) => {
   return (
     <motion.div
-      style={{
-        x: translate,
-      }}
-      whileHover={{
-        y: -20,
-      }}
+      style={{ x: translate }}
+      whileHover={{ y: -20 }}
       key={product.title}
-      className="group/product h-96 w-[30rem] relative shrink-0"
+      className="group/product h-96 w-[30rem] relative shrink-0 *:
+      hover:shadow-lg hover:shadow-amber-700
+      "
     >
       <a
         href={product.link}
-        className="block group-hover/product:shadow-2xl "
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Open credential: ${product.title}`}
+        className="block"
       >
         <img
           src={product.thumbnail}
           height="600"
           width="600"
-          className="object-cover object-left-top absolute h-full w-full inset-0"
           alt={product.title}
+          className="
+            object-cover object-center absolute inset-0 h-full w-full
+        opacity-80 transition
+            group-hover/product: group-hover/product:opacity-100
+          "
         />
       </a>
-      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
-      <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
-        {product.title}
-      </h2>
+
+      {/* dim layer on hover */}
+      <div
+        className="
+          absolute inset-0 h-full w-full opacity-0
+          group-hover/product:opacity-80
+          bg-black transition
+          pointer-events-none
+        "
+      />
+
+      {/* certificate text */}
+      <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover/product:opacity-100 transition text-white">
+        <p className="text-[11px] uppercase tracking-widest/relaxed opacity-80">
+          View Credential
+        </p>
+        <h2 className="mt-1 text-lg md:text-xl font-semibold leading-snug">
+          {product.title}
+        </h2>
+      </div>
     </motion.div>
-   
   );
 };

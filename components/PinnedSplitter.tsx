@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { Globe2 } from "lucide-react";
 import { IconBrandGithub } from "@tabler/icons-react";
+import Image from "next/image";
 gsap.registerPlugin(ScrollTrigger);
 
 /** Types */
@@ -129,6 +130,35 @@ const STEPS: Project[] = [
     ],
   },
 ];
+
+
+// Tech circle with real images
+function TechCircle({ src, alt, name }: { src: string; alt: string; name: string }) {
+  return (
+    <span
+      title={name}
+      className="
+        inline-flex items-center justify-center
+        h-11 w-11 md:h-20 md:w-20 rounded-full
+        border border-black/15 dark:border-white/20
+        bg-white dark:bg-transparent
+        shadow-sm select-none overflow-hidden
+        cursor-pointer
+        hover:scale-108 transition-all
+        hover:shadow-lg hover:shadow-amber-700
+        group
+
+      "
+    >
+      <Image src={src} alt={alt} width={60} height={60} className="
+      grayscale opacity-70
+      transition duration-300 ease-out
+      group-hover:grayscale-0 group-hover:opacity-100
+      
+      " />
+    </span>
+  );
+}
 
 /** Circular tech badge */
 function TechBadge({ tech }: { tech: Tech }) {

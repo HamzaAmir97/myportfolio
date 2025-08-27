@@ -216,7 +216,7 @@ Let’s build the future together.
 
             <div className=" relative flex justify-end items-center">
              
-             <span className="absolute flex justify-center items-center top-1/2 left-10 -z-10 w-[7rem] h-[7rem] rounded-full bg-black " >
+             <span className="absolute flex justify-center items-center top-1/2 left-1 -z-10 w-[7rem] h-[7rem] rounded-full bg-black " >
                 <p className="text-white font-bold text-2xl text-center">
           Hire me
                 </p>
@@ -225,11 +225,11 @@ Let’s build the future together.
   
 
                 {/* decoration */}
-             <div className="absolute  top-70 left-19 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
+             <div className="absolute  top-70 left-10 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
        <span className=" w-0.5 h-40   bg-black shadow-2xl shadow-white "/>
       
              </div>
-             <div className="absolute  top-70 left-20 -z-9 w-5 h-30 flex  gap-2 -rotate-45">
+             <div className="absolute  top-70 left-10.5 -z-9 w-5 h-30 flex  gap-2 -rotate-45">
        <span className=" w-0.5 h-40   bg-white shadow-2xl shadow-black "/>
       
              </div>

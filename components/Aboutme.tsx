@@ -1,19 +1,16 @@
-// components/Aboutme.tsx
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
+import { TECH, } from "@/constants/tech-icons";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
-/** ---------------------------------
- * Types
- * --------------------------------- */
-type Tech = { name: string; iconClass?: string };
+type StackSectionKey = keyof typeof TECH;
 type StackSection = {
-  key: "frontend" | "backend" | "ai" | "testing";
+  key: StackSectionKey;
   title: string;
   blurb: string;
   pitch?: string;
-  techs: Tech[];
 };
 
 /** ---------------------------------
@@ -21,18 +18,18 @@ type StackSection = {
  * --------------------------------- */
 const sections: StackSection[] = [
   {
+    key: "uiux",
+    title: "UI/UX",
+    blurb: "Smooth interfaces, GSAP transitions, and thoughtful UX.",
+    pitch:
+      "I build modern, fast, and responsive UIs with clean architectures, using React, Next.js, and Tailwind with smooth GSAP animations.",
+  },
+  {
     key: "frontend",
     title: "Frontend",
     blurb: "Smooth interfaces, GSAP transitions, and thoughtful UX.",
     pitch:
       "I build modern, fast, and responsive UIs with clean architectures, using React, Next.js, and Tailwind with smooth GSAP animations.",
-    techs: [
-      { name: "React", iconClass: "devicon-react-original" },
-      { name: "Next.js", iconClass: "devicon-nextjs-original" },
-      { name: "TypeScript", iconClass: "devicon-typescript-plain" },
-      { name: "Tailwind", iconClass: "devicon-tailwindcss-plain" },
-      { name: "GSAP", iconClass: "devicon-javascript-plain" },
-    ],
   },
   {
     key: "backend",
@@ -40,26 +37,20 @@ const sections: StackSection[] = [
     blurb: "Reliable APIs, high performance, and scalability.",
     pitch:
       "I design scalable APIs with Node.js and robust databases, ensuring performance, monitoring, and caching from day one.",
-    techs: [
-      { name: "Node.js", iconClass: "devicon-nodejs-plain" },
-      { name: "NestJS", iconClass: "devicon-nestjs-plain" },
-      { name: "PostgreSQL", iconClass: "devicon-postgresql-plain" },
-      { name: "MongoDB", iconClass: "devicon-mongodb-plain" },
-    ],
+  },
+  {
+    key: "mobile",
+    title: "Mobile",
+    blurb: "Reliable APIs, high performance, and scalability.",
+    pitch:
+      "I design scalable APIs with Node.js and robust databases, ensuring performance, monitoring, and caching from day one.",
   },
   {
     key: "ai",
     title: "AI Development",
     blurb: "Smart models, LLM integration, and practical MLOps.",
     pitch:
-      "I integrate LLMs, build intelligent AI agents, and set up pipelines with LangChain, PyTorch, and OpenAI to power production-ready solutions.",
-    techs: [
-      { name: "Python", iconClass: "devicon-python-plain" },
-      { name: "PyTorch", iconClass: "devicon-pytorch-original" },
-      { name: "TensorFlow", iconClass: "devicon-tensorflow-original" },
-      { name: "LangChain" },
-      { name: "OpenAI" },
-    ],
+      "I integrate LLMs, build intelligent AI agents, and set up pipelines with LangChain, Python, and OpenAI to power production-ready solutions.",
   },
   {
     key: "testing",
@@ -67,76 +58,60 @@ const sections: StackSection[] = [
     blurb: "Confident launches with automated and thorough testing.",
     pitch:
       "From unit to end-to-end tests, I ensure reliability with Jest, Cypress, and Playwright, integrated into CI/CD pipelines.",
-    techs: [
-      { name: "Jest", iconClass: "devicon-jest-plain" },
-      { name: "Cypress", iconClass: "devicon-cypressio-plain" },
-      { name: "Playwright", iconClass: "devicon-playwright-plain" },
-      { name: "Vitest", iconClass: "devicon-vitejs-plain" },
-    ],
   },
 ];
 
 /** ---------------------------------
  * Illustration sources
- * Place SVG/PNG files in /public/illustrations/
  * --------------------------------- */
-const ILLUSTRATIONS: Record<
-  StackSection["key"],
-  { src: string; alt: string }
-> = {
-  frontend: {
-    src: "/illustrations/frontend.svg",
-    alt: "Frontend UI illustration",
-  },
-  backend: {
-    src: "/illustrations/backend.svg",
-    alt: "Backend services illustration",
-  },
-  ai: {
-    src: "/illustrations/ai.svg",
-    alt: "AI brain network illustration",
-  },
-  testing: {
-    src: "/illustrations/testing.svg",
-    alt: "Testing pipelines illustration",
-  },
+const ILLUSTRATIONS: Record<StackSectionKey, { src: string; alt: string }> = {
+  uiux: { src: "/illustrations/uiux.svg", alt: "UI/UX illustration" },
+  frontend: { src: "/illustrations/frontend.svg", alt: "Frontend UI illustration" },
+  backend: { src: "/illustrations/backend.svg", alt: "Backend services illustration" },
+  mobile: { src: "/illustrations/mobile.svg", alt: "Mobile illustration" },
+  ai: { src: "/illustrations/ai.svg", alt: "AI brain network illustration" },
+  testing: { src: "/illustrations/testing.svg", alt: "Testing pipelines illustration" },
 };
 
 /** ---------------------------------
- * Tech circle (devicon or initials)
+ * Tech circle with real images
  * --------------------------------- */
-function TechCircle({ tech }: { tech: Tech }) {
-  const short = useMemo(() => tech.name.slice(0, 2).toUpperCase(), [tech.name]);
+function TechCircle({ src, alt, name }: { src: string; alt: string; name: string }) {
   return (
     <span
-      title={tech.name}
+      title={name}
       className="
         inline-flex items-center justify-center
-        h-11 w-11 sm:h-12 sm:w-12 rounded-full
+        h-11 w-11 md:h-20 md:w-20 rounded-full
         border border-black/15 dark:border-white/20
         bg-white dark:bg-transparent
-        text-[10px] font-semibold text-black dark:text-white
-        shadow-sm select-none
+        shadow-sm select-none overflow-hidden
+        cursor-pointer
+        hover:scale-108 transition-all
+        hover:shadow-lg hover:shadow-amber-700
+        group
+
       "
     >
-      {tech.iconClass ? (
-        <i className={`${tech.iconClass} text-xl`} aria-hidden="true" />
-      ) : (
-        short
-      )}
+      <Image src={src} alt={alt} width={60} height={60} className="
+      grayscale opacity-70
+      transition duration-300 ease-out
+      group-hover:grayscale-0 group-hover:opacity-100
+      
+      " />
     </span>
   );
 }
 
 /** ---------------------------------
- * Small tabs to switch active section
+ * Tabs
  * --------------------------------- */
 function SectionTabs({
   activeKey,
   onChange,
 }: {
-  activeKey: StackSection["key"];
-  onChange: (k: StackSection["key"]) => void;
+  activeKey: StackSectionKey;
+  onChange: (k: StackSectionKey) => void;
 }) {
   return (
     <div className="flex gap-2 overflow-x-auto pb-1 -mx-1">
@@ -163,44 +138,12 @@ function SectionTabs({
 }
 
 /** ---------------------------------
- * Illustration frame (left)
- * Smaller image to avoid cropping + top gradient bar
- * --------------------------------- */
-function IllustrationFrame({
-  src,
-  alt,
-}: {
-  src: string;
-  alt: string;
-}) {
-  return (
-    <div className="relative w-full rounded-xl overflow-hidden">
-      {/* top accent bar */}
-      <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
-      {/* fixed heights so image stays smaller and never crops */}
-      <div className="relative flex items-center justify-center w-full h-[200px] sm:h-[240px] md:h-[260px] lg:h-[30rem]">
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          priority={false}
-          sizes="(max-width: 768px) 90vw, 40vw"
-          className="object-contain p-4"
-        />
-      </div>
-    </div>
-  );
-}
-
-/** ---------------------------------
  * About me section
  * --------------------------------- */
 export default function Aboutme() {
-  const [activeKey, setActiveKey] = useState<StackSection["key"]>(
-    sections[0].key
-  );
+  const [activeKey, setActiveKey] = useState<StackSectionKey>("frontend");
 
-  /** Auto-rotate tabs every 2s */
+  // auto rotate
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveKey((prevKey) => {
@@ -208,15 +151,11 @@ export default function Aboutme() {
         const next = (idx + 1) % sections.length;
         return sections[next].key;
       });
-    }, 5000);
+    }, 7000);
     return () => clearInterval(interval);
   }, []);
 
-  const active = useMemo(
-    () => sections.find((s) => s.key === activeKey)!,
-    [activeKey]
-  );
-
+  const active = useMemo(() => sections.find((s) => s.key === activeKey)!, [activeKey]);
   const illu = ILLUSTRATIONS[active.key];
 
   return (
@@ -247,29 +186,28 @@ export default function Aboutme() {
 
       {/* content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 px-6 md:px-10 py-10">
-        {/* left: summary + illustration (smaller) */}
+        {/* left */}
         <div className="flex flex-col gap-6">
           <p className="text-lg md:text-xl leading-relaxed text-black dark:text-white">
             I’m a versatile developer who combines my passion for technology and
             love for design with strong programming expertise to create elegant,
             market-ready solutions. I’m always learning and evolving, staying
-            ahead with the latest technologies to turn ideas into high‑quality
+            ahead with the latest technologies to turn ideas into high-quality
             products.
           </p>
-
-          <IllustrationFrame src={illu.src} alt={illu.alt} />
+          <div className="relative w-full rounded-xl overflow-hidden">
+            <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
+            <div className="relative flex items-center justify-center w-full h-[200px] sm:h-[240px] md:h-[260px] lg:h-[30rem]">
+              <Image src={illu.src} alt={illu.alt} fill sizes="(max-width:768px)90vw,40vw" className="object-contain p-4" />
+            </div>
+          </div>
         </div>
 
-        {/* right: minimal bar + content (no card box) */}
+        {/* right */}
         <aside className="w-full">
-          {/* top gradient bar only (like left) */}
           <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
-
-          {/* tight spacing content */}
           <div className="pt-4">
-            {/* Tabs remain for manual switch */}
             <SectionTabs activeKey={activeKey} onChange={setActiveKey} />
-
             <h3 className="mt-4 text-2xl md:text-3xl font-extrabold tracking-tight text-black dark:text-white">
               {active.title}
             </h3>
@@ -277,10 +215,20 @@ export default function Aboutme() {
               {active.pitch ?? active.blurb}
             </p>
 
+            {/* Tech Circles */}
             <div className="mt-4 flex flex-wrap gap-3">
-              {active.techs.map((t) => (
-                <TechCircle key={`${active.key}-${t.name}`} tech={t} />
-              ))}
+            {TECH[active.key].map((t) => (
+  
+  <Tooltip>
+    <TooltipTrigger>
+  <TechCircle key={t.key} src={t.src} alt={t.alt} name={t.label} />
+  </TooltipTrigger>
+  <TooltipContent>
+    {t.label}
+  </TooltipContent>
+  </Tooltip>
+
+))}
             </div>
           </div>
         </aside>
