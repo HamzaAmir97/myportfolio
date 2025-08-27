@@ -10,7 +10,7 @@ function BrandCircle({ src, alt, name }: { src: string; alt: string; name: strin
       title={name}
       className="
         group relative inline-flex items-center justify-center
-        h-16 w-16 rounded-full
+        h-22 w-22 rounded-full
         bg-white dark:bg-neutral-900
         border border-black/10 dark:border-white/15
         shadow-sm overflow-hidden
@@ -23,7 +23,7 @@ function BrandCircle({ src, alt, name }: { src: string; alt: string; name: strin
         src={src}
         alt={alt}
         fill
-        sizes="64px"
+        sizes="full"
         className="
           object-contain p-2
           grayscale opacity-70
@@ -56,7 +56,9 @@ const BrandIconsGrid = () => {
               const circle = (
 
 
-                <Tooltip key={b.key}>
+                <Tooltip key={b.key}
+                
+                >
                   <TooltipTrigger>
                 <BrandCircle key={b.key} src={b.src} alt={b.alt} name={b.label} />
                 </TooltipTrigger>

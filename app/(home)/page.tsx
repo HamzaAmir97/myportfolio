@@ -287,7 +287,7 @@ export default function Home() {
   
 
 
- {/* desktop */}
+     {/* desktop */}
        <div  className="hidden md:block">
       <SkillsWall rows={7} cols={12} />
         </div> 

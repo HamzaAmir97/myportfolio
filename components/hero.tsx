@@ -106,7 +106,7 @@ export function Hero() {
      
     <HeroHighlight>
     <Navbar/>
-      <div className=" w-screen h-auto grid grid-cols-1 gap-2 md:grid-cols-2
+      <div className=" w-screen h-[90vh] grid grid-cols-1 gap-2 md:grid-cols-2
       md:place-items-center pt-10
       ">
       
@@ -216,7 +216,7 @@ Let’s build the future together.
 
             <div className=" relative flex justify-end items-center">
              
-             <span className="absolute flex justify-center items-center top-1/2 left-1 -z-10 w-[7rem] h-[7rem] rounded-full bg-black " >
+             <span className="absolute flex justify-center items-center top-15 -left-9 -z-10 w-[7rem] h-[7rem] rounded-full bg-black " >
                 <p className="text-white font-bold text-2xl text-center">
           Hire me
                 </p>
@@ -225,11 +225,11 @@ Let’s build the future together.
   
 
                 {/* decoration */}
-             <div className="absolute  top-70 left-10 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
+             <div className="absolute  top-11 -left-5 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
        <span className=" w-0.5 h-40   bg-black shadow-2xl shadow-white "/>
       
              </div>
-             <div className="absolute  top-70 left-10.5 -z-9 w-5 h-30 flex  gap-2 -rotate-45">
+             <div className="absolute  top-11 -left-4 -z-9 w-5 h-30 flex  gap-2 -rotate-45">
        <span className=" w-0.5 h-40   bg-white shadow-2xl shadow-black "/>
       
              </div>
@@ -239,7 +239,7 @@ Let’s build the future together.
 
                    
 
-             <Image src="/images/photo.png" width={620} height={620} alt="My photo"
+             <Image src="/images/photo.png" width={450} height={450} alt="My photo"
              className="object-cover "
              />
             </div>

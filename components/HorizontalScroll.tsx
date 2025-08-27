@@ -4,6 +4,7 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -87,6 +88,8 @@ export default function HorizontalScroll() {
     return () => ctx.revert();
   }, []);
 
+
+
   return (
     <div className="relative z-0 ">
       {/* ===== Intro Heading (appears before the horizontal scroller) ===== */}
@@ -137,20 +140,20 @@ export default function HorizontalScroll() {
 
             {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-              <figure
-                className="w-full max-w-xl aspect-[4/3] bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl grid place-items-center text-center p-6"
-                role="img"
-                aria-label="Discovery workshop illustration"
-              >
+              
                 <div>
-                  <div className="text-sm uppercase tracking-wider text-gray-500 mb-2">
-                    Discovery & Scope
-                  </div>
-                  <figcaption className="text-gray-600">
-                    Workshops, interviews, and scoping to align on what matters most.
-                  </figcaption>
+                  
+                  <Image src="/illustrations/analyze.png"
+                   alt="analyze" 
+                   width={600} height={500} 
+                   className="w-full h-full object-cover"
+                   />
+
+
+                  
+                  
                 </div>
-              </figure>
+             
             </div>
           </article>
 
@@ -176,20 +179,17 @@ export default function HorizontalScroll() {
 
             {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-              <figure
-                className="w-full max-w-xl aspect-[16/10] bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl grid place-items-center text-center p-6"
-                role="img"
-                aria-label="UX flows and wireframes"
-              >
+              
                 <div>
-                  <div className="text-sm uppercase tracking-wider text-gray-500 mb-2">
-                    Flows & Prototypes
-                  </div>
-                  <figcaption className="text-gray-600">
-                    User journeys, wireframes, and prototype validation before we code.
-                  </figcaption>
+                  <Image src="/illustrations/design.png"
+                   alt="design" 
+                   width={600} height={500} 
+                   className="w-full h-full object-cover"
+                   />
+                  
+                      
                 </div>
-              </figure>
+              
             </div>
           </article>
 
@@ -215,20 +215,17 @@ export default function HorizontalScroll() {
 
             {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-              <figure
-                className="w-full max-w-xl aspect-[4/3] bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl grid place-items-center text-center p-6"
-                role="img"
-                aria-label="Code editor and CI pipeline"
-              >
-                <div>
-                  <div className="text-sm uppercase tracking-wider text-gray-500 mb-2">
-                    Modern Stack
-                  </div>
-                  <figcaption className="text-gray-600">
-                    Clean, maintainable code with CI/CD and best-practice tooling.
-                  </figcaption>
+              
+            <div>
+                  <Image src="/illustrations/coding.png"
+                   alt="design" 
+                   width={600} height={500} 
+                   className="w-full h-full object-cover"
+                   />
+                  
+                      
                 </div>
-              </figure>
+              
             </div>
           </article>
 
@@ -253,20 +250,15 @@ export default function HorizontalScroll() {
 
             {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-              <figure
-                className="w-full max-w-xl aspect-[16/10] bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl grid place-items-center text-center p-6"
-                role="img"
-                aria-label="Testing dashboards and checklists"
-              >
-                <div>
-                  <div className="text-sm uppercase tracking-wider text-gray-500 mb-2">
-                    QA Suite
-                  </div>
-                  <figcaption className="text-gray-600">
-                    Unit, integration, and E2E tests—plus performance and accessibility audits.
-                  </figcaption>
+            <div>
+                  <Image src="/illustrations/testing.png"
+                   alt="testing" 
+                   width={600} height={500} 
+                   className="w-full h-full object-cover"
+                   />
+                  
+                      
                 </div>
-              </figure>
             </div>
           </article>
 
@@ -291,20 +283,15 @@ export default function HorizontalScroll() {
 
             {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-              <figure
-                className="w-full max-w-xl aspect-[4/3] bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl grid place-items-center text-center p-6"
-                role="img"
-                aria-label="Launch dashboard"
-              >
-                <div>
-                  <div className="text-sm uppercase tracking-wider text-gray-500 mb-2">
-                    Production Ready
-                  </div>
-                  <figcaption className="text-gray-600">
-                    Observability, alerts, and docs for a confident go-live.
-                  </figcaption>
+            <div>
+                  <Image src="/illustrations/deoply.png"
+                   alt="deploy" 
+                   width={600} height={500} 
+                   className="w-full h-full object-cover"
+                   />
+                  
+                      
                 </div>
-              </figure>
             </div>
           </article>
 
@@ -329,20 +316,15 @@ export default function HorizontalScroll() {
 
             {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-              <figure
-                className="w-full max-w-xl aspect-[4/3] bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl grid place-items-center text-center p-6"
-                role="img"
-                aria-label="Support and maintenance illustration"
-              >
-                <div>
-                  <div className="text-sm uppercase tracking-wider text-gray-500 mb-2">
-                    Ongoing Care
-                  </div>
-                  <figcaption className="text-gray-600">
-                    SLAs, updates, and continuous improvements—your product stays at its best.
-                  </figcaption>
+            <div>
+                  <Image src="/illustrations/support.png"
+                   alt="support" 
+                   width={600} height={500} 
+                   className="w-full h-full object-cover"
+                   />
+                  
+                      
                 </div>
-              </figure>
             </div>
           </article>
 
