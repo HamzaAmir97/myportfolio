@@ -14,7 +14,7 @@ interface MarqueeProps {
 export const Marquee = ({
   children,
   direction = "left",
-  speed = 200,
+  speed = 100,
   pauseOnHover = true,
   className = "",
 }: MarqueeProps) => {
