@@ -8,12 +8,12 @@ const BrandIconsGrid = () => {
 {/* desktop */}
      <div className="lg:block hidden">
     
-      <div className="w-screen bg-black dark:bg-transparent rotate-0 md:-rotate-2 py-2">
+      <div className="w-screen bg-black dark:bg-transparent rotate-0 lg:-rotate-2 py-2">
 
 
 
 
-      <Marquee direction="right" >
+      <Marquee direction="right" speed={100} pauseOnHover={true} itemsToShow={1} gap={100} >
         <div className="text-center flex items-center   gap-1 md:gap-15 justify-center w-screen ml-0  mr-0  py-5  ">
 
           <span className="flex items-center  justify-center gap-2 ">
@@ -64,7 +64,7 @@ const BrandIconsGrid = () => {
       {/* mobile*/}
      <div className="lg:hidden block">
     
-    <div className="w-screen bg-black dark:bg-transparent rotate-0 md:-rotate-2 py-2">
+    <div className="w-screen bg-black dark:bg-transparent rotate-0 lg:-rotate-2 py-2">
 
 
 

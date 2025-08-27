@@ -19,9 +19,10 @@ import Image from "next/image";
 import BrandIconsGrid from "./companies";
 import ServicesMarquee from "./ServicesMarquee";
 import { Button } from "./ui/button";
-import { Check, CheckCircle, DownloadIcon, MailIcon, Sparkle, Sparkles } from "lucide-react";
+import { Check, CheckCircle, DownloadIcon, MailIcon, Menu, Sparkle, Sparkles } from "lucide-react";
 import { div } from "motion/react-client";
 import Navbar from "./shared/Navbar";
+import MobileNavbar from "./MobileNavbar";
 
 
 export function Hero() {
@@ -88,32 +89,25 @@ export function Hero() {
 
   
 
-    <section className="pb-12 w-screen h-full">
+    <section className=" relative w-screen h-full">
 
-
-
-
-          {/* <div className=" z-100 fixed right-0">
-     
-     
-          <FloatingDock
-            mobileClassName="  translate-y-20"
-             // only for demo, remove for production
-            items={links}
-          />
-        </div> */}
-
+<div className=" absolute z-1 block md:hidden   right-10 top-5 ">
+  <MobileNavbar/>
+  </div>
+                
+              
      
     <HeroHighlight>
+      
     <Navbar/>
 
-      <div className=" w-screen h-[90vh] grid grid-cols-1 place-items-center gap-2 md:grid-cols-2
+      <div className=" w-screen h-[90vh]  grid grid-cols-1 place-items-center  lg:grid-cols-2
       md:place-items-center pt-10
       ">
       
    
        {/* left side */}
-      <div className="flex flex-col justify-center  w-full items-center gap-7">
+      <div className="flex flex-col p-10 justify-center  w-full items-center gap-7">
  
     
       <div className="flex items-center gap-2">
@@ -228,7 +222,7 @@ Let’s build the future together.
   
 
                 {/* decoration */}
-             <div className="absolute  md:top-11 top-12 md:-left-5 left-5 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
+             <div className="absolute  md:top-12 top-12 md:-left-5 left-5 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
        <span className=" w-0.5 md:h-40 h-30   bg-black shadow-2xl shadow-white "/>
       
              </div>
@@ -266,7 +260,7 @@ Let’s build the future together.
        
 
        {/* services marquee mobile*/}
-       <div className="md:hidden">
+       <div className="lg:hidden">
       <ServicesMarquee />
 
 
@@ -276,7 +270,7 @@ Let’s build the future together.
     
 
            {/* services marquee desktop*/}
-       <div className="md:block hidden">
+       <div className="lg:block hidden">
       <ServicesMarquee />
 
      

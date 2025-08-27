@@ -11,9 +11,9 @@ const Services = () => {
     <section className="relative w-full min-h-[100svh] lg:w-screen lg:h-screen py-12 lg:py-20 flex flex-col px-4 sm:px-6 lg:px-10">
         
       {/* heading */}
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between py-6 lg:py-10">
+      <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between py-6 lg:py-10">
         {/* title */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col items-center md:items-start gap-2">
           <div className="flex items-center gap-2">
             <span className="w-5 h-0.5 bg-black dark:bg-white"/>
             <p className="text-xs uppercase font-semibold text-black dark:text-white">
@@ -28,7 +28,7 @@ const Services = () => {
         {/* Cta */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:gap-10">
           <p className="text-black/80 dark:text-white/80">This is some of my services i offer to my clients</p>
-          <Button className="buttonPrimary w-fit">All services</Button>
+          <Button className="buttonPrimary w-fit hidden lg:block">All services</Button>
         </div>
       </div>
 
@@ -51,6 +51,8 @@ const Services = () => {
             </a>
           </div>
 
+
+
           {/* الكروت: 
               - موبايل/تابلت Grid 1-2 أعمدة
               - ديسكتوب ترجع Flex أفقي بنفس المقاس */}
@@ -59,7 +61,7 @@ const Services = () => {
             {/* service1 */}
             <BackgroundGradient>
               <div className="
-                w-full sm:w-[18rem] md:w-[19rem] lg:w-[20rem]
+                w-full sm:w-[18rem] md:w-[18rem] lg:w-[18rem]
                 h-64 sm:h-72 lg:h-[20rem]
                 p-6 sm:p-8 lg:p-10
                 hover:rounded-xl border-black dark:border-white
@@ -76,8 +78,9 @@ const Services = () => {
             </BackgroundGradient>
 
             {/* service2 */}
-            <div className="
-              w-full sm:w-[18rem] md:w-[19rem] lg:w-[20rem]
+            <div 
+            className="
+              w-[15.9rem] md:w-[18rem] lg:w-[18rem]
               h-64 sm:h-72 lg:h-[20rem]
               border-2 p-6 sm:p-8 lg:p-10 border-black hover:border-amber-600 dark:hover:border-amber-600 dark:border-white
             ">
@@ -92,8 +95,8 @@ const Services = () => {
             </div>
 
             {/* service3 */}
-            <div className="
-              w-full sm:w-[18rem] md:w-[19rem] lg:w-[20rem]
+            <div  className="
+              w-[15.9rem] md:w-[18rem] lg:w-[18rem]
               h-64 sm:h-72 lg:h-[20rem]
               border-2 p-6 sm:p-8 lg:p-10 border-black hover:border-amber-600 dark:hover:border-amber-600 dark:border-white
             ">
@@ -111,7 +114,7 @@ const Services = () => {
 
             {/* service4 */}
             <div className="
-              w-full sm:w-[18rem] md:w-[19rem] lg:w-[20rem]
+              w-[15.9rem] md:w-[18rem] lg:w-[18rem]
               h-64 sm:h-72 lg:h-[20rem]
               border-2 p-6 sm:p-8 lg:p-10 border-black hover:border-amber-600 dark:hover:border-amber-600 dark:border-white
             ">

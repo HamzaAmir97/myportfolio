@@ -300,15 +300,16 @@ export default function Home() {
        {/* <Aboutme/> */}
 
 
-       <ExperienceTimeline items={items} />
+       
     
    
      <HorizontalScroll/>
      {/* projects */}
      <PinnedSplitter/>
      <BrandIconsGrid/>
+     
      <HeroParallax products={products}  />
-
+     <ExperienceTimeline items={items} />
 
  
   
