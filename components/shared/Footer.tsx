@@ -8,7 +8,7 @@ const Footer = () => {
      <XIcon className='text-white h-10 w-10 rotate-10'/>
      <span className='h-0.5 w-full bg-gray-500 my-2'/>
 
-        <div className=" flex items-center justify-between">
+        <div className=" flex flex-col md:flex-row gap-5 items-center justify-between">
              
              <div className="flex items-center justify-between gap-10 cursor-pointer">
                  <span className='flex items-center gap-2 group'>
