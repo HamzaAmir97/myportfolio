@@ -2,6 +2,8 @@ import React from 'react'
 import { Button } from './ui/button'
 import { ArrowDown, ArrowRight, BotMessageSquare, Laptop2Icon, PaletteIcon, PhoneIcon, SmartphoneIcon,} from 'lucide-react'
 import Image from 'next/image'
+import { BackgroundGradient } from './ui/background-gradient'
+import { GlowingEffect } from './ui/glowing-effect'
 
 const Services = () => {
   return (
@@ -66,7 +68,9 @@ const Services = () => {
        </div>
 
               {/* service1 */}
-              <div className='w-[20rem] h-[20rem] border-2 p-10 bg-black dark:bg-black hover:bg-amber-600 dark:hover:bg-amber-600 border-black dark:border-white' >
+
+              <BackgroundGradient>
+              <div className='w-[20rem] h-[20rem]  p-10 hover:rounded-xl border-black dark:border-white' >
             
             <div className="flex flex-col items-start gap-2">
                 <Laptop2Icon className='w-10 h-15 text-white'/>
@@ -80,8 +84,11 @@ const Services = () => {
             </div>
 
               </div>
-
+              </BackgroundGradient>
+            
+            
               {/* service2 */}
+              <GlowingEffect/>
               <div className='w-[20rem] h-[20rem] border-2 p-10  border-black hover:border-amber-600  dark:hover:border-amber-600 dark:border-white' >
 
               <div className="flex flex-col items-start gap-2">
