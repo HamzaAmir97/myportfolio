@@ -10,6 +10,7 @@ import Image from "next/image";
 import { TECH, TechItem } from "@/constants/tech-icons";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { STEPS } from "@/constants/projects";
+import { Lens } from "./ui/lens";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -284,14 +285,17 @@ export default function PinnedDualStack() {
                   <h3 className="text-2xl md:text-3xl font-bold">{p.name}</h3>
                   <figure className="relative w-full rounded-xl border border-white/10 bg-neutral-900/40 overflow-hidden">
                     {/* صورة أصغر لتجنّب القص */}
-                    <div className="relative w-full h-[38vh] md:h-[45vh]">
+                   
+                    <Lens >
+                    <div className="relative w-full h-[38vh] md:h-[50vh]">
                       <Image
                         src={p.imageSrc}
                         alt={p.imageAlt ?? p.name}
                         fill
-                        className="object-contain"
+                        className="object-cover"
                       />
                     </div>
+                    </Lens>
                   </figure>
                   <p className="text-neutral-300">{p.description}</p>
                 </article>
@@ -402,17 +406,21 @@ export default function PinnedDualStack() {
         </div>
       </div>
 
+
+
       {/* =========================
           نسخة الموبايل (أفقي + تفاصيل ثابتة بأسفل)
           ========================= */}
       <div
         ref={mobileContainerRef}
-        className="block md:hidden relative w-screen h-[calc(100svh-4rem)] overflow-hidden"
+        className="block md:hidden relative w-full h-[calc(100svh-5rem)] overflow-hidden"
       >
+
+
         {/* المسار العلوي المتحرك أفقياً - يأخذ 62% من ارتفاع الكونتينر */}
         <div
           ref={mobileTrackRef}
-          className="absolute inset-x-0 top-0 h-[62%] flex will-change-transform"
+          className="absolute flex items-center justify-center  inset-x-0 top-0 h-[62%] w-[80%] will-change-transform"
         >
           {STEPS.map((p, i) => (
             <section
@@ -425,24 +433,57 @@ export default function PinnedDualStack() {
                 <h3 className="text-xl font-bold">{p.name}</h3>
                 <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
                 <figure className="relative w-full rounded-xl border border-white/10 bg-neutral-900/40 overflow-hidden">
-                  {/* صورة أصغر لتجنّب القص */}
+                  
+                 
+                  <Lens>
                   <div className="relative w-full h-[55%] min-h-[160px]">
                     <Image
                       src={p.imageSrc}
                       alt={p.imageAlt ?? p.name}
                       fill
-                      className="object-contain"
+                      className="object-cover"
                     />
                   </div>
+                  </Lens>
                 </figure>
                 <p className="text-neutral-300 text-sm">{p.description}</p>
+            
+
+              {/* CTAs */}
+                <div className="mt-4 flex justify-center items-center gap-2">
+                    {p.liveUrl && p.liveUrl !== "#" && (
+                      <a
+                        href={p.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className=" flex  items-center justify-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 text-sm font-semibold"
+                      >
+                        <Globe2 className="w-4 h-4" />
+                        <span>Visit</span>
+                      </a>
+                    )}
+                    {p.repoUrl && (
+                      <a
+                        href={p.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 px-3 py-2 rounded-full border border-white/15 bg-white/5 text-white text-sm"
+                      >
+                        <IconBrandGithub className="w-4 h-4" />
+                        <span>Repo</span>
+                      </a>
+                    )}
+                  </div>
+            
               </div>
+                
+                 
             </section>
           ))}
         </div>
 
         {/* التفاصيل السفلية الثابتة - تأخذ 38% من ارتفاع الكونتينر */}
-        <div className="absolute inset-x-0 bottom-0 h-[38%] z-10">
+        <div className="absolute inset-x-0 bottom-0 h-[40%] z-10">
           <div className="h-full relative px-4 pb-4">
             {STEPS.map((p, i) => (
               <aside
@@ -499,31 +540,7 @@ export default function PinnedDualStack() {
                     </ul>
                   </div>
 
-                  {/* CTAs */}
-                  <div className="mt-4 flex items-center gap-2">
-                    {p.liveUrl && p.liveUrl !== "#" && (
-                      <a
-                        href={p.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 text-sm font-semibold"
-                      >
-                        <Globe2 className="w-4 h-4" />
-                        <span>Visit</span>
-                      </a>
-                    )}
-                    {p.repoUrl && (
-                      <a
-                        href={p.repoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-full border border-white/15 bg-white/5 text-white text-sm"
-                      >
-                        <IconBrandGithub className="w-4 h-4" />
-                        <span>Repo</span>
-                      </a>
-                    )}
-                  </div>
+               
                 </div>
               </aside>
             ))}

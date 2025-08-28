@@ -16,18 +16,19 @@ interface GlowingEffectProps {
   movementDuration?: number;
   borderWidth?: number;
 }
+
 const GlowingEffect = memo(
   ({
-    blur = 0,
+    blur = 8,
     inactiveZone = 0.7,
     proximity = 0,
-    spread = 20,
+    spread = 28,
     variant = "default",
-    glow = false,
+    glow = true,
     className,
-    movementDuration = 2,
+    movementDuration = 1.2,
     borderWidth = 1,
-    disabled = true,
+    disabled = false, // شغّال افتراضياً
   }: GlowingEffectProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const lastPosition = useRef({ x: 0, y: 0 });
@@ -42,16 +43,12 @@ const GlowingEffect = memo(
         }
 
         animationFrameRef.current = requestAnimationFrame(() => {
-          const element = containerRef.current;
-          if (!element) return;
-
+          const element = containerRef.current!;
           const { left, top, width, height } = element.getBoundingClientRect();
+
           const mouseX = e?.x ?? lastPosition.current.x;
           const mouseY = e?.y ?? lastPosition.current.y;
-
-          if (e) {
-            lastPosition.current = { x: mouseX, y: mouseY };
-          }
+          if (e) lastPosition.current = { x: mouseX, y: mouseY };
 
           const center = [left + width * 0.5, top + height * 0.5];
           const distanceFromCenter = Math.hypot(
@@ -72,12 +69,11 @@ const GlowingEffect = memo(
             mouseY < top + height + proximity;
 
           element.style.setProperty("--active", isActive ? "1" : "0");
-
           if (!isActive) return;
 
           const currentAngle =
             parseFloat(element.style.getPropertyValue("--start")) || 0;
-          let targetAngle =
+          const targetAngle =
             (180 * Math.atan2(mouseY - center[1], mouseX - center[0])) /
               Math.PI +
             90;
@@ -88,9 +84,7 @@ const GlowingEffect = memo(
           animate(currentAngle, newAngle, {
             duration: movementDuration,
             ease: [0.16, 1, 0.3, 1],
-            onUpdate: (value) => {
-              element.style.setProperty("--start", String(value));
-            },
+            onUpdate: (v) => element.style.setProperty("--start", String(v)),
           });
         });
       },
@@ -99,7 +93,6 @@ const GlowingEffect = memo(
 
     useEffect(() => {
       if (disabled) return;
-
       const handleScroll = () => handleMove();
       const handlePointerMove = (e: PointerEvent) => handleMove(e);
 
@@ -109,9 +102,7 @@ const GlowingEffect = memo(
       });
 
       return () => {
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current);
-        }
+        if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
         window.removeEventListener("scroll", handleScroll);
         document.body.removeEventListener("pointermove", handlePointerMove);
       };
@@ -119,14 +110,16 @@ const GlowingEffect = memo(
 
     return (
       <>
+        {/* إطار بسيط عند الإيقاف */}
         <div
           className={cn(
             "pointer-events-none absolute -inset-px hidden rounded-[inherit] border opacity-0 transition-opacity",
             glow && "opacity-100",
-            variant === "white" && "border-white",
+            variant === "white" && "border-white/60",
             disabled && "!block"
           )}
         />
+        {/* طبقة التوهّج */}
         <div
           ref={containerRef}
           style={
@@ -137,31 +130,33 @@ const GlowingEffect = memo(
               "--active": "0",
               "--glowingeffect-border-width": `${borderWidth}px`,
               "--repeating-conic-gradient-times": "5",
+              // برتقالي بالكامل
               "--gradient":
                 variant === "white"
                   ? `repeating-conic-gradient(
-                  from 236.84deg at 50% 50%,
-                  var(--black),
-                  var(--black) calc(25% / var(--repeating-conic-gradient-times))
-                )`
-                  : `radial-gradient(circle, #dd7bbb 10%, #dd7bbb00 20%),
-                radial-gradient(circle at 40% 40%, #d79f1e 5%, #d79f1e00 15%),
-                radial-gradient(circle at 60% 60%, #5a922c 10%, #5a922c00 20%), 
-                radial-gradient(circle at 40% 60%, #4c7894 10%, #4c789400 20%),
+                      from 236.84deg at 50% 50%,
+                      #000,
+                      #000 calc(25% / var(--repeating-conic-gradient-times))
+                    )`
+                  : `
+                radial-gradient(circle at 50% 50%, #ff8c00 10%, #ff8c0000 22%),
+                radial-gradient(circle at 30% 40%, #ffa62b 6%,  #ffa62b00 16%),
+                radial-gradient(circle at 70% 60%, #ff7a18 10%, #ff7a1800 22%),
+                radial-gradient(circle at 40% 65%, #ffb347 8%, #ffb34700 20%),
                 repeating-conic-gradient(
                   from 236.84deg at 50% 50%,
-                  #dd7bbb 0%,
-                  #d79f1e calc(25% / var(--repeating-conic-gradient-times)),
-                  #5a922c calc(50% / var(--repeating-conic-gradient-times)), 
-                  #4c7894 calc(75% / var(--repeating-conic-gradient-times)),
-                  #dd7bbb calc(100% / var(--repeating-conic-gradient-times))
+                  #ff7a18 0%,
+                  #ffa62b calc(25% / var(--repeating-conic-gradient-times)),
+                  #ffb347 calc(50% / var(--repeating-conic-gradient-times)),
+                  #ffd27f calc(75% / var(--repeating-conic-gradient-times)),
+                  #ff7a18 calc(100% / var(--repeating-conic-gradient-times))
                 )`,
             } as React.CSSProperties
           }
           className={cn(
             "pointer-events-none absolute inset-0 rounded-[inherit] opacity-100 transition-opacity",
             glow && "opacity-100",
-            blur > 0 && "blur-[var(--blur)] ",
+            blur > 0 && "blur-[var(--blur)]",
             className,
             disabled && "!hidden"
           )}

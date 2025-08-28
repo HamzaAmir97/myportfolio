@@ -88,7 +88,7 @@ const Services = () => {
             
             
               {/* service2 */}
-              <GlowingEffect/>
+             
               <div className='w-[20rem] h-[20rem] border-2 p-10  border-black hover:border-amber-600  dark:hover:border-amber-600 dark:border-white' >
 
               <div className="flex flex-col items-start gap-2">
