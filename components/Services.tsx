@@ -54,7 +54,7 @@ const Services = () => {
      <span className='w-0.5 h-15 bg-black dark:bg-black '/>
           
          
-          
+            <a href="#skills">
                <Button className='w-15 h-15 bg-black dark:bg-black  rounded-full 
                cursor-pointer hover:scale-110 
                hover:shadow-xl
@@ -62,7 +62,7 @@ const Services = () => {
                hover:bg-white dark:hover:bg-black 
                hover:text-black dark:hover:text-white 
                transition-all duration-300 ease-in-out animate-bounce'><ArrowDown/></Button>
-         
+         </a>
        </div>
 
               {/* service1 */}

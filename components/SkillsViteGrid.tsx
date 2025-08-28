@@ -118,7 +118,7 @@ export default function SkillsWall({
   });
 
   return (
-    <section className="relative w-screen bg-[#0b0b0b] text-white overflow-hidden py-16 sm:py-20">
+    <section id="skills" className="relative w-screen bg-[#0b0b0b] text-white overflow-hidden py-16 sm:py-20">
       <div className="relative mx-auto max-w-7xl px-6">
         <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
           {title}
