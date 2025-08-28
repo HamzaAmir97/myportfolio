@@ -7,6 +7,11 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { Globe2 } from "lucide-react";
 import { IconBrandGithub } from "@tabler/icons-react";
 import Image from "next/image";
+import { TECH, TechItem } from "@/constants/tech-icons";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+
+// ✅ أيقوناتك الحقيقية
+
 gsap.registerPlugin(ScrollTrigger);
 
 /** Types */
@@ -22,7 +27,7 @@ type Project = {
   features: string[];
 };
 
-/** Demo data */
+/** Demo data (بدّلها لاحقًا بمشاريعك الفعلية) */
 const STEPS: Project[] = [
   {
     name: "Nova Analytics",
@@ -33,10 +38,10 @@ const STEPS: Project[] = [
     liveUrl: "#",
     repoUrl: "#",
     techs: [
-      { name: "Next.js", iconClass: "devicon-nextjs-original" },
-      { name: "TypeScript", iconClass: "devicon-typescript-plain" },
-      { name: "Tailwind", iconClass: "devicon-tailwindcss-plain" },
-      { name: "PostgreSQL", iconClass: "devicon-postgresql-plain" },
+      { name: "Next.js" },
+      { name: "TypeScript" },
+      { name: "Tailwind CSS" },
+      { name: "PostgreSQL" },
     ],
     features: [
       "Live KPIs & drill-down charts",
@@ -54,10 +59,10 @@ const STEPS: Project[] = [
     liveUrl: "#",
     repoUrl: "#",
     techs: [
-      { name: "React", iconClass: "devicon-react-original" },
-      { name: "Node.js", iconClass: "devicon-nodejs-plain" },
-      { name: "MongoDB", iconClass: "devicon-mongodb-plain" },
-      { name: "GSAP", iconClass: "devicon-javascript-plain" },
+      { name: "React" },
+      { name: "Node.js" },
+      { name: "MongoDB" },
+      { name: "GSAP" },
     ],
     features: [
       "1-click checkout & wallet support",
@@ -75,10 +80,9 @@ const STEPS: Project[] = [
     liveUrl: "#",
     repoUrl: "#",
     techs: [
-      { name: "Next.js", iconClass: "devicon-nextjs-original" },
-      { name: "NestJS", iconClass: "devicon-nestjs-plain" },
-      { name: "PostgreSQL", iconClass: "devicon-postgresql-plain" },
-      { name: "Redis" },
+      { name: "Next.js" },
+      { name: "PostgreSQL" },
+      { name: "Redis" }, // fallback لو ما له أيقونة
     ],
     features: [
       "Kanban pipeline with drag & drop",
@@ -96,10 +100,10 @@ const STEPS: Project[] = [
     liveUrl: "#",
     repoUrl: "#",
     techs: [
-      { name: "React Native" },
-      { name: "TypeScript", iconClass: "devicon-typescript-plain" },
-      { name: "Expo" },
-      { name: "SQLite" },
+      { name: "React Native" }, // fallback
+      { name: "TypeScript" },
+      { name: "Expo" }, // fallback
+      { name: "SQLite" }, // fallback
     ],
     features: [
       "Offline-first data sync",
@@ -117,10 +121,10 @@ const STEPS: Project[] = [
     liveUrl: "#",
     repoUrl: "#",
     techs: [
-      { name: "Python", iconClass: "devicon-python-plain" },
+      { name: "Python" },
       { name: "OpenAI" },
-      { name: "LangChain" },
-      { name: "FastAPI" },
+      { name: "LangChain" }, // fallback
+      { name: "FastAPI" },   // fallback
     ],
     features: [
       "Chat with tools & memory",
@@ -131,9 +135,49 @@ const STEPS: Project[] = [
   },
 ];
 
+/* -----------------------------
+ * ربط أسماء التقنيات بالأيقونات الفعلية من TECH
+ * ----------------------------- */
+const ALL_TECH: TechItem[] = Object.values(TECH).flat();
+const TECH_BY_LABEL = new Map<string, TechItem>(
+  ALL_TECH.map((t) => [t.label.toLowerCase(), t])
+);
+const LABEL_ALIASES: Record<string, string> = {
+  "nextjs": "Next.js",
+  "next.js": "Next.js",
+  "reactjs": "React",
+  "node": "Node.js",
+  "expressjs": "Express",
+  "express.js": "Express",
+  "postgres": "PostgreSQL",
+  "postgresql": "PostgreSQL",
+  "js": "JavaScript",
+  "ts": "TypeScript",
+  "tailwindcss": "Tailwind CSS",
+  "tailwind": "Tailwind CSS",
+};
+function getTechItemByName(name: string): TechItem | null {
+  const n = name.trim().toLowerCase();
+  const aliased = LABEL_ALIASES[n] ?? name;
+  return (
+    TECH_BY_LABEL.get(aliased.toLowerCase()) ||
+    TECH_BY_LABEL.get(name.toLowerCase()) ||
+    null
+  );
+}
 
-// Tech circle with real images
-function TechCircle({ src, alt, name }: { src: string; alt: string; name: string }) {
+/* -----------------------------
+ * دائرة الأيقونة الحقيقية
+ * ----------------------------- */
+function TechCircle({
+  src,
+  alt,
+  name,
+}: {
+  src: string;
+  alt: string;
+  name: string;
+}) {
   return (
     <span
       title={name}
@@ -144,77 +188,57 @@ function TechCircle({ src, alt, name }: { src: string; alt: string; name: string
         bg-white dark:bg-transparent
         shadow-sm select-none overflow-hidden
         cursor-pointer
-        hover:scale-108 transition-all
-        hover:shadow-lg hover:shadow-amber-700
+        hover:scale-105 transition-all
         group
-
       "
     >
-      <Image src={src} alt={alt} width={60} height={60} className="
-      grayscale opacity-70
-      transition duration-300 ease-out
-      group-hover:grayscale-0 group-hover:opacity-100
-      
-      " />
-    </span>
-  );
-}
-
-/** Circular tech badge */
-function TechBadge({ tech }: { tech: Tech }) {
-  return (
-    <span
-      data-tech-icon
-      title={tech.name}
-      aria-label={tech.name}
-      className="
-        inline-flex items-center justify-center
-        h-11 w-11 rounded-full
-        border border-white/15 bg-white/5
-        text-[10px] font-medium text-white/90
-        backdrop-blur-sm shadow-sm select-none
-      "
-    >
-      {tech.iconClass ? (
-        <i className={`${tech.iconClass} text-xl`} aria-hidden="true" />
-      ) : (
-        tech.name
-      )}
+      <Image
+        src={src}
+        alt={alt}
+        width={60}
+        height={60}
+        className="
+          object-contain
+          grayscale opacity-70
+          transition duration-300 ease-out
+          group-hover:grayscale-0 group-hover:opacity-100
+        "
+      />
     </span>
   );
 }
 
 /**
- * PinnedDualStack
- * - الهيدر منفصل.
- * - التثبيت يبدأ مع إزاحة 8px لتجنّب قصّ الحواف/الشادو.
- * - الميزات في الكارد الأيمن.
+ * المطلوب النهائي:
+ * - اليسار: Scroll-Up (track عمودي يتحرك لأعلى)، كل شريحة بارتفاع الشاشة المخصصة.
+ * - اليمين: Fade بين الشرائح + أنيميشن الميزات.
  */
 export default function PinnedDualStack() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const pinWrapRef = useRef<HTMLDivElement | null>(null);
 
+  // ✅ مسار اليسار (track) لنجعله يتحرك عموديًا
+  const leftTrackRef = useRef<HTMLDivElement | null>(null);
+
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const pinWrap = pinWrapRef.current!;
-      const leftSlides = gsap.utils.toArray<HTMLElement>("[data-left-slide]");
+      const leftTrack = leftTrackRef.current!;
       const rightSlides = gsap.utils.toArray<HTMLElement>("[data-right-slide]");
+      const total = rightSlides.length;
 
-      gsap.set(leftSlides, { autoAlpha: 0 });
+      // يمين: أول شريحة ظاهرة والباقي مخفية (fade)
       gsap.set(rightSlides, { autoAlpha: 0 });
-      if (leftSlides[0]) gsap.set(leftSlides[0], { autoAlpha: 1 });
       if (rightSlides[0]) gsap.set(rightSlides[0], { autoAlpha: 1 });
 
-      const total = leftSlides.length;
-      const endDistance = () => (total - 1) * window.innerHeight;
-
+      // ScrollTrigger مثبت
+      const stepDur = 1; // مدة كل خطوة على التايملاين
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: pinWrap,
-          // ✅ ابدأ التثبيت مع إزاحة بسيطة لتظهر الحواف كاملة
           start: "top top+=10",
-          end: () => `+=${endDistance()}`,
+          end: () => `+=${(total - 1) * window.innerHeight}`,
           pin: true,
           scrub: 1,
           anticipatePin: 1,
@@ -223,19 +247,34 @@ export default function PinnedDualStack() {
         },
       });
 
+      // اليسار: حرّك الـ track لأعلى بمقدار 100% لكل شريحة
+      // كل child في leftTrack ارتفاعه يساوي ارتفاع الحاوية، لذا yPercent يترجم بين الشرائح
+      tl.to(
+        leftTrack,
+        {
+          yPercent: -100 * (total - 1),
+          duration: stepDur * (total - 1),
+          ease: "none",
+        },
+        0
+      );
+
+      // اليمين: فِيد + ميزات عند بداية كل خطوة
       for (let i = 0; i < total - 1; i++) {
-        tl.to(leftSlides[i], { autoAlpha: 0, duration: 0.25 }, "+=0.25");
-        tl.to(leftSlides[i + 1], { autoAlpha: 1, duration: 0.25 }, "<");
+        const at = i * stepDur;
 
-        tl.to(rightSlides[i], { autoAlpha: 0, duration: 0.25 }, "<");
-        tl.to(rightSlides[i + 1], { autoAlpha: 1, duration: 0.25 }, "<0.05");
+        tl.to(rightSlides[i], { autoAlpha: 0, duration: 0.25 }, at + 0.001);
+        tl.to(rightSlides[i + 1], { autoAlpha: 1, duration: 0.25 }, at + 0.05);
 
-        // Animate features on the right
+        const nextFeatures =
+          (rightSlides[i + 1] as HTMLElement).querySelectorAll(
+            "[data-feature-item]"
+          );
         tl.fromTo(
-          (rightSlides[i + 1] as HTMLElement).querySelectorAll("[data-feature-item]"),
+          nextFeatures,
           { y: 6, autoAlpha: 0 },
           { y: 0, autoAlpha: 1, stagger: 0.05, duration: 0.2 },
-          "<"
+          at + 0.08
         );
       }
 
@@ -262,49 +301,53 @@ export default function PinnedDualStack() {
 
       {/* Pinned block */}
       <div ref={pinWrapRef} className="w-screen">
-        {/* ✅ gutter علوي بسيط لمنع أي إحساس بالقص */}
+        {/* grid والمسامير */}
         <div className="grid grid-cols-1 md:grid-cols-2 w-screen h-screen px-3 md:px-6 pt-3 md:pt-4 gap-x-6">
-          {/* LEFT */}
+          {/* LEFT (Pinned, Scroll-Up Track) */}
           <div className="relative h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1rem)] overflow-hidden">
-            {STEPS.map((p, i) => (
-              <article
-                key={p.name + i}
-                data-left-slide
-                className="absolute inset-0 flex flex-col gap-4 p-4"
-              >
-                <h3 className="text-2xl md:text-3xl font-bold">{p.name}</h3>
-                <figure className="relative w-full rounded-xl border border-white/10 bg-neutral-900/40 overflow-hidden">
-                  <div className="w-full aspect-[16/10] md:aspect-[4/3]">
-                    <img
-                      src={p.imageSrc}
-                      alt={p.imageAlt ?? p.name}
-                      className="w-full h-full object-cover"
-                    />
+            {/* المسار العمودي: كل Article بارتفاع الحاوية */}
+            <div
+              ref={leftTrackRef}
+              className="absolute inset-0 flex flex-col will-change-transform"
+            >
+              {STEPS.map((p, i) => (
+                <article
+                  key={p.name + i}
+                  className="h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1.2rem)] flex flex-col gap-4 p-4"
+                >
+                  <h3 className="text-2xl md:text-3xl font-bold">{p.name}</h3>
+                  <figure className="relative w-full rounded-xl border border-white/10 bg-neutral-900/40 overflow-hidden">
+                    <div className="w-full aspect-[4/10] md:aspect-[4/3]">
+                      <img
+                        src={p.imageSrc}
+                        alt={p.imageAlt ?? p.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </figure>
+                  <p className="text-neutral-300">{p.description}</p>
+                  <div className="flex gap-3">
+                    <a
+                      href={p.liveUrl}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 font-semibold"
+                    >
+                      <Globe2 />
+                      <span>Visit Project</span>
+                    </a>
+                    <a
+                      href={p.repoUrl}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/5 text-white"
+                    >
+                      <IconBrandGithub />
+                      <span>GitHub Repo</span>
+                    </a>
                   </div>
-                </figure>
-                <p className="text-neutral-300">{p.description}</p>
-                <div className="flex gap-3">
-                  <a
-                    href={p.liveUrl}
-                    className=" flex gap-1  px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 font-semibold"
-                  >
-                     <Globe2/>
-                    <p>Visit Project</p>  
-
-                  </a>
-                  <a
-                    href={p.repoUrl}
-                    className=" flex gap-1 px-4 py-2 rounded-full border border-white/15 bg-white/5 text-white"
-                  >
-                    <IconBrandGithub/>
-                    GitHub Repo
-                  </a>
-                </div>
-              </article>
-            ))}
+                </article>
+              ))}
+            </div>
           </div>
 
-          {/* RIGHT (Tech + Features) */}
+          {/* RIGHT (Pinned, Fade + features + real icons) */}
           <div className="relative hidden md:block h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1rem)] overflow-visible">
             {STEPS.map((p, i) => (
               <aside
@@ -318,11 +361,45 @@ export default function PinnedDualStack() {
                     <h4 className="text-xs uppercase text-neutral-400">
                       {i + 1} / {STEPS.length}
                     </h4>
-                    <h3 className="mt-2 text-2xl md:text-4xl font-bold">{p.name}</h3>
+                    <h3 className="mt-2 text-2xl md:text-4xl font-bold">
+                      {p.name}
+                    </h3>
+
+                    {/* تقنيات بأيقونات حقيقية */}
                     <div className="mt-5 flex flex-wrap gap-3">
-                      {p.techs.map((t) => (
-                        <TechBadge key={`${p.name}-${t.name}`} tech={t} />
-                      ))}
+                      {p.techs.map((t) => {
+                        const item = getTechItemByName(t.name);
+                        return item ? (
+                        
+                        <Tooltip>
+                          <TooltipTrigger>  
+                          <TechCircle
+                            key={`${p.name}-${item.key}`}
+                            src={item.src}
+                            alt={item.alt}
+                            name={item.label}
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          {item.label}
+                        </TooltipContent>
+                        </Tooltip>
+                        ) : (
+                          <span
+                            key={`${p.name}-${t.name}`}
+                            title={t.name}
+                            className="
+                              inline-flex items-center justify-center
+                              h-11 w-11 md:h-20 md:w-20 rounded-full
+                              border border-white/20 bg-white/5
+                              text-[10px] font-medium text-white/80
+                              select-none
+                            "
+                          >
+                            {t.name}
+                          </span>
+                        );
+                      })}
                     </div>
 
                     {/* Features */}

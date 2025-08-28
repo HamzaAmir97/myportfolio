@@ -20,6 +20,8 @@ import { ExperienceItem, StatItem } from "@/types";
 import { ClipboardList, Globe2, Settings, Users } from "lucide-react";
 import StatsStrip from "@/components/StatsStrip";
 import ClientFeedbackCarousel from "@/components/ClientFeedbackCarousel";
+import SkillsViteGrid from "@/components/SkillsViteGrid";
+import SkillsWall from "@/components/SkillsViteGrid";
 
 
 
@@ -282,7 +284,8 @@ export default function Home() {
      <main className="overflow-x-hidden">
        <Hero/>
       <Services/>
-       <Aboutme/>
+      <SkillsWall rows={7} cols={12} />
+       {/* <Aboutme/> */}
        <ExperienceTimeline items={items} />
     
    

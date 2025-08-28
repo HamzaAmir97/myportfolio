@@ -69,7 +69,7 @@ const ILLUSTRATIONS: Record<StackSectionKey, { src: string; alt: string }> = {
   frontend: { src: "/illustrations/frontend.svg", alt: "Frontend UI illustration" },
   backend: { src: "/illustrations/backend.svg", alt: "Backend services illustration" },
   mobile: { src: "/illustrations/mobile.svg", alt: "Mobile illustration" },
-  ai: { src: "/illustrations/ai.svg", alt: "AI brain network illustration" },
+  ai: { src: "/illustrations/Ai-powered marketing tools abstract.gif", alt: "AI brain network illustration" },
   testing: { src: "/illustrations/testing.svg", alt: "Testing pipelines illustration" },
 };
 
@@ -198,6 +198,8 @@ export default function Aboutme() {
           <div className="relative w-full rounded-xl overflow-hidden">
             <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
             <div className="relative flex items-center justify-center w-full h-[200px] sm:h-[240px] md:h-[260px] lg:h-[30rem]">
+             
+             
               <Image src={illu.src} alt={illu.alt} fill sizes="(max-width:768px)90vw,40vw" className="object-contain p-4" />
             </div>
           </div>
