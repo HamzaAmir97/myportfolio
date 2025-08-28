@@ -284,8 +284,22 @@ export default function Home() {
      <main className="overflow-x-hidden">
        <Hero/>
       <Services/>
+  
+
+
+ {/* desktop */}
+       <div  className="hidden md:block">
       <SkillsWall rows={7} cols={12} />
+        </div> 
+
+         {/* mobile */}
+       <div  className="block md:hidden">
+      <SkillsWall rows={7} cols={8} />
+        </div>    
+
        {/* <Aboutme/> */}
+
+
        <ExperienceTimeline items={items} />
     
    

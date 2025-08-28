@@ -34,6 +34,7 @@ export type TechItem = {
       { key: "css", label: "CSS", alt: "CSS", src: "/skills/css3.png",             href: "https://developer.mozilla.org/docs/Web/CSS" },
       { key: "bootstrap", label: "Bootstrap", alt: "Bootstrap", src: "/skills/bootstrap.png",             href: "https://getbootstrap.com/" },
       { key: "shadcn", label: "Shadcn", alt: "Shadcn", src: "/skills/shadcn.png",             href: "https://shadcn.com/" },
+      { key: "threejs", label: "Three.js", alt: "Three.js", src: "/skills/three.png",             href: "https://threejs.org/" },
     ],
   
     backend: [
@@ -45,6 +46,8 @@ export type TechItem = {
       { key: "prisma",    label: "Prisma",     alt: "Prisma",     src: "/skills/prisma-icon-sm.png", href: "https://www.prisma.io/" },
       { key: "postgresql",label: "PostgreSQL", alt: "PostgreSQL", src: "/skills/postSql.png",      href: "https://www.postgresql.org/" },
       { key: "mongodb",   label: "MongoDB",    alt: "MongoDB",    src: "/skills/mongodb.png",      href: "https://www.mongodb.com/" },
+      { key: "tanstack ",   label: "TanStack",    alt: "TanStack",   src: "/skills/tanstack.png",   href: "https://supabase.com/" },
+      { key: "trpc ",   label: "TRPC",    alt: "TRPC",   src: "/skills/rtpc.png",   href: "https://supabase.com/" },
     ],
   
     ai: [
