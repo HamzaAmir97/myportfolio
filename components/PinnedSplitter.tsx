@@ -9,131 +9,13 @@ import { IconBrandGithub } from "@tabler/icons-react";
 import Image from "next/image";
 import { TECH, TechItem } from "@/constants/tech-icons";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { STEPS } from "@/constants/projects";
 
 // ✅ أيقوناتك الحقيقية
 
 gsap.registerPlugin(ScrollTrigger);
 
-/** Types */
-type Tech = { name: string; iconClass?: string };
-type Project = {
-  name: string;
-  imageSrc: string;
-  imageAlt?: string;
-  description: string;
-  liveUrl?: string;
-  repoUrl?: string;
-  techs: Tech[];
-  features: string[];
-};
 
-/** Demo data (بدّلها لاحقًا بمشاريعك الفعلية) */
-const STEPS: Project[] = [
-  {
-    name: "Nova Analytics",
-    imageSrc: "/projects/nova-analytics.jpg",
-    imageAlt: "Dashboard screens for Nova Analytics",
-    description:
-      "Real-time analytics with custom dashboards, role-based access, and blazing-fast queries.",
-    liveUrl: "#",
-    repoUrl: "#",
-    techs: [
-      { name: "Next.js" },
-      { name: "TypeScript" },
-      { name: "Tailwind CSS" },
-      { name: "PostgreSQL" },
-    ],
-    features: [
-      "Live KPIs & drill-down charts",
-      "Role-based dashboards & sharing",
-      "Query caching for sub-100ms responses",
-      "Export to CSV/XLSX & scheduled reports",
-    ],
-  },
-  {
-    name: "Relay Commerce",
-    imageSrc: "/projects/relay-commerce.jpg",
-    imageAlt: "E-commerce storefront mockups",
-    description:
-      "Headless storefront with lightning-fast checkout, search, and personalized recommendations.",
-    liveUrl: "#",
-    repoUrl: "#",
-    techs: [
-      { name: "React" },
-      { name: "Node.js" },
-      { name: "MongoDB" },
-      { name: "GSAP" },
-    ],
-    features: [
-      "1-click checkout & wallet support",
-      "AI product search & facets",
-      "Personalized recommendations",
-      "Order tracking & returns portal",
-    ],
-  },
-  {
-    name: "Atlas CRM",
-    imageSrc: "/projects/atlas-crm.jpg",
-    imageAlt: "CRM UI with pipeline and contacts",
-    description:
-      "Unified pipeline, contacts, and automation—built for teams that move fast and close faster.",
-    liveUrl: "#",
-    repoUrl: "#",
-    techs: [
-      { name: "Next.js" },
-      { name: "PostgreSQL" },
-      { name: "Redis" }, // fallback لو ما له أيقونة
-    ],
-    features: [
-      "Kanban pipeline with drag & drop",
-      "Email sync & activity timeline",
-      "Tasks, reminders, and SLAs",
-      "Advanced filters & saved views",
-    ],
-  },
-  {
-    name: "Pulse Mobile",
-    imageSrc: "/projects/pulse-mobile.jpg",
-    imageAlt: "Mobile app screens",
-    description:
-      "Cross-platform app with offline-first sync, push notifications, and polished animations.",
-    liveUrl: "#",
-    repoUrl: "#",
-    techs: [
-      { name: "React Native" }, // fallback
-      { name: "TypeScript" },
-      { name: "Expo" }, // fallback
-      { name: "SQLite" }, // fallback
-    ],
-    features: [
-      "Offline-first data sync",
-      "Push notifications & deep links",
-      "Native gestures and transitions",
-      "Theming & accessibility support",
-    ],
-  },
-  {
-    name: "Echo AI",
-    imageSrc: "/projects/echo-ai.jpg",
-    imageAlt: "AI assistant interface",
-    description:
-      "LLM-powered assistant that drafts content, answers questions, and automates routine tasks.",
-    liveUrl: "#",
-    repoUrl: "#",
-    techs: [
-      { name: "Python" },
-      { name: "OpenAI" },
-      { name: "LangChain" }, // fallback
-      { name: "FastAPI" },   // fallback
-    ],
-    features: [
-      "Chat with tools & memory",
-      "Embeddings search over docs",
-      "Guardrails, evals, and telemetry",
-      "Multi-tenant API with rate limits",
-    ],
-  },
-];
 
 /* -----------------------------
  * ربط أسماء التقنيات بالأيقونات الفعلية من TECH
@@ -209,7 +91,7 @@ function TechCircle({
 }
 
 /**
- * المطلوب النهائي:
+
  * - اليسار: Scroll-Up (track عمودي يتحرك لأعلى)، كل شريحة بارتفاع الشاشة المخصصة.
  * - اليمين: Fade بين الشرائح + أنيميشن الميزات.
  */
@@ -299,10 +181,15 @@ export default function PinnedDualStack() {
         </h2>
       </div>
 
+
+
       {/* Pinned block */}
       <div ref={pinWrapRef} className="w-screen">
+      
+      
         {/* grid والمسامير */}
         <div className="grid grid-cols-1 md:grid-cols-2 w-screen h-screen px-3 md:px-6 pt-3 md:pt-4 gap-x-6">
+        
           {/* LEFT (Pinned, Scroll-Up Track) */}
           <div className="relative h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1rem)] overflow-hidden">
             {/* المسار العمودي: كل Article بارتفاع الحاوية */}
@@ -326,29 +213,15 @@ export default function PinnedDualStack() {
                     </div>
                   </figure>
                   <p className="text-neutral-300">{p.description}</p>
-                  <div className="flex gap-3">
-                    <a
-                      href={p.liveUrl}
-                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 font-semibold"
-                    >
-                      <Globe2 />
-                      <span>Visit Project</span>
-                    </a>
-                    <a
-                      href={p.repoUrl}
-                      className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/5 text-white"
-                    >
-                      <IconBrandGithub />
-                      <span>GitHub Repo</span>
-                    </a>
-                  </div>
+               
+                 
                 </article>
               ))}
             </div>
           </div>
 
           {/* RIGHT (Pinned, Fade + features + real icons) */}
-          <div className="relative hidden md:block h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1rem)] overflow-visible">
+          <div className="relative hidden md:block h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1rem)] overflow-visible py-10">
             {STEPS.map((p, i) => (
               <aside
                 key={p.name + i}
@@ -421,9 +294,35 @@ export default function PinnedDualStack() {
                       </ul>
                     </div>
                   </div>
+                
+                {/* Cta buttons */}
+                  <div className="flex items-center justify-center gap-3 py-5">
+                    <a
+                      href={p.liveUrl}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 font-semibold"
+                    >
+                      <Globe2 />
+                      <span>Visit Project</span>
+                    </a>
+                    <a
+                      href={p.repoUrl}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/5 text-white"
+                    >
+                      <IconBrandGithub />
+                      <span>GitHub Repo</span>
+                    </a>
+                  </div>
                 </div>
+
+               
               </aside>
-            ))}
+          
+             
+              
+          ))}
+         
+         
+         
           </div>
         </div>
       </div>

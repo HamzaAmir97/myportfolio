@@ -304,6 +304,7 @@ export default function Home() {
     
    
      <HorizontalScroll/>
+     {/* projects */}
      <PinnedSplitter/>
      <BrandIconsGrid/>
      <HeroParallax products={products}  />

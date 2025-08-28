@@ -54,7 +54,7 @@ function IconTile({
         flex items-center justify-center
 
         /* slow, buttery hover in/out */
-        transition
+     
         duration-700
         ease-[cubic-bezier(0.22,1,0.36,1)]
         hover:border-white/25
@@ -67,6 +67,7 @@ function IconTile({
         after:transition after:duration-800 after:ease-[cubic-bezier(0.22,1,0.36,1)]
         after:bg-[radial-gradient(ellipse_at_center,var(--glow-strong)_0%,transparent_68%)]
         after:-z-10
+        hover:scale-105 transition-all 
       "
     >
       <Image
