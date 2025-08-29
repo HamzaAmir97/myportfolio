@@ -126,7 +126,7 @@ export const STEPS: Project[] = [
       techs: [
         { name: "Next.js" },
         { name: "TypeScript" },
-        { name: "Tailwind CSS" },
+        { name: "Tailwind" },
         { name: "Convex" },
         { name: "Clerk" },
         { name: "Google Generative AI" },
