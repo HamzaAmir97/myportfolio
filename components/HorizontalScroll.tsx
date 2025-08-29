@@ -141,13 +141,17 @@ export default function HorizontalScroll() {
             {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
               
+
+              {/* step 1 */}
                 <div>
                   
-                  <Image src="/illustrations/analyze.png"
-                   alt="analyze" 
-                   width={600} height={500} 
+                  <Image src="/illustrationsGifs/analyze.gif"
+                  unoptimized
+                  alt="analyze" 
+                   width={300} height={200} 
                    className="w-full h-full object-cover"
-                   />
+                   loading="lazy" 
+                  />
 
 
                   
@@ -181,11 +185,13 @@ export default function HorizontalScroll() {
             <div className="flex justify-center items-center p-8 md:p-12">
               
                 <div>
-                  <Image src="/illustrations/design.png"
+                  <Image src="/illustrationsGifs/design.gif"
+                   unoptimized
                    alt="design" 
                    width={600} height={500} 
                    className="w-full h-full object-cover"
-                   />
+                   loading="lazy" 
+                  />
                   
                       
                 </div>
@@ -217,11 +223,13 @@ export default function HorizontalScroll() {
             <div className="flex justify-center items-center p-8 md:p-12">
               
             <div>
-                  <Image src="/illustrations/coding.png"
+                  <Image src="/illustrationsGifs/coding.gif"
+                   unoptimized
                    alt="design" 
                    width={600} height={500} 
                    className="w-full h-full object-cover"
-                   />
+                   loading="lazy" 
+                  />
                   
                       
                 </div>
@@ -251,11 +259,13 @@ export default function HorizontalScroll() {
             {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
             <div>
-                  <Image src="/illustrations/testing.png"
-                   alt="testing" 
+                  <Image src="/illustrationsGifs/testing.gif"
+                unoptimized
+                alt="testing" 
                    width={600} height={500} 
                    className="w-full h-full object-cover"
-                   />
+                   loading="lazy" 
+                  />
                   
                       
                 </div>
@@ -284,11 +294,13 @@ export default function HorizontalScroll() {
             {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
             <div>
-                  <Image src="/illustrations/deoply.png"
-                   alt="deploy" 
+                  <Image src="/illustrationsGifs/deoply.gif"
+                  unoptimized
+                  alt="deploy" 
                    width={600} height={500} 
                    className="w-full h-full object-cover"
-                   />
+                   loading="lazy" 
+                  />
                   
                       
                 </div>
@@ -317,10 +329,12 @@ export default function HorizontalScroll() {
             {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
             <div>
-                  <Image src="/illustrations/support.png"
+                  <Image src="/illustrationsGifs/support.gif"
+                   unoptimized
                    alt="support" 
                    width={600} height={500} 
                    className="w-full h-full object-cover"
+                   loading="lazy" 
                    />
                   
                       

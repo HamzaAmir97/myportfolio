@@ -217,6 +217,9 @@ Let’s build the future together.
                 <p className="text-white font-bold text-lg   text-center md:text-2xl">
           Hire me
                 </p>
+
+                <span className=" absolute top-0 -right-3 md:w-9 w-7 h-7 md:h-9 bg-green-500 rounded-full animate-ping   "></span>
+                <span className=" absolute top-1 -right-2 md:w-7 w-5 h-5 md:h-7 bg-green-400 rounded-full "></span>
              </span>
                 
   
@@ -236,9 +239,16 @@ Let’s build the future together.
 
                    
 
-             <Image src="/images/photo.png" width={450} height={450} alt="My photo"
+             {/* <Image src="/images/photo.png" width={450} height={450} alt="My photo"
              className="object-cover "
+             /> */}
+
+<Image src="/illustrationsGifs/photo.gif" width={450} height={450} alt="My photo"
+             unoptimized
+             className="object-cover "
+             loading="lazy" 
              />
+
             </div>
 
            
