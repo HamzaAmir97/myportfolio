@@ -55,3 +55,19 @@ type Feedback = {
   title: string;
   image: string;  // يمكن استبدالها بـ next/image لاحقًا
 };
+
+
+
+
+/** Types */
+type Tech = { name: string; iconClass?: string };
+  type Project = {
+  name: string;
+  imageSrc: string;
+  imageAlt?: string;
+  description: string;
+  liveUrl?: string;
+  repoUrl?: string;
+  techs: Tech[];
+  features: string[];
+};
