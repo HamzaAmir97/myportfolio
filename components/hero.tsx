@@ -2,8 +2,7 @@
 import { motion } from "motion/react";
 import { HeroHighlight, Highlight } from "./ui/hero-highlight";
 import TypingAnimatedText from "./ui/TypingText";
-import { BackgroundLines } from "./ui/background-lines";
-import { FloatingDock } from "@/components/ui/floating-dock";
+
 
 import {
   IconBrandFacebook,
@@ -94,6 +93,11 @@ export function Hero() {
   const btnRef1 = useRef<HTMLButtonElement>(null);
   const btnRef2 = useRef<HTMLButtonElement>(null);
   
+  const mobileBtnRef1 = useRef<HTMLButtonElement>(null);
+  const mobileBtnRef2 = useRef<HTMLButtonElement>(null);
+  
+
+
   useGsapCornerWipe(btnRef2, {
     color: "rgba(0,0,0)", 
     corner: "bl",                  // من الركن السفلي اليمين
@@ -104,6 +108,24 @@ export function Hero() {
   });
    
   useGsapCornerWipe(btnRef1, {
+    color: "rgba(255,255,255)", 
+    corner: "bl",                  // من الركن السفلي اليمين
+    duration: 0.2,
+    ease: "power3.out",
+    layer: "under",                // تحت المحتوى (النص فوق)
+    // debug: true,
+  });
+
+  useGsapCornerWipe(mobileBtnRef2, {
+    color: "rgba(0,0,0)", 
+    corner: "bl",                  // من الركن السفلي اليمين
+    duration: 0.2,
+    ease: "power3.out",
+    layer: "under",                // تحت المحتوى (النص فوق)
+    // debug: true,
+  });
+   
+  useGsapCornerWipe(mobileBtnRef1, {
     color: "rgba(255,255,255)", 
     corner: "bl",                  // من الركن السفلي اليمين
     duration: 0.2,
@@ -377,8 +399,8 @@ Let’s build the future together.
 
          <motion.div
          whileInView={"true"}
-         initial={{ opacity: 0  ,}}
-         animate={{ opacity: 1 ,}}
+         initial={{ opacity: 0  ,y:-40}}
+         animate={{ opacity: 1 ,y:0}}
          transition={{ duration: 2 ,delay:1 ,ease:"easeInOut" }}
          >
     <Image src="/illustrationsGifs/photo.gif" width={450} height={450} alt="My photo"
@@ -393,14 +415,14 @@ Let’s build the future together.
 
    {/* CTA buttons*/}
    <div className="flex md:hidden gap-4 pb-10">
-      <Button variant="default" 
+      <Button ref={mobileBtnRef1} variant="default" 
       className="buttonPrimary"
       >
-        Let's talk
+        <p className="">Let's talk</p>
       </Button>
-      <Button variant="ghost" className="buttonSecondary rounded-none">
-        <span>Download CV</span>
-         <DownloadIcon/>
+      <Button ref={mobileBtnRef2} variant="ghost" className="buttonSecondary rounded-none">
+     <span className="flex items-center gap-2">Download CV
+         <DownloadIcon/> </span>
       </Button>
       
       </div>

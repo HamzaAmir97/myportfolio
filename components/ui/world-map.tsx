@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
 import DottedMap from "dotted-map";
 import { useTheme } from "next-themes";
@@ -15,23 +15,35 @@ interface MapProps {
 
 export default function WorldMap({
   dots = [],
-  // برتقالي افتراضي (Tailwind orange-500)
+  // افتراضي برتقالي
   lineColor = "#f97316",
 }: MapProps) {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const map = new DottedMap({ height: 100, grid: "diagonal" });
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  // نقاط الخريطة نفسها بدرجة برتقالي نصف شفافة
-  const dotColor = theme === "dark" ? "#F9731640" : "#EA580C40"; // 0x40 = ~25% شفافية
+  // ✅ نتأكد إننا على الكلاينت قبل توليد الـ SVG
+  useEffect(() => setMounted(true), []);
 
-  const svgMap = map.getSVG({
-    radius: 0.22,
-    color: dotColor,
-    shape: "circle",
-    backgroundColor: theme === "dark" ? "black" : "white",
-  });
+  const dataUrl = useMemo(() => {
+    if (!mounted) return null;
 
+    const map = new DottedMap({ height: 100, grid: "diagonal" });
+
+    // خليّناها Light مؤقتًا (أو استخدم theme لو جهّزت الوضعين)
+    const isDark = theme === "dark"; // ينفع تبني عليها لاحقًا
+    const dotColor = isDark ? "#F9731640" : "#EA580C40";
+
+    const svg = map.getSVG({
+      radius: 0.22,
+      color: dotColor,
+      shape: "circle",
+      backgroundColor: isDark ? "black" : "white",
+    });
+
+    return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+  }, [mounted, theme]);
+
+  // إسقاط إسقاطي بسيط يطابق الـ viewBox
   const projectPoint = (lat: number, lng: number) => {
     const x = (lng + 180) * (800 / 360);
     const y = (90 - lat) * (400 / 180);
@@ -47,23 +59,31 @@ export default function WorldMap({
     return `M ${start.x} ${start.y} Q ${midX} ${midY} ${end.x} ${end.y}`;
   };
 
+  // SSR/قبل الماونت: Placeholder ثابت يمنع أي اختلاف في الـ DOM
+  if (!mounted) {
+    return (
+      <div
+        className="w-full aspect-[2/1] rounded-lg bg-neutral-200/40"
+        aria-hidden="true"
+      />
+    );
+  }
+
   return (
-    <div className="w-full aspect-[2/1] dark:bg-black bg-white rounded-lg relative font-sans">
+    <div className="w-full aspect-[2/1] bg-white rounded-lg relative font-sans">
       <img
-        src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
+        src={dataUrl!}
         className="h-full w-full [mask-image:linear-gradient(to_bottom,transparent,white_10%,white_90%,transparent)] pointer-events-none select-none"
         alt="world map"
-        height="495"
-        width="1056"
         draggable={false}
+        suppressHydrationWarning
       />
 
       <svg
-        ref={svgRef}
         viewBox="0 0 800 400"
         className="w-full h-full absolute inset-0 pointer-events-none select-none"
       >
-        {/* توهج خفيف للخطوط */}
+        {/* Glow + Gradient */}
         <defs>
           <filter id="orange-glow" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="blur" />
@@ -73,7 +93,6 @@ export default function WorldMap({
             </feMerge>
           </filter>
 
-          {/* تدرّج برتقالي بالكامل مع شفافية على الأطراف */}
           <linearGradient id="path-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor={lineColor} stopOpacity="0" />
             <stop offset="10%" stopColor={lineColor} stopOpacity="1" />
@@ -86,7 +105,7 @@ export default function WorldMap({
           const startPoint = projectPoint(dot.start.lat, dot.start.lng);
           const endPoint = projectPoint(dot.end.lat, dot.end.lng);
           return (
-            <g key={`path-group-${i}`}>
+            <g key={`path-${i}`}>
               <motion.path
                 d={createCurvedPath(startPoint, endPoint)}
                 fill="none"
@@ -101,49 +120,31 @@ export default function WorldMap({
           );
         })}
 
-        {dots.map((dot, i) => (
-          <g key={`points-group-${i}`}>
-            {/* نقطة البداية */}
-            <g key={`start-${i}`}>
-              <circle
-                cx={projectPoint(dot.start.lat, dot.start.lng).x}
-                cy={projectPoint(dot.start.lat, dot.start.lng).y}
-                r="2"
-                fill={lineColor}
-              />
-              <circle
-                cx={projectPoint(dot.start.lat, dot.start.lng).x}
-                cy={projectPoint(dot.start.lat, dot.start.lng).y}
-                r="2"
-                fill={lineColor}
-                opacity="0.5"
-              >
-                <animate attributeName="r" from="2" to="8" dur="1.5s" begin="0s" repeatCount="indefinite" />
-                <animate attributeName="opacity" from="0.5" to="0" dur="1.5s" begin="0s" repeatCount="indefinite" />
-              </circle>
-            </g>
+        {dots.map((dot, i) => {
+          const s = projectPoint(dot.start.lat, dot.start.lng);
+          const e = projectPoint(dot.end.lat, dot.end.lng);
+          return (
+            <g key={`points-${i}`}>
+              {/* start */}
+              <g>
+                <circle cx={s.x} cy={s.y} r="2" fill={lineColor} />
+                <circle cx={s.x} cy={s.y} r="2" fill={lineColor} opacity="0.5">
+                  <animate attributeName="r" from="2" to="8" dur="1.5s" begin="0s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" from="0.5" to="0" dur="1.5s" begin="0s" repeatCount="indefinite" />
+                </circle>
+              </g>
 
-            {/* نقطة النهاية */}
-            <g key={`end-${i}`}>
-              <circle
-                cx={projectPoint(dot.end.lat, dot.end.lng).x}
-                cy={projectPoint(dot.end.lat, dot.end.lng).y}
-                r="2"
-                fill={lineColor}
-              />
-              <circle
-                cx={projectPoint(dot.end.lat, dot.end.lng).x}
-                cy={projectPoint(dot.end.lat, dot.end.lng).y}
-                r="2"
-                fill={lineColor}
-                opacity="0.5"
-              >
-                <animate attributeName="r" from="2" to="8" dur="1.5s" begin="0s" repeatCount="indefinite" />
-                <animate attributeName="opacity" from="0.5" to="0" dur="1.5s" begin="0s" repeatCount="indefinite" />
-              </circle>
+              {/* end */}
+              <g>
+                <circle cx={e.x} cy={e.y} r="2" fill={lineColor} />
+                <circle cx={e.x} cy={e.y} r="2" fill={lineColor} opacity="0.5">
+                  <animate attributeName="r" from="2" to="8" dur="1.5s" begin="0s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" from="0.5" to="0" dur="1.5s" begin="0s" repeatCount="indefinite" />
+                </circle>
+              </g>
             </g>
-          </g>
-        ))}
+          );
+        })}
       </svg>
     </div>
   );

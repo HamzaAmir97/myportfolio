@@ -1,6 +1,6 @@
 // lib/animation/revealOnScroll.ts
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 type RevealType = "fade" | "scale" | "fade-scale" | "slide-up";
