@@ -1,17 +1,55 @@
-import React from 'react'
+"use client";
+
+import React, { useRef } from 'react'
 
 
 import { ArrowUpRight } from 'lucide-react'
+import { useGsapCornerWipe } from '@/hooks/useGsapCornerWipe';
 
 const Navbar = () => {
+
+   const spanRef = useRef<HTMLAnchorElement>(null);
+
+  useGsapCornerWipe(spanRef, {
+    color: "rgba(0,0,0)",
+    corner: "bl",
+    duration: 0.2,
+    layer: "under",
+  });
+   const spanRef1 = useRef<HTMLAnchorElement>(null);
+
+  useGsapCornerWipe(spanRef1, {
+    color: "rgba(0,0,0)",
+    corner: "bl",
+    duration: 0.2,
+    layer: "under",
+  });
+   const spanRef2 = useRef<HTMLAnchorElement>(null);
+
+  useGsapCornerWipe(spanRef2, {
+    color: "rgba(0,0,0)",
+    corner: "bl",
+    duration: 0.2,
+    layer: "under",
+  });
+   const spanRef3 = useRef<HTMLAnchorElement>(null);
+
+  useGsapCornerWipe(spanRef3, {
+    color: "rgba(0,0,0)",
+    corner: "bl",
+    duration: 0.2,
+    layer: "under",
+  });
+
+
   return (
     <div className=" hidden  md:flex items-center justify-between  ">
      
      <div   className='  px-10'>
-       <span className='
+       <span ref={spanRef} className='
        buttonSecondary text-4xl
      '>
-        It's me
+       <p>It's me</p>
      </span>
      </div>
 
@@ -20,7 +58,7 @@ const Navbar = () => {
   
      <span className="buttonSecondary2 px-2">
         
-         <span className='flex flex-col  '>
+         <span ref={spanRef1} className='flex flex-col  '>
          <span className='flex items-center justify-between gap-5'>
          <p className=''>My Projects</p>
          <ArrowUpRight  className='self-end'/>
@@ -31,7 +69,7 @@ const Navbar = () => {
       </span>
 
 
-      <span className="buttonSecondary2   px-2 ">
+      <span ref={spanRef2} className="buttonSecondary2   px-2 ">
          
          <span className='flex flex-col '>
           <span className='flex items-center justify-between gap-5'>
@@ -43,7 +81,7 @@ const Navbar = () => {
           
       </span>
 
-      <span className="buttonSecondary2  px-2">
+      <span ref={spanRef3} className="buttonSecondary2  px-2">
          <span className='flex flex-col'>
          <span className='flex items-center justify-between gap-5'>
          <p className=''>Contact me</p>

@@ -23,6 +23,11 @@ import { Check, CheckCircle, DownloadIcon, MailIcon, Menu, Sparkle, Sparkles } f
 import { div } from "motion/react-client";
 import Navbar from "./shared/Navbar";
 import MobileNavbar from "./MobileNavbar";
+import { useLayoutEffect, useRef } from "react";
+import { useGsapCornerWipe } from "@/hooks/useGsapCornerWipe";
+import ScrambleMusnadText from "./ScrambleMusnadText";
+import { animateSplitOnScroll } from "@/lib/animation/animateSplitOnScroll";
+import { revealOnScroll } from "@/lib/animation/revealOnScroll";
 
 
 export function Hero() {
@@ -85,6 +90,95 @@ export function Hero() {
     },
   ];
   
+
+  const btnRef1 = useRef<HTMLButtonElement>(null);
+  const btnRef2 = useRef<HTMLButtonElement>(null);
+  
+  useGsapCornerWipe(btnRef2, {
+    color: "rgba(0,0,0)", 
+    corner: "bl",                  // من الركن السفلي اليمين
+    duration: 0.2,
+    ease: "power3.out",
+    layer: "under",                // تحت المحتوى (النص فوق)
+    // debug: true,
+  });
+   
+  useGsapCornerWipe(btnRef1, {
+    color: "rgba(255,255,255)", 
+    corner: "bl",                  // من الركن السفلي اليمين
+    duration: 0.2,
+    ease: "power3.out",
+    layer: "under",                // تحت المحتوى (النص فوق)
+    // debug: true,
+  });
+
+
+
+   const titleRef = useRef<HTMLHeadingElement>(null);   // ✅ النوع صحيح
+      const paraRef  = useRef<HTMLParagraphElement>(null); // ✅ النوع صحيح
+      const paraRef2  = useRef<HTMLParagraphElement>(null); // ✅ النوع صحيح
+      const paraRef3  = useRef<HTMLParagraphElement>(null); // ✅ النوع صحيح
+    
+      useLayoutEffect(() => {
+        const stop1 = animateSplitOnScroll({
+          ref: titleRef,
+          mode: "chars",
+          duration: 0.5,
+          stagger: 0.03,
+          from: { y: 40, opacity: 0, rotateX: -30 },
+          to:   { y: 0,  opacity: 1, rotateX: 0 },
+          start: "top 85%",
+          once: true,
+        });
+    
+        const stop2 = animateSplitOnScroll({
+          ref: paraRef,
+          mode: "lines",
+          duration: 0.9,
+          stagger: 0.06,
+          from: { y: 24, opacity: 0 },
+          to:   { y: 0,  opacity: 1 },
+          start: "top 90%",
+          once: true,
+          delay: 0.5,
+        });
+    
+        const stop3 = animateSplitOnScroll({
+          ref: paraRef2,
+          mode: "lines",
+          duration: 1,
+          stagger: 0.06,
+          from: { y: 24, opacity: 0 },
+          to:   { y: 0,  opacity: 1 },
+          start: "top 90%",
+          once: true,
+          delay: 1,
+        });
+    
+        const stop4 = animateSplitOnScroll({
+          ref: paraRef3,
+          mode: "lines",
+          duration: 1.2,
+          stagger: 0.06,
+          from: { y: 24, opacity: 0 },
+          to:   { y: 0,  opacity: 1 },
+          start: "top 90%",
+          once: true,
+          delay:1.5,
+        });
+    
+        return () => {
+          stop1!();
+          stop2!();
+          stop3!();
+          stop4!();
+        };
+      }, []);
+
+
+
+     
+
   return (
 
   
@@ -111,7 +205,7 @@ export function Hero() {
  
     
       <div className="flex items-center gap-2">
-      <p className="text-black text-4xl md:text-5xl dark:text-white font-light">Hello!</p>
+      <p   ref={titleRef} className="text-black text-4xl md:text-5xl dark:text-white font-light">Hello!</p>
       <motion.span
         initial={{
           opacity: 0,
@@ -147,15 +241,24 @@ export function Hero() {
       <Sparkles strokeWidth={1} className=" w-12 h-12 font-bold fill-black dark:fill-white  animate-bounce "/>
      </div>      
    
+     <ScrambleMusnadText 
+     duration={6}
+     revealDelay={0.0002}
+     
+     finalText="Full-Stack JavaScript Developer specializing in web, mobile, and AI solutions. I build smart, scalable, and innovative applications that drive business growth and turn ideas into impactful products."
+     
+     className="text-black text-lg dark:text-white  max-w-lg"
+     />
 
-   <p className="text-black dark:text-white  max-w-lg ">
+
+   {/* <p className="text-black dark:text-white  max-w-lg ">
    Full-Stack JavaScript Developer <b>specializing in web, mobile, and AI solutions. </b> I build smart, scalable, and innovative applications that drive business growth and turn ideas into impactful products.
 
 Let’s build the future together.
    
    
    
-   </p>
+   </p> */}
 
 
   {/* features */}
@@ -163,7 +266,7 @@ Let’s build the future together.
   
   <span className="flex items-center gap-2">
     <Check className=" w-5   h-5  font-bold dark:fill-white"/>
-    <p className="text-black font-bold dark:text-white" >
+    <p ref={paraRef} className="text-black font-bold dark:text-white" >
     Clean, maintainable, and scalable code for long-term growth and efficiency.
     </p>
   </span>
@@ -171,13 +274,13 @@ Let’s build the future together.
 
     <span className="flex items-center gap-2">
     <Check className=" w-5   h-5  font-boldk dark:fill-white"/>
-    <p className="text-black font-bold dark:text-white" >
+    <p ref={paraRef2} className="text-black font-bold dark:text-white" >
     Modern, visually appealing interfaces that deliver a smooth user experience.
     </p>
     </span>
       <span className="flex items-center gap-2">
     <Check className=" w-5   h-5  font-bold  dark:fill-white"/>
-    <p className="text-black font-bold dark:text-white" >
+    <p ref={paraRef3} className="text-black font-bold dark:text-white" >
     Fast delivery without compromising on quality or professionalism.
     </p>
     </span>
@@ -188,14 +291,16 @@ Let’s build the future together.
 
 {/* CTA buttons*/}
       <div className="hidden md:flex gap-4 pb-10">
-      <Button variant="default" 
+      <Button ref={btnRef1}    variant="default" 
       className="buttonPrimary"
       >
-        Let's talk
+        <p className=""  >Let's talk</p>
       </Button>
-      <Button variant="ghost" className="buttonSecondary rounded-none">
-        <span>Download CV</span>
-         <DownloadIcon/>
+      <Button
+      ref={btnRef2}
+      variant="ghost" className="buttonSecondary rounded-none">
+         <span className=" flex gap-1" >Download CV
+         <DownloadIcon/></span>
       </Button>
       
       </div>
@@ -211,28 +316,54 @@ Let’s build the future together.
 
             <div className=" relative flex justify-end items-center">
              
-             <span className="absolute flex justify-center items-center 
+             <motion.span 
+             whileInView={"true"}
+             initial={{ opacity: 0  ,scale:0.1}}
+             animate={{ opacity: 1 ,scale:1}}
+             transition={{ duration: 2.1 ,delay:0.1,ease:"easeInOut" }}
+             className="absolute flex justify-center items-center 
              md:top-15 top-17 -left-2 md:-left-9 -z-10 
              w-[5rem] h-[5rem]  md:w-[7rem] md:h-[7rem] rounded-full bg-black " >
                 <p className="text-white font-bold text-lg   text-center md:text-2xl">
           Hire me
                 </p>
 
-                <span className=" absolute top-0 -right-3 md:w-9 w-7 h-7 md:h-9 bg-green-500 rounded-full animate-ping   "></span>
-                <span className=" absolute top-1 -right-2 md:w-7 w-5 h-5 md:h-7 bg-green-400 rounded-full "></span>
-             </span>
+                <motion.span
+                whileInView={"true"}
+                initial={{ opacity: 0  ,scale:0.1}}
+                animate={{ opacity: 1 ,scale:1}}
+                transition={{ duration: 2.1 ,delay:0.1 ,ease:"easeInOut" }}
+                 className=" absolute top-0 -right-3 md:w-9 w-7 h-7 md:h-9 bg-green-500 rounded-full animate-ping   "></motion.span>
+                <motion.span
+                whileInView={"true"}
+                initial={{ opacity: 0  ,scale:0.1}}
+                animate={{ opacity: 1 ,scale:1}}
+                transition={{ duration: 2.1 ,delay:0.1 ,ease:"easeInOut" }}
+                 className=" absolute top-1 -right-2 md:w-7 w-5 h-5 md:h-7 bg-green-400 rounded-full "></motion.span>
+             </motion.span>
                 
   
 
                 {/* decoration */}
-             <div className="absolute  md:top-12 top-12 md:-left-5 left-5 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
+             <motion.div 
+             whileInView={"true"}
+             initial={{ opacity: 0  ,scale:0.1}}
+             animate={{ opacity: 1 ,scale:1}}
+             transition={{ duration: 2.5 ,delay:0.5 ,ease:"easeInOut" }}
+             
+             className="absolute  md:top-12 top-12 md:-left-5 left-5 -z-10 w-5 h-30 flex  gap-2 -rotate-45">
        <span className=" w-0.5 md:h-40 h-30   bg-black shadow-2xl shadow-white "/>
       
-             </div>
-             <div className="absolute  md:top-11 top-12   md:-left-5 left-4 -z-9 w-5 h-30 flex  gap-2 -rotate-45">
+             </motion.div>
+             <motion.div 
+             whileInView={"true"}
+             initial={{ opacity: 0  ,scale:0.1}}
+             animate={{ opacity: 1 ,scale:1}}
+             transition={{ duration: 2.5,delay:0.5 ,ease:"easeInOut" }}
+             className="absolute  md:top-11 top-12   md:-left-5 left-4 -z-9 w-5 h-30 flex  gap-2 -rotate-45">
        <span className=" w-0.5 md:h-40 h-30   bg-white shadow-2xl shadow-black "/>
       
-             </div>
+             </motion.div>
                
          
 
@@ -243,12 +374,19 @@ Let’s build the future together.
              className="object-cover "
              /> */}
 
-<Image src="/illustrationsGifs/photo.gif" width={450} height={450} alt="My photo"
+
+         <motion.div
+         whileInView={"true"}
+         initial={{ opacity: 0  ,}}
+         animate={{ opacity: 1 ,}}
+         transition={{ duration: 2 ,delay:1 ,ease:"easeInOut" }}
+         >
+    <Image src="/illustrationsGifs/photo.gif" width={450} height={450} alt="My photo"
              unoptimized
              className="object-cover "
              loading="lazy" 
              />
-
+              </motion.div>
             </div>
 
            

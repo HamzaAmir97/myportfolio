@@ -1,13 +1,15 @@
 // components/SkillsWall.tsx
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useLayoutEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { TECH } from "@/constants/tech-icons";
 import type { TechItem } from "@/constants/tech-icons";
 import { motion } from "motion/react";
 import { getBrandColor, glowVars } from "@/utils/brand-color";
+import ScrambleMusnadText from "./ScrambleMusnadText";
+import { animateSplitOnScroll } from "@/lib/animation/animateSplitOnScroll";
 
 type Props = {
   rows?: number;
@@ -105,7 +107,53 @@ export default function SkillsWall({
   title = "The technologies I use to build real products",
   subtitle = "A modern, carefully curated stack—from UI to backend and AI—used to ship high-quality, scalable features fast.",
 }: Props) {
-  // Flatten all tech (no sectioning)
+  
+  const titleRef = useRef<HTMLHeadingElement>(null);   // ✅ النوع صحيح
+  const paraRef  = useRef<HTMLParagraphElement>(null); // ✅ النوع صحيح
+  const paraRef2= useRef<HTMLParagraphElement>(null);
+  useLayoutEffect(() => {
+    const stop1 = animateSplitOnScroll({
+      ref: titleRef,
+      mode: "chars",
+      duration: 1,
+      stagger: 0.03,
+      from: { y: 40, opacity: 0, rotateX: -30 },
+      to:   { y: 0,  opacity: 1, rotateX: 0 },
+      start: "top 85%",
+      once: true,
+    });
+
+    const stop2 = animateSplitOnScroll({
+      ref: paraRef,
+      mode: "words",
+      duration: 0.9,
+      stagger: 0.06,
+      from: { y: 24, opacity: 0 },
+      to:   { y: 0,  opacity: 1 },
+      start: "top 90%",
+      once: true,
+      delay: 0.1,
+    });
+
+    const stop3 = animateSplitOnScroll({
+      ref: paraRef2,
+      mode: "chars",
+      duration: 0.9,
+      stagger: 0.06,
+      from: { y: 24, opacity: 0 },
+      to:   { y: 0,  opacity: 1 },
+      start: "top 90%",
+      once: true,
+      delay: 0.1,
+    });
+    return () => {
+      stop1!();
+      stop2!();
+      stop3!();
+    };
+  }, []);
+
+
   const allTech = useMemo<TechItem[]>(() => Object.values(TECH).flat(), []);
   const items = allTech.slice(0, Math.min(maxItems, rows * cols));
 
@@ -121,11 +169,12 @@ export default function SkillsWall({
   return (
     <section id="skills" className="relative w-screen bg-[#0b0b0b] text-white overflow-hidden py-16 sm:py-20">
       <div className="relative mx-auto max-w-7xl px-6">
-        <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
+        <h2 ref={titleRef} className="text-center text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
           {title}
         </h2>
-        <p className="mt-4 text-center text-sm md:text-base text-neutral-400">
-          {subtitle}
+
+        <p    className="mt-4 text-center text-sm md:text-base text-neutral-400">
+        <ScrambleMusnadText  duration={3} revealDelay={0.0002} finalText={subtitle}/>
         </p>
 
         {/* grid wrapper + edge fades */}

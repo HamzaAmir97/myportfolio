@@ -5,6 +5,7 @@ import { NavbarDemo } from "@/components/navbar";
 import { ThemeProvider } from "next-themes";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
+import "@fontsource/noto-sans-old-south-arabian"; // Regular 400
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

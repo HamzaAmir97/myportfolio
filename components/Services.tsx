@@ -1,13 +1,61 @@
-import React from 'react'
+  "use client";
+import React, { useLayoutEffect } from 'react'
 import { Button } from './ui/button'
 import { ArrowDown, ArrowRight, BotMessageSquare, Laptop2Icon, PaletteIcon, SmartphoneIcon } from 'lucide-react'
 import Image from 'next/image'
 import { BackgroundGradient } from './ui/background-gradient'
 import { GlowingEffect } from './ui/glowing-effect'
+import { useGsapCornerWipe } from '@/hooks/useGsapCornerWipe';
+import { useRef } from 'react';
+import { animateSplitOnScroll } from '@/lib/animation/animateSplitOnScroll';
 
 const Services = () => {
+
+     const btnRef = useRef<HTMLButtonElement>(null);
+  
+    useGsapCornerWipe(btnRef, {
+      color: "rgba(255,255,255)",
+      corner: "bl",
+      duration: 0.2,
+      layer: "under",
+    });
+
+
+     const titleRef = useRef<HTMLHeadingElement>(null);   // ✅ النوع صحيح
+      const paraRef  = useRef<HTMLParagraphElement>(null); // ✅ النوع صحيح
+    
+      useLayoutEffect(() => {
+        const stop1 = animateSplitOnScroll({
+          ref: titleRef,
+          mode: "chars",
+          duration: 1,
+          stagger: 0.03,
+          from: { y: 40, opacity: 0, rotateX: -30 },
+          to:   { y: 0,  opacity: 1, rotateX: 0 },
+          start: "top 85%",
+          once: true,
+        });
+    
+        const stop2 = animateSplitOnScroll({
+          ref: paraRef,
+          mode: "words",
+          duration: 0.9,
+          stagger: 0.06,
+          from: { y: 24, opacity: 0 },
+          to:   { y: 0,  opacity: 1 },
+          start: "top 90%",
+          once: true,
+          delay: 0.1,
+        });
+    
+        return () => {
+          stop1!();
+          stop2!();
+        };
+      }, []);
+    
   return (
-    // موبايل: w-full + min-h، ديسكتوب: ترجع w-screen/h-screen
+   
     <section className="relative w-full min-h-[100svh] lg:w-screen lg:h-screen py-12 lg:py-20 flex flex-col px-4 sm:px-6 lg:px-10">
         
       {/* heading */}
@@ -16,11 +64,11 @@ const Services = () => {
         <div className="flex flex-col items-center md:items-start gap-2">
           <div className="flex items-center gap-2">
             <span className="w-5 h-0.5 bg-black dark:bg-white"/>
-            <p className="text-xs uppercase font-semibold text-black dark:text-white">
+            <p ref={titleRef} className="text-xs uppercase font-semibold text-black dark:text-white">
               My Services ?
             </p>
           </div>
-          <h1 className="text-3xl sm:text-4xl uppercase font-bold text-black dark:text-white">
+          <h1 ref={paraRef} className="text-3xl sm:text-4xl uppercase font-bold text-black dark:text-white">
             What I offer
           </h1>
         </div>
@@ -28,7 +76,7 @@ const Services = () => {
         {/* Cta */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:gap-10">
           <p className="text-black/80 dark:text-white/80">This is some of my services i offer to my clients</p>
-          <Button className="buttonPrimary w-fit hidden lg:block">All services</Button>
+          <Button ref={btnRef} className="buttonPrimary w-fit hidden lg:block"> <p>All services</p></Button>
         </div>
       </div>
 

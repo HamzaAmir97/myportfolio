@@ -1,23 +1,23 @@
-// components/HorizontalScroll.tsx
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Image from "next/image";
+import ScrambleMusnadText from "./ScrambleMusnadText";
+import { animateSplitOnScroll } from "@/lib/animation/animateSplitOnScroll";
+// ❌ مش هنستخدم motion هنا
+// import { motion } from "motion/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * HorizontalScroll — Workflow Edition (with top progress bar)
- * - Intro heading appears before the horizontal scroller
- * - Section stays hidden until in-view (reveal), then pins and scrolls horizontally
- * - Sticky gradient progress bar (amber-700 ➜ amber-100) fills as you progress
- */
 export default function HorizontalScroll() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
+
+  // هنخزّن Tween الخاص بالحركة الأفقية هنا
+  const [containerAnim, setContainerAnim] = useState<gsap.core.Tween | null>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -25,21 +25,19 @@ export default function HorizontalScroll() {
       const track = trackRef.current!;
       const progress = progressRef.current!;
 
-      // ===== Reveal on first enter (fade + slide) =====
+      // Reveal عام للسيكشن نفسه أول ما يدخل
       gsap.set(container, { autoAlpha: 0, y: 40 });
       ScrollTrigger.create({
         trigger: container,
         start: "top 85%",
         once: true,
-        onEnter: () => {
-          gsap.to(container, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" });
-        },
+        onEnter: () =>
+          gsap.to(container, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }),
       });
 
-      // ===== Horizontal scroll setup =====
+      // إعداد الأفقي
       const panels = Array.from(track.querySelectorAll<HTMLElement>("[data-panel]"));
       track.style.width = `${panels.length * 100}vw`;
-
       const getDistance = () => track.scrollWidth - window.innerWidth;
 
       const tween = gsap.to(track, {
@@ -51,11 +49,12 @@ export default function HorizontalScroll() {
           scrub: 1,
           end: () => `+=${getDistance()}`,
           invalidateOnRefresh: true,
-          // markers: true,
         },
       });
 
-      // ===== Progress bar animation (sticky at the top of the section) =====
+      setContainerAnim(tween);
+
+      // شريط التقدّم
       gsap.set(progress, { scaleX: 0, transformOrigin: "left center" });
       gsap.to(progress, {
         scaleX: 1,
@@ -65,11 +64,9 @@ export default function HorizontalScroll() {
           start: "top top",
           end: () => `+=${getDistance()}`,
           scrub: true,
-          // No pin here; the section itself is pinned by the tween above.
         },
       });
 
-      // Keep measurements correct
       const refresh = () => ScrollTrigger.refresh();
       window.addEventListener("load", refresh);
       window.addEventListener("resize", refresh);
@@ -79,33 +76,246 @@ export default function HorizontalScroll() {
         window.removeEventListener("resize", refresh);
         tween.scrollTrigger?.kill();
         tween.kill();
-        ScrollTrigger.getAll().forEach((st) => {
-          if (st.trigger === container) st.kill();
-        });
+        setContainerAnim(null);
       };
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
+  // ===== Intro refs (عمودي) =====
+  const titleRef = useRef<HTMLParagraphElement>(null); // <p>
+  const paraRef = useRef<HTMLHeadingElement>(null); // <h2>
+
+  // ===== Panel refs =====
+  const titleRef1 = useRef<HTMLHeadingElement>(null);
+  const paraRef1 = useRef<HTMLParagraphElement>(null);
+  const titleRef2 = useRef<HTMLHeadingElement>(null);
+  const paraRef2 = useRef<HTMLParagraphElement>(null);
+  const titleRef3 = useRef<HTMLHeadingElement>(null);
+  const paraRef3 = useRef<HTMLParagraphElement>(null);
+  const titleRef4 = useRef<HTMLHeadingElement>(null);
+  const paraRef4 = useRef<HTMLParagraphElement>(null);
+  const titleRef5 = useRef<HTMLHeadingElement>(null);
+  const paraRef5 = useRef<HTMLParagraphElement>(null);
+  const titleRef6 = useRef<HTMLHeadingElement>(null);
+  const paraRef6 = useRef<HTMLParagraphElement>(null);
+  const paraRef7 = useRef<HTMLParagraphElement>(null);
+
+  // Intro (عمودي)
+  useLayoutEffect(() => {
+    const stopIntroTitle = animateSplitOnScroll({
+      ref: titleRef,
+      mode: "chars",
+      duration: 1,
+      stagger: 0.03,
+      from: { y: 40, opacity: 0, rotateX: -30 },
+      to: { y: 0, opacity: 1, rotateX: 0 },
+      start: "top 85%",
+      once: true,
+    });
+
+    const stopIntroH2 = animateSplitOnScroll({
+      ref: paraRef,
+      mode: "words",
+      duration: 0.9,
+      stagger: 0.06,
+      from: { y: 24, opacity: 0 },
+      to: { y: 0, opacity: 1 },
+      start: "top 90%",
+      once: true,
+      delay: 0.1,
+    });
+
+    return () => {
+      stopIntroTitle && stopIntroTitle();
+      stopIntroH2 && stopIntroH2();
+    };
+  }, []);
+
+  // Panels (أفقي): نضيف ريفيل الصور + النصوص لما الـ containerAnim يبقى جاهز
+  useLayoutEffect(() => {
+    if (!containerAnim) return;
+
+    // 1) النصوص (كما هي)
+    const cleanups = [
+      // 01
+      animateSplitOnScroll({
+        ref: titleRef1,
+        mode: "chars",
+        from: { y: 40, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.03,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      animateSplitOnScroll({
+        ref: paraRef1,
+        mode: "words",
+        from: { y: 20, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.06,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      // 02
+      animateSplitOnScroll({
+        ref: titleRef2,
+        mode: "chars",
+        from: { y: 40, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.03,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      animateSplitOnScroll({
+        ref: paraRef2,
+        mode: "words",
+        from: { y: 20, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.06,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      // 03
+      animateSplitOnScroll({
+        ref: titleRef3,
+        mode: "chars",
+        from: { y: 40, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.03,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      animateSplitOnScroll({
+        ref: paraRef3,
+        mode: "words",
+        from: { y: 20, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.06,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      // 04
+      animateSplitOnScroll({
+        ref: titleRef4,
+        mode: "chars",
+        from: { y: 40, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.03,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      animateSplitOnScroll({
+        ref: paraRef4,
+        mode: "words",
+        from: { y: 20, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.06,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      // 05
+      animateSplitOnScroll({
+        ref: titleRef5,
+        mode: "chars",
+        from: { y: 40, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.03,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      animateSplitOnScroll({
+        ref: paraRef5,
+        mode: "words",
+        from: { y: 20, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.06,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      // 06
+      animateSplitOnScroll({
+        ref: titleRef6,
+        mode: "chars",
+        from: { y: 40, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.03,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+      animateSplitOnScroll({
+        ref: paraRef6,
+        mode: "words",
+        from: { y: 20, autoAlpha: 0 },
+        to: { y: 0, autoAlpha: 1 },
+        stagger: 0.06,
+        containerAnimation: containerAnim,
+        once: true,
+      }),
+    ];
+
+    // 2) كشف الصور/الـgif فقط عند الوصول 
+    const imgs = gsap.utils.toArray<HTMLElement>("[data-img='reveal']");
+    const imgTriggers: ScrollTrigger[] = [];
+    const imgTweens: gsap.core.Tween[] = [];
+
+    imgs.forEach((el) => {
+      // حالة البداية
+      gsap.set(el, { autoAlpha: 0, y: 60, scale: 0.96, willChange: "transform, opacity" });
+
+      const tween = gsap.to(el, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.8,
+        ease: "power2.out",
+      });
+
+      const st = ScrollTrigger.create({
+        trigger: el,
+        containerAnimation: containerAnim, // مهم للأفقي
+        start: "left 80%", // لما حافة العنصر اليسرى توصل لنقطة 80% من عرض الشاشة
+        end: "left 55%",
+        animation: tween,
+        toggleActions: "play none none none", // يظهر مرة واحدة ولا يرجع يختفي
+        // لو عايزها تمشي مع السكرول حرفيًا:
+        // scrub: true,
+      });
+
+      imgTriggers.push(st);
+      imgTweens.push(tween);
+    });
+
+    return () => {
+      cleanups.forEach((c) => c && c());
+      imgTriggers.forEach((t) => t.kill());
+      imgTweens.forEach((tw) => tw.kill());
+    };
+  }, [containerAnim]);
 
 
+  
   return (
     <div className="relative z-0 ">
-      {/* ===== Intro Heading (appears before the horizontal scroller) ===== */}
+      {/* ===== Intro (vertical) ===== */}
       <header className="max-w-6xl mx-auto px-6 md:px-8 py-12 md:py-16 flex flex-col gap-2 items-center justify-center">
-        <p className="text-sm md:text-base tracking-wider uppercase text-gray-500">
+        <p ref={titleRef} className="text-sm md:text-base tracking-wider uppercase text-gray-500">
           Project Workflow
         </p>
-        <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mt-2 text-center">
+        <h2 ref={paraRef} className="text-3xl md:text-5xl font-extrabold tracking-tight mt-2 text-center">
           From Requirements to Ongoing Support
         </h2>
         <p className="text-gray-600 mt-3 md:mt-4 text-center">
-          Explore how we turn ideas into shipped, scalable products. Scroll horizontally to follow the journey.
+          <ScrambleMusnadText
+            duration={3}
+            revealDelay={0.0002}
+            finalText="Explore how we turn ideas into shipped, scalable products. Scroll horizontally to follow the journey."
+          />
         </p>
       </header>
 
-      {/* ===== Horizontal Section (hidden until revealed, then pinned) ===== */}
+      {/* ===== Horizontal Section ===== */}
       <section ref={containerRef} className="relative h-svh overflow-visible">
         {/* Sticky progress track */}
         <div className="sticky top-0 left-0 right-0 h-1 z-50 pointer-events-none">
@@ -116,232 +326,268 @@ export default function HorizontalScroll() {
         </div>
 
         <div ref={trackRef} className="h-svh flex will-change-transform">
-
-          {/* ===== 01: Requirements Analysis ===== */}
+          {/* ===== 01 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
-            {/* Right (Copy) */}
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
               <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
-                01 — Requirements Analysis
+                <p ref={paraRef1}>01</p> Requirements Analysis
               </span>
-              <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef1} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
                 Understand the Goals. Align the Vision.
               </h3>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
-                We start with discovery sessions to clarify objectives, users, and constraints.
-                Our outcome is a concise, actionable requirements brief that reduces risk and
-                sets a shared definition of success.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="We start with discovery sessions to clarify objectives, users, and constraints."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
+                Our outcome is a concise, actionable requirements brief that reduces risk and sets a shared definition of success.
               </p>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                Deliverables include user stories, acceptance criteria, and a prioritized scope
-                that balances impact, effort, and timelines.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="Deliverables include user stories, acceptance criteria, and a prioritized scope that balances impact, effort, and timelines."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
               </p>
             </div>
-
-            {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-              
-
-              {/* step 1 */}
-                <div>
-                  
-                  <Image src="/illustrationsGifs/analyze.gif"
+           
+              <div data-img="reveal" >
+                <Image
+                  src="/illustrationsGifs/analyze.gif"
                   unoptimized
-                  alt="analyze" 
-                   width={300} height={200} 
-                   className="w-full h-full object-cover"
-                   loading="lazy" 
-                  />
-
-
-                  
-                  
-                </div>
-             
+                  alt="analyze"
+                  width={300}
+                  height={200}
+                  className="w-full h-full object-cover select-none will-change-transform"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </article>
 
-          {/* ===== 02: Planning & UX Design ===== */}
+          {/* ===== 02 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
-          {/* Right (Copy) */}
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
               <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
-                02 — Planning & UX Design
+                <p ref={paraRef3}>02</p> Planning & UX Design
               </span>
-              <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef2} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
                 Architect the Path. Design for Outcomes.
               </h3>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
-                We translate requirements into a pragmatic roadmap and low-friction user journeys.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="We translate requirements into a pragmatic roadmap and low-friction user journeys."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
                 Wireframes and interactive prototypes clarify flows early and reduce costly rework.
               </p>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                You’ll get a timeline, milestones, and a design system foundation that keeps
-                the experience consistent and accessible.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="You’ll get a timeline, milestones, and a design system foundation that keeps the experience consistent and accessible."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
               </p>
             </div>
-
-            {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-              
-                <div>
-                  <Image src="/illustrationsGifs/design.gif"
-                   unoptimized
-                   alt="design" 
-                   width={600} height={500} 
-                   className="w-full h-full object-cover"
-                   loading="lazy" 
-                  />
-                  
-                      
-                </div>
-              
+              <div data-img="reveal" >
+                <Image
+                  src="/illustrationsGifs/design.gif"
+                  unoptimized
+                  alt="design"
+                  width={600}
+                  height={500}
+                  className="w-full h-full object-cover select-none will-change-transform"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </article>
 
-          {/* ===== 03: Development & Implementation ===== */}
+          {/* ===== 03 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
-            {/* Right (Copy) */}
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
               <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
-                03 — Development & Implementation
+                <p ref={paraRef4}>03</p> Development & Implementation
               </span>
-              <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef3} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
                 Build with Confidence. Ship with Quality.
               </h3>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
-                We use modern stacks (Next.js, React, Tailwind, and proven tooling) to deliver
-                secure, performant features on a scalable foundation. Code reviews keep quality high.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="We use modern stacks (Next.js, React, Tailwind, and proven tooling) to deliver secure, performant features on a scalable foundation. Code reviews keep quality high."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
               </p>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                Each sprint produces demo-ready increments, so you can see progress, provide feedback,
-                and keep momentum toward launch.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="Each sprint produces demo-ready increments, so you can see progress, provide feedback, and keep momentum toward launch."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
               </p>
             </div>
-
-            {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-              
-            <div>
-                  <Image src="/illustrationsGifs/coding.gif"
-                   unoptimized
-                   alt="design" 
-                   width={600} height={500} 
-                   className="w-full h-full object-cover"
-                   loading="lazy" 
-                  />
-                  
-                      
-                </div>
-              
+              <div data-img="reveal" >
+                <Image
+                  src="/illustrationsGifs/coding.gif"
+                  unoptimized
+                  alt="coding"
+                  width={600}
+                  height={500}
+                  className="w-full h-full object-cover select-none will-change-transform"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </article>
 
-          {/* ===== 04: Testing & Quality Assurance ===== */}
+          {/* ===== 04 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
-            {/* Right (Copy) */}
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
               <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
-                04 — Testing & QA
+                <p ref={paraRef5}>04</p> Testing & QA
               </span>
-              <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef4} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
                 Every Detail Verified. Zero Surprises.
               </h3>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
-                Automated and manual testing ensure reliability across devices, browsers, and edge cases.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="Automated and manual testing ensure reliability across devices, browsers, and edge cases."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
                 Performance, accessibility, and security checks are part of the definition of done.
               </p>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                We fix defects fast and validate fixes before promotion to production.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="We fix defects fast and validate fixes before promotion to production."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
               </p>
             </div>
-
-            {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-            <div>
-                  <Image src="/illustrationsGifs/testing.gif"
-                unoptimized
-                alt="testing" 
-                   width={600} height={500} 
-                   className="w-full h-full object-cover"
-                   loading="lazy" 
-                  />
-                  
-                      
-                </div>
+              <div data-img="reveal" >
+                <Image
+                  src="/illustrationsGifs/testing.gif"
+                  unoptimized
+                  alt="testing"
+                  width={600}
+                  height={500}
+                  className="w-full h-full object-cover select-none will-change-transform"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </article>
 
-          {/* ===== 05: Launch & Handover ===== */}
+          {/* ===== 05 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
-            {/* Right (Copy) */}
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
               <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
-                05 — Launch & Handover
+                <p ref={paraRef6}>05</p> Launch & Handover
               </span>
-              <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef5} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
                 Go Live Smoothly. Own Your Stack.
               </h3>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
-                We orchestrate a frictionless release with backups, monitoring, and rollback plans.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="We orchestrate a frictionless release with backups, monitoring, and rollback plans."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
                 Documentation and knowledge transfer ensure your team can operate with confidence.
               </p>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                Post-launch, we track KPIs and user feedback to guide the next iteration.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="Post-launch, we track KPIs and user feedback to guide the next iteration."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
               </p>
             </div>
-
-            {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-            <div>
-                  <Image src="/illustrationsGifs/deoply.gif"
+              <div data-img="reveal" >
+                <Image
+                  src="/illustrationsGifs/deoply.gif"
                   unoptimized
-                  alt="deploy" 
-                   width={600} height={500} 
-                   className="w-full h-full object-cover"
-                   loading="lazy" 
-                  />
-                  
-                      
-                </div>
+                  alt="deploy"
+                  width={600}
+                  height={500}
+                  className="w-full h-full object-cover select-none will-change-transform"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </article>
 
-          {/* ===== 06: Support & Maintenance ===== */}
+          {/* ===== 06 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
-            {/* Right (Copy) */}
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
               <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
-                06 — Support & Maintenance
+                <p ref={paraRef7}>06</p> Support & Maintenance
               </span>
-              <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef6} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
                 A Long-Term Partner—Beyond the Launch.
               </h3>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
-                We stay with you after release: proactive monitoring, security updates, and a
-                responsive support channel to keep the product healthy and evolving.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="We stay with you after release: proactive monitoring, security updates, and a responsive support channel to keep the product healthy and evolving."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
               </p>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                Need new features? We iterate thoughtfully—protecting velocity, stability, and ROI.
+                <ScrambleMusnadText
+                  duration={3}
+                  revealDelay={0.0002}
+                  finalText="Need new features? We iterate thoughtfully—protecting velocity, stability, and ROI."
+                  containerAnimation={containerAnim}
+                  bindToContainer
+                />
               </p>
             </div>
-
-            {/* Left (Visual) */}
             <div className="flex justify-center items-center p-8 md:p-12">
-            <div>
-                  <Image src="/illustrationsGifs/support.gif"
-                   unoptimized
-                   alt="support" 
-                   width={600} height={500} 
-                   className="w-full h-full object-cover"
-                   loading="lazy" 
-                   />
-                  
-                      
-                </div>
+              <div data-img="reveal" >
+                <Image
+                  src="/illustrationsGifs/support.gif"
+                  unoptimized
+                  alt="support"
+                  width={600}
+                  height={500}
+                  className="w-full h-full object-cover select-none will-change-transform"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </article>
-
         </div>
       </section>
     </div>
