@@ -8,7 +8,7 @@ const BrandIconsGrid = () => {
 {/* desktop */}
      <div className="lg:block hidden">
     
-      <div className="w-screen bg-black dark:bg-transparent rotate-0 lg:-rotate-2 py-2">
+      <div className="w-screen bg-black dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-700 rotate-0 lg:-rotate-2 py-2">
 
 
 

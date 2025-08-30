@@ -1,13 +1,15 @@
+
 // components/PinnedDualStack.tsx
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { Globe2 } from "lucide-react";
 import { IconBrandGithub } from "@tabler/icons-react";
 import Image from "next/image";
-import { TECH, TechItem } from "@/constants/tech-icons"; // أو "@/constants/tech" حسب مسارك
+import { TECH, TechItem } from "@/constants/tech-icons";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { STEPS } from "@/constants/projects";
 import { Lens } from "./ui/lens";
 import { AnimatedTooltip } from "./ui/animated-tooltip";
@@ -15,24 +17,12 @@ import { AnimatedTooltip } from "./ui/animated-tooltip";
 gsap.registerPlugin(ScrollTrigger);
 
 /* -------------------------------------------
- * Helpers
- * ------------------------------------------- */
-const slug = (s: string) =>
-  s.toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
-
-/* -------------------------------------------
  * ربط أسماء التقنيات بالأيقونات الفعلية من TECH
  * ------------------------------------------- */
 const ALL_TECH: TechItem[] = Object.values(TECH).flat();
-
 const TECH_BY_LABEL = new Map<string, TechItem>(
   ALL_TECH.map((t) => [t.label.toLowerCase(), t])
 );
-const TECH_BY_KEY = new Map<string, TechItem>(
-  ALL_TECH.map((t) => [t.key.toLowerCase(), t])
-);
-
-// aliases لازم تشير لِـ label الموجود جوّا TECH
 const LABEL_ALIASES: Record<string, string> = {
   nextjs: "Next.js",
   "next.js": "Next.js",
@@ -44,17 +34,59 @@ const LABEL_ALIASES: Record<string, string> = {
   postgresql: "PostgreSQL",
   js: "JavaScript",
   ts: "TypeScript",
-  tailwindcss: "Tailwind",
-  tailwind: "Tailwind",
-  three: "Three.js",
-  trpc: "tRPC",
-  shadcn: "shadcn/ui",
+  tailwindcss: "Tailwind CSS",
+  tailwind: "Tailwind CSS",
 };
 
+/** دالة: تجيب عنصر التقنية من قاعدة الأيقونات */
 function getTechItemByName(name: string): TechItem | null {
   const n = name.trim().toLowerCase();
-  const canonical = (LABEL_ALIASES[n] ?? n).toLowerCase();
-  return TECH_BY_LABEL.get(canonical) ?? TECH_BY_KEY.get(canonical) ?? null;
+  const aliased = LABEL_ALIASES[n] ?? name;
+  return (
+    TECH_BY_LABEL.get(aliased.toLowerCase()) ||
+    TECH_BY_LABEL.get(name.toLowerCase()) ||
+    null
+  );
+}
+
+/** كمبوننت: دائرة أيقونة تقنية (صورة فعلية) */
+function TechCircle({
+  src,
+  alt,
+  name,
+}: {
+  src: string;
+  alt: string;
+  name: string;
+}) {
+  return (
+    <span
+      title={name}
+      className="
+        inline-flex items-center justify-center
+        h-11 w-11 md:h-20 md:w-20 rounded-full
+        border border-black/15 dark:border-white/20
+        bg-white dark:bg-transparent
+        shadow-sm select-none overflow-hidden
+        cursor-pointer
+        hover:scale-105 transition-all
+        group
+      "
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={60}
+        height={60}
+        className="
+          object-contain
+          grayscale opacity-70
+          transition duration-300 ease-out
+          group-hover:grayscale-0 group-hover:opacity-100
+        "
+      />
+    </span>
+  );
 }
 
 /**
@@ -73,37 +105,29 @@ export default function PinnedDualStack() {
   const mobileContainerRef = useRef<HTMLDivElement | null>(null);
   const mobileTrackRef = useRef<HTMLDivElement | null>(null);
 
- 
-  /* ===== الديسكتوب (>=768px) ===== */
-useLayoutEffect(() => {
-  const mm = gsap.matchMedia();
-  const ctx = gsap.context(() => {
-    mm.add("(min-width: 768px)", () => {
-      const pinWrap = pinWrapRef.current;
-      const leftTrack = leftTrackRef.current;
-      if (!pinWrap || !leftTrack) return;
+  /**
+   * تأثير: إعداد أنيميشن الديسكتوب فقط عند شاشات md+
+   */
+  useLayoutEffect(() => {
+    const mql = window.matchMedia("(min-width: 768px)");
+    if (!mql.matches) return; // شغّل الديسكتوب فقط على الشاشات الكبيرة
 
+    const ctx = gsap.context(() => {
+      const pinWrap = pinWrapRef.current!;
+      const leftTrack = leftTrackRef.current!;
       const rightSlides = gsap.utils.toArray<HTMLElement>("[data-right-slide]");
       const total = rightSlides.length;
 
-      // لو مفيش شرائح كفاية، لا تعمل pin
-      if (total <= 1) return;
-
       gsap.set(rightSlides, { autoAlpha: 0 });
-      gsap.set(rightSlides[0], { autoAlpha: 1 });
+      if (rightSlides[0]) gsap.set(rightSlides[0], { autoAlpha: 1 });
 
       const stepDur = 1;
-
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
-          id: "pds-desktop",
           trigger: pinWrap,
           start: "top top+=10",
-          end: () => {
-            const dist = (total - 1) * window.innerHeight;
-            return dist > 0 ? `+=${dist}` : "+=1";
-          },
+          end: () => `+=${(total - 1) * window.innerHeight}`,
           pin: true,
           scrub: 1,
           anticipatePin: 1,
@@ -112,6 +136,7 @@ useLayoutEffect(() => {
         },
       });
 
+      // تحريك مسار اليسار عموديًا
       tl.to(
         leftTrack,
         {
@@ -122,13 +147,16 @@ useLayoutEffect(() => {
         0
       );
 
+      // تبديل اليمين + ظهور الميزات
       for (let i = 0; i < total - 1; i++) {
         const at = i * stepDur;
         tl.to(rightSlides[i], { autoAlpha: 0, duration: 0.25 }, at + 0.001);
         tl.to(rightSlides[i + 1], { autoAlpha: 1, duration: 0.25 }, at + 0.05);
 
         const nextFeatures =
-          (rightSlides[i + 1] as HTMLElement).querySelectorAll("[data-feature-item]");
+          (rightSlides[i + 1] as HTMLElement).querySelectorAll(
+            "[data-feature-item]"
+          );
         tl.fromTo(
           nextFeatures,
           { y: 6, autoAlpha: 0 },
@@ -137,64 +165,67 @@ useLayoutEffect(() => {
         );
       }
 
-      // تنظيف
       return () => {
         tl.scrollTrigger?.kill();
         tl.kill();
       };
-    });
-  }, sectionRef);
+    }, sectionRef);
 
-  return () => {
-    ctx.revert();
-    mm.kill();
-  };
-}, []);
+    return () => ctx.revert();
+  }, []);
 
-/* ===== الموبايل (<768px) ===== */
-useLayoutEffect(() => {
-  const mm = gsap.matchMedia();
-  const ctx = gsap.context(() => {
-    mm.add("(max-width: 767.98px)", () => {
-      const container = mobileContainerRef.current;
-      const track = mobileTrackRef.current;
-      if (!container || !track) return;
+  /**
+   * تأثير: نسخة الموبايل
+   * - المسار العلوي يتحرك أفقيًا.
+   * - التفاصيل بالأسفل ثابتة ويتم تبديلها بـ fade عند تغيير الشريحة.
+   */
+  useLayoutEffect(() => {
+    const mql = window.matchMedia("(max-width: 767.98px)");
+    if (!mql.matches) return; // شغّل الموبايل فقط على الشاشات الصغيرة
 
-      const panels = Array.from(track.querySelectorAll<HTMLElement>("[data-mobile-panel]"));
-      // اضبط العرض قبل حساب المسافة
+    const ctx = gsap.context(() => {
+      const container = mobileContainerRef.current!;
+      const track = mobileTrackRef.current!;
+      const panels = Array.from(
+        track.querySelectorAll<HTMLElement>("[data-mobile-panel]")
+      );
+      const details = gsap.utils.toArray<HTMLElement>("[data-mobile-detail]");
+
+      // عرض المسار الكامل = عدد الشرائح * عرض الشاشة
       track.style.width = `${panels.length * 100}vw`;
 
-      const details = gsap.utils.toArray<HTMLElement>("[data-mobile-detail]");
+      // جهّز التفاصيل السفلية: كلها مخفية ماعدا الأولى
       gsap.set(details, { autoAlpha: 0 });
       if (details[0]) gsap.set(details[0], { autoAlpha: 1 });
 
-      const getDistance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+      const getDistance = () => track.scrollWidth - window.innerWidth;
 
-      // لو المسافة صفر، لا تعمل pin
-      const distance = getDistance();
-      if (distance <= 0) return;
-
+      // تحريك المسار الأفقي العلوي + Pin + Snap
       const hTween = gsap.to(track, {
         x: () => -getDistance(),
         ease: "none",
         scrollTrigger: {
-          id: "pds-mobile",
           trigger: container,
           start: "top top",
           pin: true,
           scrub: 1,
           end: () => `+=${getDistance()}`,
           snap: panels.length > 1 ? 1 / (panels.length - 1) : 0,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       });
 
+      // تبديل التفاصيل السفلية بالـ fade حسب التقدم
       let current = 0;
       const switchDetails = (nextIdx: number) => {
         if (!details[current] || !details[nextIdx] || current === nextIdx) return;
+        // يمكنك إضافة حركة انزلاق بسيطة مع الفيد:
         gsap.to(details[current], { autoAlpha: 0, y: -8, duration: 0.2 });
-        gsap.fromTo(details[nextIdx], { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.2 });
+        gsap.fromTo(
+          details[nextIdx],
+          { autoAlpha: 0, y: 8 },
+          { autoAlpha: 1, y: 0, duration: 0.2 }
+        );
         current = nextIdx;
       };
 
@@ -211,24 +242,29 @@ useLayoutEffect(() => {
 
       const refresh = () => ScrollTrigger.refresh();
       window.addEventListener("resize", refresh);
+      window.addEventListener("load", refresh);
 
       return () => {
         window.removeEventListener("resize", refresh);
+        window.removeEventListener("load", refresh);
         hTween.scrollTrigger?.kill();
         hTween.kill();
         st.kill();
       };
-    });
-  }, sectionRef);
+    }, sectionRef);
 
-  return () => {
-    ctx.revert();
-    mm.kill();
-  };
-}, []);
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section ref={sectionRef} className="relative bg-neutral-950 text-white">
+
+          {/* decoration */}
+     
+   
+
+
+
       {/* Heading */}
       <div className="w-screen px-6 py-8 md:px-10 md:py-10">
         <p className="text-amber-300/80 text-xs uppercase tracking-[0.2em]">
@@ -250,175 +286,178 @@ useLayoutEffect(() => {
               ref={leftTrackRef}
               className="absolute inset-0 flex flex-col will-change-transform"
             >
-              {STEPS.map((p) => {
-                const pid = (p as any).id ?? slug(p.name);
-                return (
-                  <article
-                    key={pid}
-                    className="h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1.2rem)] flex flex-col gap-4 p-4"
-                  >
-                    <h3 className="text-2xl md:text-3xl font-bold">{p.name}</h3>
-                    <figure className="relative w-full rounded-xl border border-white/10 bg-neutral-900/40 overflow-hidden">
-                      <Lens>
-                        <div className="relative w-full h-[38vh] md:h-[50vh]">
-                          <Image
-                            src={p.imageSrc}
-                            alt={p.imageAlt ?? p.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      </Lens>
-                    </figure>
-                    <p className="text-neutral-300">{p.description}</p>
-                  </article>
-                );
-              })}
+              {STEPS.map((p, i) => (
+                <article
+                  key={p.name + i}
+                  className="h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1.2rem)] flex flex-col gap-4 p-4"
+                >
+                  <h3 className="text-2xl md:text-3xl font-bold">{p.name}</h3>
+                  <figure className="relative w-full rounded-xl border border-white/10 bg-neutral-900/40 overflow-hidden">
+                    {/* صورة أصغر لتجنّب القص */}
+                   
+                    <Lens >
+                    <div className="relative w-full h-[38vh] md:h-[50vh]">
+                      <Image
+                        src={p.imageSrc}
+                        alt={p.imageAlt ?? p.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    </Lens>
+                  </figure>
+                  <p className="text-neutral-300">{p.description}</p>
+                </article>
+              ))}
             </div>
           </div>
 
           {/* RIGHT (Pinned, Fade + features + real icons) */}
           <div className="relative h-[calc(100vh-0.75rem)] md:h-[calc(100vh-1rem)] overflow-visible py-6">
-            {STEPS.map((p, i) => {
-              const pid = (p as any).id ?? slug(p.name);
-              return (
-                <aside
-                  key={pid}
-                  data-right-slide
-                  className="absolute inset-0 flex items-start justify-start p-4"
-                >
-                  <div className="w-full max-w-xl rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl overflow-hidden">
-                    <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
-                    <div className="p-6">
-                      <h4 className="text-xs uppercase text-neutral-400">
-                        {i + 1} / {STEPS.length}
-                      </h4>
-                      <h3 className="mt-2 text-2xl md:text-4xl font-bold">
-                        {p.name}
-                      </h3>
+            {STEPS.map((p, i) => (
+              <aside
+                key={p.name + i}
+                data-right-slide
+                className="absolute inset-0 flex items-start justify-start p-4"
+              >
+                <div className="w-full max-w-xl rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl overflow-hidden">
+                  <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
+                  <div className="p-6">
+                    <h4 className="text-xs uppercase text-neutral-400">
+                      {i + 1} / {STEPS.length}
+                    </h4>
+                    <h3 className="mt-2 text-2xl md:text-4xl font-bold">
+                      {p.name}
+                    </h3>
 
-                      {/* تقنيات بأيقونات حقيقية */}
-                      <div className="mt-5 flex flex-wrap gap-3">
-                        {p.techs.map((t) => {
-                          const item = getTechItemByName(t.name);
-                          const tk = (item?.key ?? slug(t.name)).toLowerCase();
-                          return item ? (
-                            <AnimatedTooltip
-                              key={`${pid}__tech__${tk}`}
-                              src={item.src}
-                              alt={item.alt}
-                              name={item.label}
-                            />
-                          ) : (
-                            <AnimatedTooltip
-                              key={`${pid}__tech__${tk}__fallback`}
-                              src={"https://via.placeholder.com/150"}
-                              alt={t.name}
-                              name={t.name}
-                            />
-                          );
-                        })}
-                      </div>
+                    {/* تقنيات بأيقونات حقيقية */}
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      {p.techs.map((t) => {
+                        const item = getTechItemByName(t.name);
+                        return item ? (
+                        
+                        
+                        <AnimatedTooltip  src={item.src} alt={item.alt} name={item.label} />
+                            
+                              
+                            
+                            
 
-                      {/* Features */}
-                      <div className="mt-6">
-                        <h5 className="text-sm uppercase text-amber-300 mb-2">
-                          Key Features
-                        </h5>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          {p.features.map((feat, idx) => (
-                            <li
-                              key={`${pid}__feat__${slug(feat)}__${idx}`}
-                              data-feature-item
-                              className="flex items-start gap-2 text-sm text-neutral-200"
-                            >
-                              <span className="mt-1 h-2 w-2 rounded-full bg-gradient-to-r from-amber-700 to-amber-200" />
-                              <span>{feat}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                        ) : (
+                          <AnimatedTooltip
+                         
+                          src={"https://via.placeholder.com/150"}
+                          alt={t.name}
+                          name={t.name}
+                        />
+                        
+                        );
+                      })}
                     </div>
 
-                    {/* CTAs */}
-                    <div className="flex items-center justify-center gap-3 pb-5">
-                      {p.liveUrl && p.liveUrl !== "#" && (
-                        <a
-                          href={p.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 font-semibold"
-                        >
-                          <Globe2 />
-                          <span>Visit Project</span>
-                        </a>
-                      )}
-                      {p.repoUrl && (
-                        <a
-                          href={p.repoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/5 text-white"
-                        >
-                          <IconBrandGithub />
-                          <span>GitHub Repo</span>
-                        </a>
-                      )}
+                    {/* Features */}
+                    <div className="mt-6">
+                      <h5 className="text-sm uppercase text-amber-300 mb-2">
+                        Key Features
+                      </h5>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {p.features.map((feat, idx) => (
+                          <li
+                            key={`${p.name}-feat-${idx}`}
+                            data-feature-item
+                            className="flex items-start gap-2 text-sm text-neutral-200"
+                          >
+                            <span className="mt-1 h-2 w-2 rounded-full bg-gradient-to-r from-amber-700 to-amber-200" />
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
-                </aside>
-              );
-            })}
+
+                  {/* Ctas */}
+                  <div className="flex items-center justify-center gap-3 pb-5">
+                    {p.liveUrl && p.liveUrl !== "#" && (
+                      <a
+                        href={p.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 font-semibold"
+                      >
+                        <Globe2 />
+                        <span>Visit Project</span>
+                      </a>
+                    )}
+                    {p.repoUrl && (
+                      <a
+                        href={p.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/5 text-white"
+                      >
+                        <IconBrandGithub />
+                        <span>GitHub Repo</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </aside>
+            ))}
           </div>
         </div>
       </div>
+
+
 
       {/* =========================
           نسخة الموبايل (أفقي + تفاصيل ثابتة بأسفل)
           ========================= */}
       <div
         ref={mobileContainerRef}
-        className="block md:hidden relative w-full h/[calc(100svh-5rem)] overflow-hidden"
+        className="block md:hidden relative w-full h-[calc(100svh-5rem)] overflow-hidden"
       >
-        {/* المسار العلوي المتحرك أفقياً - يأخذ ~62% من ارتفاع الكونتينر */}
+
+
+        {/* المسار العلوي المتحرك أفقياً - يأخذ 62% من ارتفاع الكونتينر */}
         <div
           ref={mobileTrackRef}
-          className="absolute flex items-center justify-center inset-x-0 top-0 h-[62%] w-[80%] will-change-transform"
+          className="absolute flex items-center justify-center  inset-x-0 top-0 h-[62%] w-[80%] will-change-transform"
         >
-          {STEPS.map((p) => {
-            const pid = (p as any).id ?? slug(p.name);
-            return (
-              <section
-                key={pid}
-                data-mobile-panel
-                className="w-screen h-full flex flex-col px-4 py-4"
-              >
-                {/* المشروع بالأعلى (هو اللي يتحرك) */}
-                <div className="flex-1 min-h-0 flex flex-col gap-3">
-                  <h3 className="text-xl font-bold">{p.name}</h3>
-                  <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
-                  <figure className="relative w-full rounded-xl border border-white/10 bg-neutral-900/40 overflow-hidden">
-                    <Lens>
-                      <div className="relative w-full h-[55%] min-h-[160px]">
-                        <Image
-                          src={p.imageSrc}
-                          alt={p.imageAlt ?? p.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    </Lens>
-                  </figure>
-                  <p className="text-neutral-300 text-sm">{p.description}</p>
+          {STEPS.map((p, i) => (
+            <section
+              key={p.name + i}
+              data-mobile-panel
+              className="w-screen h-full flex flex-col px-4 py-4"
+            >
+              {/* المشروع بالأعلى (هو اللي يتحرك) */}
+              <div className="flex-1 min-h-0 flex flex-col gap-3">
+                <h3 className="text-xl font-bold">{p.name}</h3>
+                <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
+                <figure className="relative w-full rounded-xl border border-white/10 bg-neutral-900/40 overflow-hidden">
+                  
+                 
+                  <Lens>
+                  <div className="relative w-full h-[55%] min-h-[160px]">
+                    <Image
+                      src={p.imageSrc}
+                      alt={p.imageAlt ?? p.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  </Lens>
+                </figure>
+                <p className="text-neutral-300 text-sm">{p.description}</p>
+            
 
-                  {/* CTAs */}
-                  <div className="mt-4 flex justify-center items-center gap-2">
+              {/* CTAs */}
+                <div className="mt-4 flex justify-center items-center gap-2">
                     {p.liveUrl && p.liveUrl !== "#" && (
                       <a
                         href={p.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 text-sm font-semibold"
+                        className=" flex  items-center justify-center gap-2 px-3 py-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-300 text-neutral-950 text-sm font-semibold"
                       >
                         <Globe2 className="w-4 h-4" />
                         <span>Visit</span>
@@ -436,74 +475,70 @@ useLayoutEffect(() => {
                       </a>
                     )}
                   </div>
-                </div>
-              </section>
-            );
-          })}
+            
+              </div>
+                
+                 
+            </section>
+          ))}
         </div>
 
-        {/* التفاصيل السفلية الثابتة - تأخذ ~38% من ارتفاع الكونتينر */}
+        {/* التفاصيل السفلية الثابتة - تأخذ 38% من ارتفاع الكونتينر */}
         <div className="absolute inset-x-0 bottom-0 h-[40%] z-10">
           <div className="h-full relative px-4 pb-4">
-            {STEPS.map((p) => {
-              const pid = (p as any).id ?? slug(p.name);
-              return (
-                <aside
-                  key={`${pid}__detail`}
-                  data-mobile-detail
-                  className="absolute inset-0 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl overflow-hidden opacity-0"
-                >
-                  <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
-                  <div className="p-4">
-                    <h4 className="text-xs uppercase text-neutral-400">
-                      {/* الرقم هنا غير مرتبط بـ i، ده صندوق ثابت يتم تبديله سكربتياً */}
-                    </h4>
-                    <h3 className="mt-2 text-2xl font-bold">{p.name}</h3>
+            {STEPS.map((p, i) => (
+              <aside
+                key={p.name + i}
+                data-mobile-detail
+                className="absolute inset-0 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl overflow-hidden opacity-0"
+              >
+                <div className="h-1 w-full bg-gradient-to-r from-amber-700 to-amber-100" />
+                <div className="p-4">
+                  <h4 className="text-xs uppercase text-neutral-400">
+                    {i + 1} / {STEPS.length}
+                  </h4>
+                  <h3 className="mt-2 text-2xl font-bold">{p.name}</h3>
 
-                    {/* تقنيات (دوائر صور) */}
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {p.techs.map((t) => {
-                        const item = getTechItemByName(t.name);
-                        const tk = (item?.key ?? slug(t.name)).toLowerCase();
-                        return item ? (
-                          <AnimatedTooltip
-                            key={`${pid}__mtech__${tk}`}
-                            src={item.src}
-                            alt={item.alt}
-                            name={item.label}
-                          />
-                        ) : (
-                          <AnimatedTooltip
-                            key={`${pid}__mtech__${tk}__fallback`}
-                            src={"https://via.placeholder.com/150"}
-                            alt={t.name}
-                            name={t.name}
-                          />
-                        );
-                      })}
-                    </div>
-
-                    {/* الميزات */}
-                    <div className="mt-4">
-                      <h5 className="text-xs uppercase text-amber-300 mb-1">
-                        Key Features
-                      </h5>
-                      <ul className="grid grid-cols-1 gap-1">
-                        {p.features.map((feat, idx) => (
-                          <li
-                            key={`${pid}__mfeat__${slug(feat)}__${idx}`}
-                            className="flex items-start gap-2 text-sm text-neutral-200"
-                          >
-                            <span className="mt-1 h-2 w-2 rounded-full bg-gradient-to-r from-amber-700 to-amber-200" />
-                            <span>{feat}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  {/* تقنيات (دوائر صور) */}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {p.techs.map((t) => {
+                      const item = getTechItemByName(t.name);
+                      return item ? (
+                        
+                        <AnimatedTooltip src={item.src} alt={item.alt} name={item.label} />
+                      ) : (
+                        <AnimatedTooltip
+                         
+                          src={"https://via.placeholder.com/150"}
+                          alt={t.name}
+                          name={t.name}
+                        />
+                      );
+                    })}
                   </div>
-                </aside>
-              );
-            })}
+
+                  {/* الميزات */}
+                  <div className="mt-4">
+                    <h5 className="text-xs uppercase text-amber-300 mb-1">
+                      Key Features
+                    </h5>
+                    <ul className="grid grid-cols-1 gap-1">
+                      {p.features.map((feat, idx) => (
+                        <li
+                          key={`${p.name}-mfeat-${idx}`}
+                          className="flex items-start gap-2 text-sm text-neutral-200"
+                        >
+                          <span className="mt-1 h-2 w-2 rounded-full bg-gradient-to-r from-amber-700 to-amber-200" />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+               
+                </div>
+              </aside>
+            ))}
           </div>
         </div>
       </div>

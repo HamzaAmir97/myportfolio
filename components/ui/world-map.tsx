@@ -63,14 +63,14 @@ export default function WorldMap({
   if (!mounted) {
     return (
       <div
-        className="w-full aspect-[2/1] rounded-lg bg-neutral-200/40"
+        className="w-full aspect-[2/1] rounded-lg"
         aria-hidden="true"
       />
     );
   }
 
   return (
-    <div className="w-full aspect-[2/1] bg-white rounded-lg relative font-sans">
+    <div className="w-full aspect-[2/1]rounded-lg relative font-sans">
       <img
         src={dataUrl!}
         className="h-full w-full [mask-image:linear-gradient(to_bottom,transparent,white_10%,white_90%,transparent)] pointer-events-none select-none"

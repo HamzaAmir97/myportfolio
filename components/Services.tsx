@@ -8,6 +8,7 @@ import { GlowingEffect } from './ui/glowing-effect'
 import { useGsapCornerWipe } from '@/hooks/useGsapCornerWipe';
 import { useRef } from 'react';
 import { animateSplitOnScroll } from '@/lib/animation/animateSplitOnScroll';
+import { useTheme } from 'next-themes';
 
 const Services = () => {
 
@@ -54,10 +55,73 @@ const Services = () => {
         };
       }, []);
     
+  const isDark = useTheme().theme === "dark";
+
   return (
    
     <section className="relative w-full min-h-[100svh] lg:w-screen lg:h-screen py-12 lg:py-20 flex flex-col px-4 sm:px-6 lg:px-10">
         
+
+    {/* decoration */}
+  
+ 
+
+
+  
+  {/* Striped Dark */}
+
+  {isDark &&
+
+  <div
+    className="absolute inset-0 -z-1"
+    style={{
+      background:
+        "repeating-linear-gradient(45deg, #000 0px, #111 2px, #000 4px, #222 6px)",
+    }}
+  />
+
+
+  }  
+  
+
+ {isDark &&
+  <div
+    className="absolute inset-0 -z-12 pointer-events-none"
+    style={{
+      background: "rgba(255, 255, 255, 0.02)",
+      backdropFilter: "blur(45px) grayscale(20%)",
+      WebkitBackdropFilter: "blur(45px) grayscale(20%)",
+    }}
+  />
+
+}
+  {/* Crosshatch Art - Light Pattern */}
+
+{!isDark &&
+
+  <div
+    className="absolute inset-0 -z-5 pointer-events-none"
+    style={{
+      backgroundImage: `
+        repeating-linear-gradient(22.5deg, transparent, transparent 2px, rgba(75, 85, 99, 0.06) 2px, rgba(75, 85, 99, 0.06) 3px, transparent 3px, transparent 8px),
+        repeating-linear-gradient(67.5deg, transparent, transparent 2px, rgba(107, 114, 128, 0.05) 2px, rgba(107, 114, 128, 0.05) 3px, transparent 3px, transparent 8px),
+        repeating-linear-gradient(112.5deg, transparent, transparent 2px, rgba(55, 65, 81, 0.04) 2px, rgba(55, 65, 81, 0.04) 3px, transparent 3px, transparent 8px),
+        repeating-linear-gradient(157.5deg, transparent, transparent 2px, rgba(31, 41, 55, 0.03) 2px, rgba(31, 41, 55, 0.03) 3px, transparent 3px, transparent 8px)
+      `,
+    }}
+  />
+  }
+
+
+  {/* Edge Fades Overlays */}
+  <div className="pointer-events-none absolute inset-x-0 top-0 h-16 z-50 bg-gradient-to-b from-white/95 to-transparent dark:from-black/95" />
+  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 z-50 bg-gradient-to-t from-white/95 to-transparent dark:from-black/95" />
+
+
+
+
+
+
       {/* heading */}
       <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-center lg:justify-between py-6 lg:py-10">
         {/* title */}
@@ -68,7 +132,7 @@ const Services = () => {
               My Services ?
             </p>
           </div>
-          <h1 ref={paraRef} className="text-3xl sm:text-4xl uppercase font-bold text-black dark:text-white">
+          <h1 ref={paraRef} className="text-3xl sm:text-4xl uppercase font-bold text-black dark:text-amber-600">
             What I offer
           </h1>
         </div>
@@ -91,10 +155,10 @@ const Services = () => {
             <span className="w-0.5 h-12 bg-black dark:bg-white"/>
             <a href="#skills">
               <Button
-                className="w-14 h-14 bg-black dark:bg-black rounded-full cursor-pointer hover:scale-110 hover:shadow-xl hover:shadow-amber-700 hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out animate-bounce"
+                className="w-14 h-14 bg-black dark:bg-gradient-to-b dark:from-amber-700 dark:to-amber-300 rounded-full cursor-pointer hover:scale-110 hover:shadow-xl hover:shadow-amber-700 hover:bg-white dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300 ease-in-out animate-bounce"
                 aria-label="Scroll to skills"
               >
-                <ArrowDown/>
+                <ArrowDown className="text-white hover:text-black"/>
               </Button>
             </a>
           </div>
@@ -130,6 +194,7 @@ const Services = () => {
             className="
               w-[15.9rem] md:w-[18rem] lg:w-[18rem]
               h-64 sm:h-72 lg:h-[20rem]
+              dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-700
               border-2 p-6 sm:p-8 lg:p-10 border-black hover:border-amber-600 dark:hover:border-amber-600 dark:border-white
             ">
               <div className="flex flex-col items-start gap-3">
@@ -146,6 +211,7 @@ const Services = () => {
             <div  className="
               w-[15.9rem] md:w-[18rem] lg:w-[18rem]
               h-64 sm:h-72 lg:h-[20rem]
+              dark:bg-gradient-to-b dark:from-gray-700 dark:to-gray-600
               border-2 p-6 sm:p-8 lg:p-10 border-black hover:border-amber-600 dark:hover:border-amber-600 dark:border-white
             ">
               <div className="flex flex-col items-start gap-3">

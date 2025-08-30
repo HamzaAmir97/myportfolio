@@ -35,6 +35,10 @@ export const TECH: TechByCategory = {
     { key: "bootstrap",    label: "Bootstrap",     alt: "Bootstrap",     src: "/skills/bootstrap.png",                     href: "https://getbootstrap.com/" },
     { key: "shadcn",       label: "shadcn/ui",     alt: "shadcn/ui",     src: "/skills/shadcn.png",                        href: "https://ui.shadcn.com/" },
     { key: "threejs",      label: "Three.js",      alt: "Three.js",      src: "/skills/three.png",                         href: "https://threejs.org/" },
+    { key: "vite",       label: "Vite",       alt: "Vite",       src: "/skills/vite.png",       href: "https://vitejs.dev/" },
+    { key: "next-intl",  label: "next-intl",  alt: "next-intl",  src: "/skills/next-intl.png",  href: "https://next-intl-docs.vercel.app" },
+    
+  
   ],
 
   backend: [
@@ -48,6 +52,13 @@ export const TECH: TechByCategory = {
     { key: "mongodb",    label: "MongoDB",     alt: "MongoDB",     src: "/skills/mongodb.png",         href: "https://www.mongodb.com/" },
     { key: "tanstack",   label: "TanStack",    alt: "TanStack",    src: "/skills/tanstack.png",        href: "https://tanstack.com/" },
     { key: "trpc",       label: "tRPC",        alt: "tRPC",        src: "/skills/trpc.png",            href: "https://trpc.io/" },
+    { key: "convex",    label: "Convex",    alt: "Convex",          src: "/skills/convex.png",    href: "https://www.convex.dev" },
+    { key: "stripe",    label: "Stripe",    alt: "Stripe",          src: "/skills/stripe.png",    href: "https://stripe.com" },
+    { key: "mongoose",  label: "Mongoose",  alt: "Mongoose",        src: "/skills/mongoose.png",  href: "https://mongoosejs.com" },
+    { key: "jwt",       label: "JWT",       alt: "JSON Web Tokens", src: "/skills/jwt.png",       href: "https://jwt.io" },
+    { key: "clerk",     label: "Clerk",     alt: "Clerk",           src: "/skills/clerk.png",     href: "https://clerk.com" },
+    
+  
   ],
 
   ai: [
@@ -55,6 +66,8 @@ export const TECH: TechByCategory = {
     { key: "jupyter",  label: "Jupyter",        alt: "Jupyter",        src: "/skills/jupyter.png",               href: "https://jupyter.org/" },
     { key: "gemini",   label: "Google Gemini",  alt: "Google Gemini",  src: "/skills/Google-Gemini-Logo.png",    href: "https://gemini.google.com/" },
     { key: "openai",   label: "OpenAI",         alt: "OpenAI",         src: "/skills/openai.png",                href: "https://openai.com/" },
+    { key: "vapi",      label: "Vapi",      alt: "Vapi",            src: "/skills/vapi.png",      href: "https://vapi.ai" },
+    
   ],
 
   testing: [

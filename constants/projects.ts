@@ -39,7 +39,7 @@ export const STEPS: Project[] = [
     imageAlt: "AI Website Builder wizard & generated landing pages",
     description:
       "AI-powered website builder: generate sections, copy, and images; publish with SEO, auth, payments, and admin tools.",
-    liveUrl: "#",
+    liveUrl: "https://codey-jade.vercel.app/",
     repoUrl: "https://github.com/HamzaAmir97/saas_ai_website_builder",
     techs: toTechs([
       "Next.js",
@@ -50,7 +50,7 @@ export const STEPS: Project[] = [
       "MongoDB",
       "Stripe",
       "OpenAI",
-      "Resend",
+     
       "Clerk",
     ]),
     features: [
@@ -80,7 +80,7 @@ export const STEPS: Project[] = [
       "MongoDB",
       "Mongoose",
       "JWT",
-      "Multer",
+     
       "Tailwind CSS",   // ← تصبح Tailwind
     ]),
     features: [

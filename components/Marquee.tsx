@@ -1,4 +1,5 @@
 "use client";
+
 import { Children, useEffect, useRef, useState } from "react";
 
 interface MarqueeProps {
@@ -8,9 +9,9 @@ interface MarqueeProps {
   speed?: number;
   pauseOnHover?: boolean;
   className?: string;
-  /** 👈 عدد العناصر الظاهرة */
+  /** عدد العناصر الظاهرة */
   itemsToShow?: number;
-  /** 👈 المسافة بين العناصر (px) */
+  /** المسافة بين العناصر (px) */
   gap?: number;
 }
 
@@ -20,7 +21,7 @@ export function Marquee({
   speed = 80,
   pauseOnHover = true,
   className = "",
-  itemsToShow = 4, 
+  itemsToShow = 4,
   gap = 2,
 }: MarqueeProps) {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -41,7 +42,8 @@ export function Marquee({
     };
   }, [children, itemsToShow, gap]);
 
-  const duration = contentWidth > 0 ? contentWidth / speed : 20;
+  // المدة بالثواني = عرض المحتوى / السرعة (px/sec)
+  const durationSec = contentWidth > 0 ? contentWidth / speed : 20;
   const items = Children.toArray(children);
 
   return (
@@ -56,13 +58,25 @@ export function Marquee({
           ["--gap" as any]: `${gap}px`,
           ["--visible" as any]: itemsToShow as any,
           gap: "var(--gap)",
-          animation: `marquee-${direction} ${duration}s linear infinite`,
+          // ❌ لا تستخدم animation: ... (shorthand)
+          // ✅ استخدم longhand فقط:
+          animationName: `marquee-${direction}`,
+          animationDuration: `${durationSec}s`,
+          animationTimingFunction: "linear",
+          animationIterationCount: "infinite",
+          animationDelay: "0s",
+          animationDirection: "normal",
+          animationFillMode: "none",
           animationPlayState: paused ? "paused" : "running",
           willChange: "transform",
         }}
       >
         {/* نسخة 1 */}
-        <div ref={contentRef} className="flex flex-nowrap items-center shrink-0" style={{ gap: "var(--gap)" }}>
+        <div
+          ref={contentRef}
+          className="flex flex-nowrap items-center shrink-0"
+          style={{ gap: "var(--gap)" }}
+        >
           {items.map((child, i) => (
             <div
               key={`a-${i}`}
@@ -76,6 +90,7 @@ export function Marquee({
           ))}
         </div>
 
+        {/* نسخة 2 (للتكرار اللانهائي) */}
         <div className="flex flex-nowrap items-center shrink-0" style={{ gap: "var(--gap)" }}>
           {items.map((child, i) => (
             <div
@@ -91,9 +106,16 @@ export function Marquee({
         </div>
       </div>
 
+      {/* keyframes فقط — لا تضيف animation هنا */}
       <style>{`
-        @keyframes marquee-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @keyframes marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+        @keyframes marquee-left { 
+          from { transform: translateX(0); } 
+          to   { transform: translateX(-50%); } 
+        }
+        @keyframes marquee-right { 
+          from { transform: translateX(-50%); } 
+          to   { transform: translateX(0); } 
+        }
       `}</style>
     </div>
   );

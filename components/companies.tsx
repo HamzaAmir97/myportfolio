@@ -38,7 +38,9 @@ function BrandCircle({ src, alt, name }: { src: string; alt: string; name: strin
 
 const BrandIconsGrid = () => {
   return (
-    <div className="bg-white dark:bg-neutral-900 w-screen p-20 mt-20" id="faq">
+    <div className= " relative bg-white dark:bg-neutral-900 w-screen p-20 mt-20" id="faq">
+
+
       <h2 className="text-4xl font-bold text-center">
         Trained &amp; Certified by Leading Institutions
       </h2>

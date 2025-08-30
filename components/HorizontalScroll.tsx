@@ -6,8 +6,8 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Image from "next/image";
 import ScrambleMusnadText from "./ScrambleMusnadText";
 import { animateSplitOnScroll } from "@/lib/animation/animateSplitOnScroll";
-// ❌ مش هنستخدم motion هنا
-// import { motion } from "motion/react";
+import { HeroHighlight } from "./ui/hero-highlight";
+import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,7 +16,6 @@ export default function HorizontalScroll() {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
 
-  // هنخزّن Tween الخاص بالحركة الأفقية هنا
   const [containerAnim, setContainerAnim] = useState<gsap.core.Tween | null>(null);
 
   useLayoutEffect(() => {
@@ -25,7 +24,7 @@ export default function HorizontalScroll() {
       const track = trackRef.current!;
       const progress = progressRef.current!;
 
-      // Reveal عام للسيكشن نفسه أول ما يدخل
+      // Reveal للسيكشن العمودي
       gsap.set(container, { autoAlpha: 0, y: 40 });
       ScrollTrigger.create({
         trigger: container,
@@ -53,6 +52,8 @@ export default function HorizontalScroll() {
       });
 
       setContainerAnim(tween);
+      // ✅ مهم: بعد تكوين الأفقي نعمل refresh عشان كل التريجرز تعيد الحساب
+      requestAnimationFrame(() => ScrollTrigger.refresh());
 
       // شريط التقدّم
       gsap.set(progress, { scaleX: 0, transformOrigin: "left center" });
@@ -84,8 +85,8 @@ export default function HorizontalScroll() {
   }, []);
 
   // ===== Intro refs (عمودي) =====
-  const titleRef = useRef<HTMLParagraphElement>(null); // <p>
-  const paraRef = useRef<HTMLHeadingElement>(null); // <h2>
+  const titleRef = useRef<HTMLParagraphElement>(null);
+  const paraRef = useRef<HTMLHeadingElement>(null);
 
   // ===== Panel refs =====
   const titleRef1 = useRef<HTMLHeadingElement>(null);
@@ -133,11 +134,11 @@ export default function HorizontalScroll() {
     };
   }, []);
 
-  // Panels (أفقي): نضيف ريفيل الصور + النصوص لما الـ containerAnim يبقى جاهز
+  // Panels (أفقي): نصوص + صور
   useLayoutEffect(() => {
     if (!containerAnim) return;
 
-    // 1) النصوص (كما هي)
+    // نصوص
     const cleanups = [
       // 01
       animateSplitOnScroll({
@@ -255,13 +256,12 @@ export default function HorizontalScroll() {
       }),
     ];
 
-    // 2) كشف الصور/الـgif فقط عند الوصول 
+    // صور / GIFs
     const imgs = gsap.utils.toArray<HTMLElement>("[data-img='reveal']");
     const imgTriggers: ScrollTrigger[] = [];
     const imgTweens: gsap.core.Tween[] = [];
 
     imgs.forEach((el) => {
-      // حالة البداية
       gsap.set(el, { autoAlpha: 0, y: 60, scale: 0.96, willChange: "transform, opacity" });
 
       const tween = gsap.to(el, {
@@ -274,13 +274,12 @@ export default function HorizontalScroll() {
 
       const st = ScrollTrigger.create({
         trigger: el,
-        containerAnimation: containerAnim, // مهم للأفقي
-        start: "left 80%", // لما حافة العنصر اليسرى توصل لنقطة 80% من عرض الشاشة
+        containerAnimation: containerAnim,
+        start: "left 80%",
         end: "left 55%",
         animation: tween,
-        toggleActions: "play none none none", // يظهر مرة واحدة ولا يرجع يختفي
-        // لو عايزها تمشي مع السكرول حرفيًا:
-        // scrub: true,
+        toggleActions: "play none none none",
+        // scrub: true, // لو عايزها تمشي مع السكرول حرفيًا
       });
 
       imgTriggers.push(st);
@@ -294,16 +293,14 @@ export default function HorizontalScroll() {
     };
   }, [containerAnim]);
 
-
-  
   return (
     <div className="relative z-0 ">
       {/* ===== Intro (vertical) ===== */}
       <header className="max-w-6xl mx-auto px-6 md:px-8 py-12 md:py-16 flex flex-col gap-2 items-center justify-center">
-        <p ref={titleRef} className="text-sm md:text-base tracking-wider uppercase text-gray-500">
+        <p ref={titleRef} className="text-sm md:text-base tracking-wider uppercase text-gray-500 dark:text-white">
           Project Workflow
         </p>
-        <h2 ref={paraRef} className="text-3xl md:text-5xl font-extrabold tracking-tight mt-2 text-center">
+        <h2 ref={paraRef} className="text-3xl md:text-5xl font-extrabold tracking-tight mt-2 text-center dark:text-amber-600">
           From Requirements to Ongoing Support
         </h2>
         <p className="text-gray-600 mt-3 md:mt-4 text-center">
@@ -315,9 +312,51 @@ export default function HorizontalScroll() {
         </p>
       </header>
 
+
       {/* ===== Horizontal Section ===== */}
       <section ref={containerRef} className="relative h-svh overflow-visible">
-        {/* Sticky progress track */}
+        
+        
+        
+     
+           {/* decoration */}
+  <div className="absolute top-0 left-1/3 w-5 h-30 flex gap-2 -rotate-45 z-20">
+    <span className="w-0.5 h-15 bg-black" />
+    <span className="w-0.5 h-20 bg-black" />
+  </div>
+
+  {/* Gradient Diagonal Lines Pattern */}
+  <div
+    className="absolute inset-0 z-0 pointer-events-none"
+    style={{
+      backgroundImage: `
+         repeating-linear-gradient(45deg, rgba(0, 255, 65, 0.08) 0, rgba(0, 255, 65, 0.08) 1px, transparent 1px, transparent 12px),
+        repeating-linear-gradient(-45deg, rgba(0, 255, 65, 0.08) 0, rgba(0, 255, 65, 0.08) 1px, transparent 1px, transparent 12px),
+        repeating-linear-gradient(90deg, rgba(0, 255, 65, 0.03) 0, rgba(0, 255, 65, 0.03) 1px, transparent 1px, transparent 4px)
+      `,
+        backgroundSize: '24px 24px, 24px 24px, 8px 8px',
+    }}
+  />
+
+  <div
+    className="absolute inset-0 z-0"
+    style={{
+      backgroundImage: `
+        radial-gradient(circle at 50% 100%, rgba(253,224,71,0.4) 0%, transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(251,191,36,0.4) 0%, transparent 70%),
+        radial-gradient(circle at 50% 100%, rgba(244,114,182,0.5) 0%, transparent 80%)
+      `,
+    }}
+  />
+
+  {/* Edge Fades Overlays */}
+  <div className="pointer-events-none absolute inset-x-0 top-0 h-16 z-50 bg-gradient-to-b from-white/95 to-transparent dark:from-black/95" />
+  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 z-50 bg-gradient-to-t from-white/95 to-transparent dark:from-black/95" />
+
+
+
+        
+        {/* progress */}
         <div className="sticky top-0 left-0 right-0 h-1 z-50 pointer-events-none">
           <div
             ref={progressRef}
@@ -329,35 +368,42 @@ export default function HorizontalScroll() {
           {/* ===== 01 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
-              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
+              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2 dark:text-neutral-200">
                 <p ref={paraRef1}>01</p> Requirements Analysis
               </span>
-              <h3 ref={titleRef1} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef1} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 dark:text-amber-600">
                 Understand the Goals. Align the Vision.
               </h3>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4 dark:text-white">
+                {/* ✅ Panel 1: firstPanel + key لإجبار إعادة التركيب بعد جاهزية containerAnim */}
                 <ScrambleMusnadText
+                  key={containerAnim ? "p1-ready-1" : "p1-wait-1"}
                   duration={3}
                   revealDelay={0.0002}
                   finalText="We start with discovery sessions to clarify objectives, users, and constraints."
                   containerAnimation={containerAnim}
                   bindToContainer
+                  firstPanel
+                  // اختياري:
+                  fontClass="musnad-font"
+                  keepFontClass={true}  
                 />
                 Our outcome is a concise, actionable requirements brief that reduces risk and sets a shared definition of success.
               </p>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed dark:text-white">
                 <ScrambleMusnadText
+                  key={containerAnim ? "p1-ready-2" : "p1-wait-2"}
                   duration={3}
                   revealDelay={0.0002}
                   finalText="Deliverables include user stories, acceptance criteria, and a prioritized scope that balances impact, effort, and timelines."
                   containerAnimation={containerAnim}
                   bindToContainer
+                
                 />
               </p>
             </div>
             <div className="flex justify-center items-center p-8 md:p-12">
-           
-              <div data-img="reveal" >
+              <div data-img="reveal" className="">
                 <Image
                   src="/illustrationsGifs/analyze.gif"
                   unoptimized
@@ -374,13 +420,13 @@ export default function HorizontalScroll() {
           {/* ===== 02 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
-              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
+              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2 dark:text-neutral-200">
                 <p ref={paraRef3}>02</p> Planning & UX Design
               </span>
-              <h3 ref={titleRef2} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef2} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 dark:text-amber-600">
                 Architect the Path. Design for Outcomes.
               </h3>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4 dark:text-white">
                 <ScrambleMusnadText
                   duration={3}
                   revealDelay={0.0002}
@@ -390,7 +436,7 @@ export default function HorizontalScroll() {
                 />
                 Wireframes and interactive prototypes clarify flows early and reduce costly rework.
               </p>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed dark:text-white">
                 <ScrambleMusnadText
                   duration={3}
                   revealDelay={0.0002}
@@ -401,7 +447,7 @@ export default function HorizontalScroll() {
               </p>
             </div>
             <div className="flex justify-center items-center p-8 md:p-12">
-              <div data-img="reveal" >
+              <div data-img="reveal" className="">
                 <Image
                   src="/illustrationsGifs/design.gif"
                   unoptimized
@@ -418,13 +464,13 @@ export default function HorizontalScroll() {
           {/* ===== 03 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
-              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
+              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2 dark:text-neutral-200">
                 <p ref={paraRef4}>03</p> Development & Implementation
               </span>
-              <h3 ref={titleRef3} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef3} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 dark:text-amber-600">
                 Build with Confidence. Ship with Quality.
               </h3>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4 dark:text-white">
                 <ScrambleMusnadText
                   duration={3}
                   revealDelay={0.0002}
@@ -433,7 +479,7 @@ export default function HorizontalScroll() {
                   bindToContainer
                 />
               </p>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed dark:text-white">
                 <ScrambleMusnadText
                   duration={3}
                   revealDelay={0.0002}
@@ -444,7 +490,7 @@ export default function HorizontalScroll() {
               </p>
             </div>
             <div className="flex justify-center items-center p-8 md:p-12">
-              <div data-img="reveal" >
+              <div data-img="reveal" className="">
                 <Image
                   src="/illustrationsGifs/coding.gif"
                   unoptimized
@@ -461,13 +507,13 @@ export default function HorizontalScroll() {
           {/* ===== 04 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
-              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
+              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2 dark:text-neutral-200">
                 <p ref={paraRef5}>04</p> Testing & QA
               </span>
-              <h3 ref={titleRef4} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef4} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 dark:text-amber-600">
                 Every Detail Verified. Zero Surprises.
               </h3>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4 dark:text-white">
                 <ScrambleMusnadText
                   duration={3}
                   revealDelay={0.0002}
@@ -477,7 +523,7 @@ export default function HorizontalScroll() {
                 />
                 Performance, accessibility, and security checks are part of the definition of done.
               </p>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed dark:text-white">
                 <ScrambleMusnadText
                   duration={3}
                   revealDelay={0.0002}
@@ -488,7 +534,7 @@ export default function HorizontalScroll() {
               </p>
             </div>
             <div className="flex justify-center items-center p-8 md:p-12">
-              <div data-img="reveal" >
+              <div data-img="reveal" className="">
                 <Image
                   src="/illustrationsGifs/testing.gif"
                   unoptimized
@@ -505,13 +551,13 @@ export default function HorizontalScroll() {
           {/* ===== 05 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
-              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
+              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2 dark:text-neutral-200">
                 <p ref={paraRef6}>05</p> Launch & Handover
               </span>
-              <h3 ref={titleRef5} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef5} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 dark:text-amber-600">
                 Go Live Smoothly. Own Your Stack.
               </h3>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4 dark:text-white">
                 <ScrambleMusnadText
                   duration={3}
                   revealDelay={0.0002}
@@ -521,7 +567,7 @@ export default function HorizontalScroll() {
                 />
                 Documentation and knowledge transfer ensure your team can operate with confidence.
               </p>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed dark:text-white">
                 <ScrambleMusnadText
                   duration={3}
                   revealDelay={0.0002}
@@ -532,7 +578,7 @@ export default function HorizontalScroll() {
               </p>
             </div>
             <div className="flex justify-center items-center p-8 md:p-12">
-              <div data-img="reveal" >
+              <div data-img="reveal" className="">
                 <Image
                   src="/illustrationsGifs/deoply.gif"
                   unoptimized
@@ -549,13 +595,13 @@ export default function HorizontalScroll() {
           {/* ===== 06 ===== */}
           <article data-panel className="w-screen h-svh grid grid-cols-1 md:grid-cols-2">
             <div className="flex flex-col justify-center items-start p-8 md:p-12">
-              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2">
+              <span className="text-xs tracking-wider uppercase text-gray-500 mb-2 dark:text-neutral-200">
                 <p ref={paraRef7}>06</p> Support & Maintenance
               </span>
-              <h3 ref={titleRef6} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              <h3 ref={titleRef6} className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 dark:text-amber-600">
                 A Long-Term Partner—Beyond the Launch.
               </h3>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4 dark:text-white">
                 <ScrambleMusnadText
                   duration={3}
                   revealDelay={0.0002}
@@ -564,7 +610,7 @@ export default function HorizontalScroll() {
                   bindToContainer
                 />
               </p>
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+              <p className="text-base md:text-lg text-gray-700 leading-relaxed dark:text-white">
                 <ScrambleMusnadText
                   duration={3}
                   revealDelay={0.0002}
@@ -575,7 +621,7 @@ export default function HorizontalScroll() {
               </p>
             </div>
             <div className="flex justify-center items-center p-8 md:p-12">
-              <div data-img="reveal" >
+              <div data-img="reveal" className="">
                 <Image
                   src="/illustrationsGifs/support.gif"
                   unoptimized
@@ -590,6 +636,9 @@ export default function HorizontalScroll() {
           </article>
         </div>
       </section>
+     
+
     </div>
+
   );
 }

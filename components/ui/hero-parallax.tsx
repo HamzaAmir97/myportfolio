@@ -58,9 +58,31 @@ export const HeroParallax = ({
     
     <div
       ref={ref}
-      className="h-[300vh]  overflow-hidden   antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+      className=" h-[300vh]  overflow-hidden   antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
     >
-      
+        
+
+        {/* decoration */}
+     
+  {/* Dark White Dotted Grid Background */}
+  <div
+    className="absolute inset-0 -z-10"
+    style={{
+      background: "#000000",
+      backgroundImage: `
+        radial-gradient(circle, rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px)
+      `,
+      backgroundSize: "30px 30px",
+      backgroundPosition: "0 0",
+    }}
+  />
+  
+  {/* Edge Fades Overlays */}
+  <div className="pointer-events-none absolute inset-x-0 top-0 h-16 z-50 bg-gradient-to-b from-white/95 to-transparent dark:from-black/95" />
+  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 z-50 bg-gradient-to-t from-white/95 to-transparent dark:from-black/95" />
+
+
+
       <Header />
     
       <motion.div

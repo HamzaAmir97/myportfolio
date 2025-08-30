@@ -169,11 +169,11 @@ export default function SkillsWall({
   return (
     <section id="skills" className="relative w-screen bg-[#0b0b0b] text-white overflow-hidden py-16 sm:py-20">
       <div className="relative mx-auto max-w-7xl px-6">
-        <h2 ref={titleRef} className="text-center text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
+        <h2 ref={titleRef} className="text-center text-3xl dark:text-amber-600 sm:text-4xl md:text-5xl font-extrabold tracking-tight">
           {title}
         </h2>
 
-        <p    className="mt-4 text-center text-sm md:text-base text-neutral-400">
+        <p    className="mt-4 text-center text-sm md:text-base dark:text-white">
         <ScrambleMusnadText  duration={3} revealDelay={0.0002} finalText={subtitle}/>
         </p>
 

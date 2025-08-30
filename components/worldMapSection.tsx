@@ -12,9 +12,9 @@ const WorldMap = dynamic(() => import("@/components/ui/world-map"), {
 
 export function WorldMapSection() {
   return (
-    <div className="py-40 bg-white w-full">
-      <div className="max-w-7xl mx-auto text-center">
-        <p className="font-bold text-xl md:text-4xl text-black">
+    <div className=" my-4 w-full ">
+      <div className="max-w-7xl mx-auto py-4 text-center">
+        <p className="font-bold text-xl md:text-4xl text-black dark:text-white">
           Products that scale your business{" "}
           <span className="text-amber-600">
             {"Worldwide".split("").map((ch, idx) => (
@@ -31,7 +31,7 @@ export function WorldMapSection() {
           </span>
         </p>
 
-        <p className="text-sm md:text-lg text-neutral-600 max-w-2xl mx-auto py-4">
+        <p className="text-sm md:text-lg text-neutral-600 max-w-2xl mx-auto py-4 dark:text-neutral-200">
           I design high-performing websites & digital products that open new
           markets, attract customers across continents, and help your brand sell
           24/7 — from Cairo to California. SEO that travels, blazing speed, and

@@ -1,14 +1,49 @@
 import { Menu } from "lucide-react";
-import React from "react";
+import React, { useRef } from "react";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { ArrowUpRight } from "lucide-react";
+import { useGsapCornerWipe } from "@/hooks/useGsapCornerWipe";
   
 function MobileNavbar() {
+
+  const spanRef = useRef<HTMLAnchorElement>(null);
+  
+    useGsapCornerWipe(spanRef, {
+      color: "rgba(0,0,0)",
+      corner: "bl",
+      duration: 0.2,
+      layer: "under",
+    });
+     const spanRef1 = useRef<HTMLAnchorElement>(null);
+  
+    useGsapCornerWipe(spanRef1, {
+      color: "rgba(0,0,0)",
+      corner: "bl",
+      duration: 0.2,
+      layer: "under",
+    });
+     const spanRef2 = useRef<HTMLAnchorElement>(null);
+  
+    useGsapCornerWipe(spanRef2, {
+      color: "rgba(0,0,0)",
+      corner: "bl",
+      duration: 0.2,
+      layer: "under",
+    });
+     const spanRef3 = useRef<HTMLAnchorElement>(null);
+  
+    useGsapCornerWipe(spanRef3, {
+      color: "rgba(0,0,0)",
+      corner: "bl",
+      duration: 0.2,
+      layer: "under",
+    });
+  
   return (
     <div>
       <div className=" flex flex-row-reverse w-screen px-5 justify-between items-center">
       <Sheet >
-    <SheetTrigger asChild className="  group  cursor-pointer dark:bg-white rounded-full">
+    <SheetTrigger asChild className="  group  cursor-pointer  rounded-full">
        
           <Menu className="h-12 w-12 hover:text-amber-600    cursor-pointer" />
       
@@ -37,7 +72,7 @@ function MobileNavbar() {
        font-bold   px-2">
      
       <span className='flex flex-col  '>
-      <span className='flex items-center justify-between gap-5'>
+      <span ref={spanRef} className='flex items-center justify-between gap-5'>
       <p className='text-2xl'>My Projects</p>
       <ArrowUpRight  className='self-end'/>
       </span>
@@ -57,7 +92,7 @@ function MobileNavbar() {
        font-bold   px-2 ">
       
       <span className='flex flex-col '>
-       <span className='flex items-center justify-between gap-5'>
+       <span ref={spanRef1} className='flex items-center justify-between gap-5'>
       <p className='text-2xl'>About me</p>
       <ArrowUpRight/>
       </span>
@@ -75,7 +110,7 @@ function MobileNavbar() {
        transition-all duration-300 ease-in-out
        font-bold   px-2">
       <span className='flex flex-col'>
-      <span className='flex items-center justify-between gap-5'>
+      <span ref={spanRef2}  className='flex items-center justify-between gap-5'>
       <p className='text-2xl'>Contact me</p>
       <ArrowUpRight/>
       </span>

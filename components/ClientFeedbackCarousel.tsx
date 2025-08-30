@@ -127,7 +127,7 @@ export default function ClientFeedbackCarousel() {
   }, []);
 
   return (
-    <section className="bg-white text-neutral-900">
+    <section className=" text-neutral-900">
       <div
         ref={rootRef}
         className="
@@ -137,9 +137,9 @@ export default function ClientFeedbackCarousel() {
         "
       >
         {/* شريط صغير أعلى اليسار */}
-        <div className="text-[11px] tracking-widest uppercase font-semibold text-neutral-700 mb-4">
+        <div className="text-[11px] tracking-widest uppercase font-semibold text-neutral-700 dark:text-neutral-200 mb-4">
           Client Feedback
-          <span className="block w-14 h-[2px] bg-neutral-900 mt-2" />
+          <span className="block w-14 h-[2px]mt-2" />
         </div>
 
         {/* الحاوية التي تحتوي كل الشرائح فوق بعض */}
@@ -155,12 +155,12 @@ export default function ClientFeedbackCarousel() {
             >
               {/* النص الكبير */}
               <blockquote className="order-2 md:order-1">
-                <p className="text-2xl sm:text-3xl md:text-[42px] leading-[1.15] font-extrabold tracking-tight">
+                <p className="text-2xl sm:text-3xl md:text-[42px] leading-[1.15] font-extrabold tracking-tight dark:text-neutral-200">
                   “{f.quote}”
                 </p>
 
                 <footer className="mt-6">
-                  <div className="font-semibold">{f.name}</div>
+                  <div className="font-semibold dark:text-neutral-200">{f.name}</div>
                   <div className="text-sm text-neutral-600">{f.title}</div>
 
                   {/* زخرفة تموّج بسيطة */}
@@ -175,7 +175,7 @@ export default function ClientFeedbackCarousel() {
                     <path
                       d="M1 5c6-4 12 4 18 0s12 4 18 0 12 4 18 0 12 4 18 0 12 4 18 0 12 4 18 0"
                       stroke="currentColor"
-                      className="text-neutral-800"
+                      className="text-neutral-800 dark:text-neutral-200"
                       strokeWidth="2"
                       strokeLinecap="round"
                     />
