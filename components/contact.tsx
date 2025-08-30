@@ -175,7 +175,9 @@ export function ContactSection() {
             </p>
 
             <div className="flex items-center gap-3">
-              <button
+             
+             
+              {/* <button
                 type="button"
                 onClick={copyToClipboard}
                 className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm hover:bg-white hover:text-black cursor-pointer"
@@ -183,7 +185,7 @@ export function ContactSection() {
               >
                 <Copy className="h-4 w-4" />
                 Copy
-              </button>
+              </button> */}
 
               <button
                 type="submit"
@@ -197,6 +199,8 @@ export function ContactSection() {
           </div>
 
           {/* معاينة الرسالة */}
+         
+{/*          
           <div className="mt-6 rounded-xl border p-4 bg-neutral-50/50 dark:bg-neutral-900/40">
             <div className="mb-2 text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
               Message preview
@@ -204,7 +208,9 @@ export function ContactSection() {
             <pre className="whitespace-pre-wrap text-sm text-neutral-800 dark:text-neutral-200">
               {message}
             </pre>
-          </div>
+          </div> */}
+
+
         </form>
       </div>
     </section>
