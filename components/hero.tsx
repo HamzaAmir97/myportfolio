@@ -269,18 +269,24 @@ export function Hero() {
 
         {/* social */}
         <div className="flex items-center gap-5">
+        <a href="https://www.facebook.com/alhamza2013" target="_blank" rel="noopener noreferrer">
           <span className="flex gap-2 cursor-pointer ">
             <IconBrandFacebook />
             <p className="font-semibold cursor-pointer hover:text-amber-600">Facbook</p>
           </span>
+          </a>
+          <a href="https://github.com/HamzaAmir97" target="_blank" rel="noopener noreferrer">
           <span className="flex gap-2 cursor-pointer">
             <IconBrandGithub />
             <p className="font-semibold cursor-pointer hover:text-amber-600">GitHub</p>
           </span>
+          </a>
+          <a href="https://www.linkedin.com/in/hamzahaamir/" target="_blank" rel="noopener noreferrer">
           <span className="flex gap-2 cursor-pointer">
             <IconBrandLinkedin />
             <p className="font-semibold cursor-pointer hover:text-amber-600">LinkedIn</p>
           </span>
+          </a>
         </div>
 
         <span className="w-[40%] h-0.5 bg-black dark:bg-white rounded-full" />

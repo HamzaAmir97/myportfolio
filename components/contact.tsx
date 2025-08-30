@@ -1,7 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { ArrowRight, MessageCircle, Copy } from "lucide-react";
+import { IconBrandWhatsapp } from "@tabler/icons-react";
+import { useGsapCornerWipe } from "@/hooks/useGsapCornerWipe";
 
 const topics = [
   "Mobile App",
@@ -67,12 +69,19 @@ export function ContactSection() {
       // تجاهل بصمت لو فشل النسخ
     }
   };
-
+  const btnRef1 = useRef<HTMLButtonElement>(null);
+ useGsapCornerWipe(btnRef1, {
+    color: "rgba(255,255,255)",
+    corner: "bl",
+    duration: 0.2,
+    ease: "power3.out",
+    layer: "under",
+  });
   return (
     <section id="contact" className="relative w-full py-20 flex justify-center">
       <div className="w-full max-w-3xl px-4">
         <h2 className="relative mb-6 text-4xl md:text-5xl font-bold leading-tight">
-          <span className="text-neutral-500">Say Hi!</span> and tell me about
+          <span className="text-amber-600">Say Hi!</span> and tell me about
           <br className="hidden md:block" /> your idea
         </h2>
 
@@ -188,12 +197,16 @@ export function ContactSection() {
               </button> */}
 
               <button
+              ref={btnRef1}
                 type="submit"
-                className="flex items-center gap-2 rounded-full bg-black px-6 py-3 hover:shadow-xl hover:shadow-amber-700 hover:bg-white hover:text-black text-white dark:bg-white dark:text-black cursor-pointer"
+                className="
+                
+                flex   justify-center items-center gap-2 rounded-full
+                buttonPrimary"
                 title="Send via WhatsApp"
               >
-                Send on WhatsApp
-                <MessageCircle className="h-4 w-4" />
+               <p> Send it</p>
+                <IconBrandWhatsapp className="h-10 w-10" />
               </button>
             </div>
           </div>

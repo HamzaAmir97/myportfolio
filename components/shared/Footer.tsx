@@ -11,21 +11,27 @@ const Footer = () => {
         <div className=" flex flex-col md:flex-row gap-5 items-center justify-between">
              
              <div className="flex items-center justify-between gap-10 cursor-pointer">
-                 <span className='flex items-center gap-2 group'>
+                 <a href="https://www.facebook.com/alhamza2013" target="_blank" rel="noopener noreferrer">
+                <span className='flex items-center gap-2 group'>
                    <IconBrandFacebook className='text-white group-hover:scale-110 transition-all'/>
                    <p className='text-white group-hover:text-amber-500'>Facebook</p>
 
                  </span>
+                 </a>
+                 <a href="https://github.com/HamzaAmir97" target="_blank" rel="noopener noreferrer">
                  <span className='flex items-center gap-2 group'>
                    <IconBrandGithub className='text-white group-hover:scale-110 transition-all'/>
                    <p className='text-white group-hover:text-amber-500'>github</p>
 
                  </span>
+                   </a>
+                 <a href="https://www.linkedin.com/in/hamzahaamir/" target="_blank" rel="noopener noreferrer">
                  <span className='flex items-center gap-2 group'>
                    <IconBrandLinkedin className='text-white group-hover:scale-110 transition-all'/>
                    <p className='text-white group-hover:text-amber-500'>linkedin</p>
 
                  </span>
+                 </a>
              </div>
          
 
