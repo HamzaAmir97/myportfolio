@@ -2,6 +2,7 @@
 "use client";
 
 import { ExperienceItem, ExperienceTimelineProps } from "@/types";
+import { motion } from "motion/react";
 import React from "react";
 
 
@@ -63,7 +64,12 @@ function ExperienceCard({
           : "bg-white text-neutral-900 border-neutral-200",
       ].join(" ")}
     >
-      <div
+      <motion.div
+whileInView={{ opacity: 1, y: 0 }}
+initial={{ opacity: 0, y: 20 }}
+ animate={{ opacity: 1, y: 0 }}
+ transition={{ duration: 0.5 }}
+
         className={[
           "flex flex-col gap-4 p-4 sm:p-5 md:p-6",
           "lg:flex-row lg:items-center lg:justify-between",
@@ -111,11 +117,11 @@ function ExperienceCard({
           <span
             className={[
               "text-xs sm:text-[13px] uppercase tracking-wider",
-              isFeatured ? "text-amber-300" : "text-neutral-500",
+              isFeatured ? "text-amber-600" : "text-neutral-500",
               "whitespace-nowrap",
             ].join(" ")}
           >
-            مدة الوظيفة
+            Duration
           </span>
           <span
             className={[
@@ -127,7 +133,7 @@ function ExperienceCard({
             {item.durationLabel}
           </span>
         </div>
-      </div>
+      </motion.div>
     </article>
   );
 }

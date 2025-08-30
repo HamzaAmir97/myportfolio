@@ -7,10 +7,11 @@ import {
   useSpring,
   MotionValue,
 } from "motion/react";
+import { useTheme } from "next-themes";
 
 
 
-export const HeroParallax = ({
+export const AchievementsParallax= ({
   products,
 }: {
   products: {
@@ -54,6 +55,9 @@ export const HeroParallax = ({
     useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
     springConfig
   );
+
+
+  const isDark = useTheme().theme ==="dark";
   return (
     
     <div
@@ -64,8 +68,13 @@ export const HeroParallax = ({
 
         {/* decoration */}
      
-  {/* Dark White Dotted Grid Background */}
-  <div
+
+
+
+    {isDark ? (
+      
+
+<div
     className="absolute inset-0 -z-10"
     style={{
       background: "#000000",
@@ -77,9 +86,35 @@ export const HeroParallax = ({
     }}
   />
   
+
+
+
+    ) : (
+      
+    <div
+    className="absolute inset-0 z-0 pointer-events-none"
+    style={{
+      backgroundImage: `
+        repeating-linear-gradient(22.5deg, transparent, transparent 2px, rgba(75, 85, 99, 0.06) 2px, rgba(75, 85, 99, 0.06) 3px, transparent 3px, transparent 8px),
+        repeating-linear-gradient(67.5deg, transparent, transparent 2px, rgba(107, 114, 128, 0.05) 2px, rgba(107, 114, 128, 0.05) 3px, transparent 3px, transparent 8px),
+        repeating-linear-gradient(112.5deg, transparent, transparent 2px, rgba(55, 65, 81, 0.04) 2px, rgba(55, 65, 81, 0.04) 3px, transparent 3px, transparent 8px),
+        repeating-linear-gradient(157.5deg, transparent, transparent 2px, rgba(31, 41, 55, 0.03) 2px, rgba(31, 41, 55, 0.03) 3px, transparent 3px, transparent 8px)
+      `,
+    }}
+     />
+  
+     
+    )}
+
+
+
   {/* Edge Fades Overlays */}
   <div className="pointer-events-none absolute inset-x-0 top-0 h-16 z-50 bg-gradient-to-b from-white/95 to-transparent dark:from-black/95" />
   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 z-50 bg-gradient-to-t from-white/95 to-transparent dark:from-black/95" />
+
+
+
+
 
 
 

@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider
           attribute="class"         // يستخدم كلاس "light"/"dark"
           defaultTheme="light"      // ديفولت لايت
-          forcedTheme="light"       // يثبّت اللايت مهما كان المخزن
+          // forcedTheme="light"       // يثبّت اللايت مهما كان المخزن
           enableSystem={false}      // تجاهل وضع النظام مؤقتًا
           enableColorScheme
           disableTransitionOnChange

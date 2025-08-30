@@ -139,7 +139,7 @@ const Services = () => {
 
         {/* Cta */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:gap-10">
-          <p className="text-black/80 dark:text-white/80">This is some of my services i offer to my clients</p>
+          <p className="">This is some of my services i offer to my clients</p>
           <Button ref={btnRef} className="buttonPrimary w-fit hidden lg:block"> <p>All services</p></Button>
         </div>
       </div>
@@ -155,10 +155,10 @@ const Services = () => {
             <span className="w-0.5 h-12 bg-black dark:bg-white"/>
             <a href="#skills">
               <Button
-                className="w-14 h-14 bg-black dark:bg-gradient-to-b dark:from-amber-700 dark:to-amber-300 rounded-full cursor-pointer hover:scale-110 hover:shadow-xl hover:shadow-amber-700 hover:bg-white dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300 ease-in-out animate-bounce"
+                className="w-14 h-14 bg-black dark:bg-gradient-to-b  dark:from-amber-700 dark:to-amber-300 rounded-full cursor-pointer hover:scale-110 hover:shadow-xl hover:shadow-amber-700 hover:bg-white dark:hover:bg-white  dark:hover:text-black transition-all duration-300 ease-in-out animate-bounce"
                 aria-label="Scroll to skills"
               >
-                <ArrowDown className="text-white hover:text-black"/>
+                <ArrowDown className="text-white  hover:text-black    "/>
               </Button>
             </a>
           </div>

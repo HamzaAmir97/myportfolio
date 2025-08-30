@@ -215,7 +215,7 @@ export default function MobilePinnedDualStack() {
                           key={`mfeat-${i}-${idx}`}
                           className="flex items-start gap-2 text-sm text-neutral-200"
                         >
-                          <span className="mt-1 h-2 w-2 rounded-full bg-gradient-to-r from-amber-700 to-amber-200" />
+                          <span className="mt-1 h-2 w-2 rounded-full bg-white" />
                           <span>{feat}</span>
                         </li>
                       ))}

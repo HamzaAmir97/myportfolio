@@ -128,7 +128,8 @@
          h-[3.5rem]
          cursor-pointer
          dark:text-black
-         hover:text-black  
+         hover:text-black
+         dark:hover:text-black
          transition-all duration-300 ease-in-out
          font-bold
 
@@ -142,7 +143,7 @@
          h-[3.5rem]
          cursor-pointer
         
-         hover:text-white 
+         hover:text-white
          transition-all duration-300 ease-in-out
          font-bold
          hover:shadow-2xl
@@ -157,8 +158,8 @@
        w-[11rem] 
        h-[3.5rem]
        cursor-pointer
-  
-       hover:text-black
+       hover:text-white  
+   
        transition-all duration-300 ease-in-out
        font-bold
 
@@ -187,4 +188,38 @@ h1,h2,h3,h4,h5,h6 {
 p {
     font-family: "Poppins", system-ui, sans-serif;
     font-style: normal;
+}
+
+
+/* ===== View Transitions (دائرة من نقطة الضغط) ===== */
+html { view-transition-name: root; }
+
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+html.theme-switching::view-transition-old(root),
+html.theme-switching::view-transition-new(root) {
+  clip-path: circle(0 at var(--theme-x, 50vw) var(--theme-y, 50vh));
+}
+
+@keyframes theme-reveal {
+  to { clip-path: circle(150% at var(--theme-x, 50vw) var(--theme-y, 50vh)); }
+}
+html.theme-switching::view-transition-new(root) {
+  animation: theme-reveal 480ms cubic-bezier(.22,.8,.26,.99) both;
+}
+
+/* Fallback ناعم لو المتصفح ما يدعم */
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color .3s cubic-bezier(.22,.8,.26,.99),
+              color .3s cubic-bezier(.22,.8,.26,.99),
+              border-color .3s cubic-bezier(.22,.8,.26,.99),
+              fill .3s cubic-bezier(.22,.8,.26,.99),
+              stroke .3s cubic-bezier(.22,.8,.26,.99);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
 }

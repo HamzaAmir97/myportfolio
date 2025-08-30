@@ -4,31 +4,9 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { Feedback } from "@/types";
+import FEEDBACKS from "@/constants/feedback";
 
 
-const FEEDBACKS: Feedback[] = [
-  {
-    quote:
-      "I just wanted to share a quick note and let you know that you guys do a really good job.",
-    name: "Rohan Sing",
-    title: "Project Manager, Airflow Tech Inc",
-    image: "/people/rohan.jpg",
-  },
-  {
-    quote:
-      "Delivery was on time, the UI is spotless, and the handover was super smooth. Highly recommended!",
-    name: "Mia Carter",
-    title: "Head of Product, Nova Labs",
-    image: "/people/mia.jpg",
-  },
-  {
-    quote:
-      "They understood our constraints and still shipped a delightful, accessible experience.",
-    name: "Omar El‑Sayed",
-    title: "CTO, Relay Commerce",
-    image: "/people/omar.jpg",
-  },
-];
 
 /** -------------------------------------------------
  *  مكوّن: قناع (Mask) لصورة النجمة/الزخرفة
